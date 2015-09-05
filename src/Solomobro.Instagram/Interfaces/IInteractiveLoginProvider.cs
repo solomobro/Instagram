@@ -8,7 +8,8 @@ using System.Net.Http;
 namespace Solomobro.Instagram.Interfaces
 {
     /// <summary>
-    /// Responsible for directing user to instagram login/authorization page
+    /// Responsible for redirecting user to instagram login/authorization page.
+    /// The client must implement this interface.
     /// </summary>
     public interface IInteractiveLoginProvider
     {
