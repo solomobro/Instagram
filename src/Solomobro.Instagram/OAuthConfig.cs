@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Solomobro.Instagram.Interfaces
+namespace Solomobro.Instagram
 {
     /// <summary>
     /// Defines the configuration parameters required to authorize your app
