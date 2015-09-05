@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Solomobro.Instagram
 {
     /// <summary>
     /// Defines the configuration parameters required to authorize your app
     /// </summary>
-    [DataContract]
     public class OAuthConfig
     {
         private readonly HashSet<string> _scopes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             
-        [DataMember]
         public string ClientId { get; }
 
-        [DataMember]
         public string RedirectUri { get; }
 
         /// <summary>
         /// The authentication method to use. Default: Explicit (server-side)
         /// </summary>
-        [DataMember]
         public AuthenticationMethod AuthMethod { get; } = AuthenticationMethod.Explicit;
 
-        [DataMember]
         public IEnumerable<string> Scopes
         {
             get { return _scopes; }
