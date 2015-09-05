@@ -44,7 +44,11 @@ namespace Solomobro.Instagram
             var clientId = _authConfig.ClientId;
             var redirectUri = _authConfig.RedirectUri;
             var responseCode = BuildResponseType();
-            var url = $"{BaseAuthUrl}/authorize/?client_id={clientId}&redirect_uri={redirectUri}&response_type={responseCode}";
+            var scopes = BuildScope();
+
+            //todo: this may need url encodingor escaping, especially in building the scope
+            var url = $"{BaseAuthUrl}/authorize/?client_id={clientId}&redirect_uri={redirectUri}&response_type={responseCode}&scope={scopes}";
+
             return new Uri(url);
         }
 
@@ -59,6 +63,21 @@ namespace Solomobro.Instagram
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private string BuildScope()
+        {
+            var sb = new StringBuilder("default");
+            if (_authConfig.Scopes.Any())
+            {
+                foreach (var scope in _authConfig.Scopes)
+                {
+                    sb.Append("+");
+                    sb.Append(scope);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }
