@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net.Http;
 
 namespace Solomobro.Instagram.Interfaces
@@ -11,7 +7,7 @@ namespace Solomobro.Instagram.Interfaces
     /// Responsible for redirecting user to instagram login/authorization page.
     /// The client must implement this interface.
     /// </summary>
-    public interface IInteractiveLoginProvider
+    public interface IInteractiveAuthorizationProvider
     {
         /// <summary>
         /// Process an interactive login session
