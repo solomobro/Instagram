@@ -44,10 +44,10 @@ namespace Solomobro.Instagram
             var clientId = _authConfig.ClientId;
             var redirectUri = _authConfig.RedirectUri;
             var responseCode = BuildResponseType();
-            var scopes = BuildScope();
+            var scope = BuildScope();
 
             //todo: this may need url encodingor escaping, especially in building the scope
-            var url = $"{BaseAuthUrl}/authorize/?client_id={clientId}&redirect_uri={redirectUri}&response_type={responseCode}&scope={scopes}";
+            var url = $"{BaseAuthUrl}/authorize/?client_id={clientId}&redirect_uri={redirectUri}&response_type={responseCode}&scope={scope}";
 
             return new Uri(url);
         }
