@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Net.Http;
 
 namespace Solomobro.Instagram.Interfaces
@@ -12,8 +13,8 @@ namespace Solomobro.Instagram.Interfaces
         /// <summary>
         /// Process an interactive login session
         /// </summary>
-        /// <param name="req">a request to Instagram's Auth page requesting access to user account</param>
+        /// <param name="uri">the URI to Instagram Auth page with all parameters filled in</param>
         /// <returns>a response from Instagram's Auth page indicating whether or not user granted access request</returns>
-        Task<HttpResponseMessage> ProcessAuthorizationAsync(HttpRequestMessage req);
+        Task<HttpResponseMessage> ProcessAuthorizationAsync(Uri uri);
     }
 }
