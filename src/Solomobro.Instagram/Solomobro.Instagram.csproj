@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Interfaces\IInteractiveAuthorizationProvider.cs" />
