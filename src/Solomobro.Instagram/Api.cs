@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Interfaces;
 
@@ -52,8 +53,12 @@ namespace Solomobro.Instagram
                 {
                     case AuthenticationMethod.Implicit:
                         _accessToken = await GetAccessTokenImplicitAsync(resp);
+                        // todo: Get and save basic user info
                         break;
                     case AuthenticationMethod.Explicit:
+                        var userInfo = await GetAccessTokenExplicitAsync(resp); 
+                        _accessToken = userInfo.AccessToken;
+                        // todo: save basic user info
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(_authConfig.AuthMethod));
@@ -68,12 +73,35 @@ namespace Solomobro.Instagram
 
         private async Task<string> GetAccessTokenImplicitAsync(HttpResponseMessage resp)
         {
-            throw new NotImplementedException(); 
+            // todo: this is pure bs: needs testing and assumes auth succeeded
+            var fragment = resp.RequestMessage.RequestUri.Fragment;
+            var token = fragment.Split(new[] {'#'}, StringSplitOptions.RemoveEmptyEntries).Last();
+            return await Task.FromResult(token);
         }
 
+        // todo: this needs to be renamed
         private async Task<ExplicitAuthResponse> GetAccessTokenExplicitAsync(HttpResponseMessage resp)
         {
-            throw new NotImplementedException();
+            // todo: this too is bs - assumes success path and a whole lot of other crap
+            var redirectUri = resp.RequestMessage.RequestUri;
+            var queryParams = HttpUtility.ParseQueryString(redirectUri.Query);
+            var accessCode = queryParams.Get("code");
+
+            using (var client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false}))
+            {
+                var uri = new Uri($"{BaseAuthUrl}/access_token");
+                var accessTokenResp = await client.PostAsJsonAsync(uri.AbsoluteUri, new
+                {
+                    client_secret = _authConfig.ClientSecret,
+                    grant_type = "authorization_code",
+                    redirect_uri = _authConfig.RedirectUri,
+                    code = accessCode
+                });
+
+                accessTokenResp.EnsureSuccessStatusCode();
+
+                return await accessTokenResp.Content.ReadAsAsync<ExplicitAuthResponse>();
+            }
         } 
 
         private Uri BuildAuthorizationUri()
