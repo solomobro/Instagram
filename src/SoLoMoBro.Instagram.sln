@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solomobro.Instagram", "Solo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solomobro.Instagram.Tests", "Solomobro.Instagram.Tests\Solomobro.Instagram.Tests.csproj", "{1EA4ABCA-A954-4D60-85D3-8D0D2014A975}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solomobro.Instagram.WebApiDemo", "Solomobro.Instagram.WebApiDemo\Solomobro.Instagram.WebApiDemo.csproj", "{2C19F0E2-87CC-4516-82F4-4662A7A80260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1EA4ABCA-A954-4D60-85D3-8D0D2014A975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EA4ABCA-A954-4D60-85D3-8D0D2014A975}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EA4ABCA-A954-4D60-85D3-8D0D2014A975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C19F0E2-87CC-4516-82F4-4662A7A80260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C19F0E2-87CC-4516-82F4-4662A7A80260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C19F0E2-87CC-4516-82F4-4662A7A80260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C19F0E2-87CC-4516-82F4-4662A7A80260}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
