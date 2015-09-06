@@ -12,6 +12,8 @@ namespace Solomobro.Instagram
             
         public string ClientId { get; }
 
+        public string ClientSecret { get; }
+
         public string RedirectUri { get; }
 
         /// <summary>
@@ -28,13 +30,15 @@ namespace Solomobro.Instagram
         /// Initialize a new Auth configuration with default authentication method and basic scope
         /// </summary>
         /// <param name="clientId">The client id for your app</param>
+        /// <param name="clientSecret">The clien secret for you app</param>
         /// <param name="redirectUri">
         /// The URI where the user is redirected after authorization. 
         /// This must match the exact URI registered for your app in the Instagram dev console
         /// </param>
-        public OAuthConfig(string clientId, string redirectUri)
+        public OAuthConfig(string clientId, string clientSecret, string redirectUri)
         {
             ClientId = clientId;
+            ClientSecret = clientSecret;
             RedirectUri = redirectUri;
         }
 
@@ -42,13 +46,14 @@ namespace Solomobro.Instagram
         /// Initialize a new Auth confiuration with basic scope
         /// </summary>
         /// <param name="clientId">The client id for your app</param>
+        /// <param name="clientSecret">The client secret for your app</param>
         /// <param name="redirectUri">
-        /// The URI where the user is redirected after authorization. 
-        /// This must match the exact URI registered for your app in the Instagram dev console
+        ///     The URI where the user is redirected after authorization. 
+        ///     This must match the exact URI registered for your app in the Instagram dev console
         /// </param>
         /// <param name="authMethod">The authentication flow to use during the authorization process</param>
-        public OAuthConfig(string clientId, string redirectUri, AuthenticationMethod authMethod) 
-            : this(clientId, redirectUri)
+        public OAuthConfig(string clientId, string clientSecret, string redirectUri, AuthenticationMethod authMethod) 
+            : this(clientId, clientSecret, redirectUri)
         {
             AuthMethod = authMethod;
         }
