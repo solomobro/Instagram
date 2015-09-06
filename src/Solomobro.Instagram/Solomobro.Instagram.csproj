@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
+    <Compile Include="Entities\ExplicitAuthResponse.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Interfaces\IInteractiveAuthorizationProvider.cs" />
@@ -52,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Endpoints\" />
-    <Folder Include="Entities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

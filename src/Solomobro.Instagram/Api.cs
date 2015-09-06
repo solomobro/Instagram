@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram
@@ -36,8 +39,42 @@ namespace Solomobro.Instagram
 
         public async Task AuthorizeAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var authUri = BuildAuthorizationUri();
+                var resp = await _authProvider.ProcessAuthorizationAsync(authUri);
+
+                // todo: find out http code returned when access denied. the api docs don't say
+                resp.EnsureSuccessStatusCode(); 
+
+                // get access token depending on specified auth method
+                switch (_authConfig.AuthMethod)
+                {
+                    case AuthenticationMethod.Implicit:
+                        _accessToken = await GetAccessTokenImplicitAsync(resp);
+                        break;
+                    case AuthenticationMethod.Explicit:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(_authConfig.AuthMethod));
+                }
+            }
+            catch (Exception ex)
+            {
+                // todo: throw something more helpful here
+                throw;
+            }
         }
+
+        private async Task<string> GetAccessTokenImplicitAsync(HttpResponseMessage resp)
+        {
+            throw new NotImplementedException(); 
+        }
+
+        private async Task<ExplicitAuthResponse> GetAccessTokenExplicitAsync(HttpResponseMessage resp)
+        {
+            throw new NotImplementedException();
+        } 
 
         private Uri BuildAuthorizationUri()
         {
@@ -46,7 +83,7 @@ namespace Solomobro.Instagram
             var responseCode = BuildResponseType();
             var scope = BuildScope();
 
-            //todo: this may need url encodingor escaping, especially in building the scope
+            //todo: this may need url encoding or escaping, especially in building the scope
             var url = $"{BaseAuthUrl}/authorize/?client_id={clientId}&redirect_uri={redirectUri}&response_type={responseCode}&scope={scope}";
 
             return new Uri(url);
@@ -61,7 +98,7 @@ namespace Solomobro.Instagram
                 case AuthenticationMethod.Explicit:
                     return "code";
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(_authConfig.AuthMethod));
             }
         }
 
