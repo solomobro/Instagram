@@ -45,8 +45,7 @@ namespace Solomobro.Instagram
                 var authUri = BuildAuthorizationUri();
                 var resp = await _authProvider.ProcessAuthorizationAsync(authUri);
 
-                // todo: find out http code returned when access denied. the api docs don't say
-                resp.EnsureSuccessStatusCode(); 
+                // todo: find out http code returned when access denied. the api docs don't say 
 
                 // get access token depending on specified auth method
                 switch (_authConfig.AuthMethod)
@@ -98,7 +97,7 @@ namespace Solomobro.Instagram
                     code = accessCode
                 });
 
-                accessTokenResp.EnsureSuccessStatusCode();
+                // todo ensure success here
 
                 return await accessTokenResp.Content.ReadAsAsync<ExplicitAuthResponse>();
             }
