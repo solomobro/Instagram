@@ -52,7 +52,7 @@
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Interfaces\IInteractiveAuthorizationProvider.cs" />
-    <Compile Include="OAuthConfig.cs" />
+    <Compile Include="OAuth.cs" />
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="OAuthScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
