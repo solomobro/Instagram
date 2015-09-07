@@ -13,10 +13,10 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 {
     public class AuthorizeController : ApiController
     {
-        [Route("api/login-uri")]
+        [Route("api/login")]
         public IHttpActionResult GetLoginUri(HttpRequestMessage req)
         {
-            var auth = new OAuth("", "", "");
+            var auth = new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
         
             return Ok(auth.AuthorizationUri);
         }

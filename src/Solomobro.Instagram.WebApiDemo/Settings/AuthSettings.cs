@@ -3,50 +3,55 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Solomobro.Instagram.WebApiDemo.Settings
 {
-    public class SettingsLoader
+    internal static class AuthSettings
     {
-        public static void LoadSettings()
+        //Instagram Settings
+        public static string InstaClientID { get; set; }
+        public static string InstaClientSecret { get; set; }
+        public static string InstaWebsiteUrl { get; set; } 
+        public static string InstaRedirectUrl { get; set; }
+
+
+        internal static void LoadSettings()
         {
             //Load all fields to settings file
-            Type settingsType = typeof(Settings);
+            Type settingsType = typeof(AuthSettings);
             PropertyInfo[] fields = settingsType.GetProperties(BindingFlags.Static | BindingFlags.Public);
 
             //Load all fields into set
             var fieldSet = new HashSet<string>(fields.Select(m => m.Name));
-            var settingsFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
-            settingsFile += "/Settings.txt";
-            settingsFile = settingsFile.Remove(0, 6);
+            var settingsFile = Properties.Settings.Default.InstagramSetingsFilePath;
 
             using (var sr = new StreamReader(settingsFile))
             {
                 try
                 {
                     string line;
-                    while((line = sr.ReadLine()) != null)
+                    while ((line = sr.ReadLine()) != null)
                     {
                         //Escape character used for comments
                         if (line.StartsWith("#"))
                             continue;
 
-                        string[] kvp = line.Split('=');
+                        var kvp = line.Split('=');
 
-                        if (kvp != null && kvp.Count() == 2 && fieldSet.Contains(kvp[0]))
+                        if (kvp.Count() == 2 && fieldSet.Contains(kvp[0]))
                         {
                             var propertyInfo = settingsType.GetProperty(kvp[0], BindingFlags.Static | BindingFlags.Public);
 
-                            if (propertyInfo != null)
-                                propertyInfo.SetValue(null, kvp[1]);
+                            propertyInfo?.SetValue(null, kvp[1]);
                         }
 
                     }
                 }
-                catch(Exception ex)
+                catch 
                 {
-                    
+                    // todo: add some logging here
                 }
             }
         }

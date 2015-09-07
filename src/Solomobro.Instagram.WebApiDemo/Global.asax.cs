@@ -13,7 +13,12 @@ namespace Solomobro.Instagram.WebApiDemo
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            SettingsLoader.LoadSettings();
+
+            // set environment settings key
+            EnvironmentManager.SetSettingsKey(Properties.Settings.Default);
+
+            // load secret app authentication settings
+            AuthSettings.LoadSettings();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Solomobro.Instagram.WebApiDemo.Settings
     {
         private const string InstagramEnv = "INSTAGRAM_ENV";
 
-        public string GetEnvironmentName()
+        public static string GetEnvironmentName()
         {
             var env = Environment.GetEnvironmentVariable(InstagramEnv);
             if (env == InstagramEnv)
@@ -22,7 +22,7 @@ namespace Solomobro.Instagram.WebApiDemo.Settings
             return env;
         }
 
-        public void SetSettingsKey(ApplicationSettingsBase settings)
+        public static void SetSettingsKey(ApplicationSettingsBase settings)
         {
             settings.SettingsKey = GetEnvironmentName();
         }
