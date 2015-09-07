@@ -208,10 +208,10 @@ namespace Solomobro.Instagram
         private Uri BuildAuthorizationUri()
         {
             var responseCode = BuildResponseType();
-            var scope = BuildScope();
+            var scope = BuildScopeUriPart();
 
             //todo: this may need url encoding or escaping, especially in building the scope
-            var url = $"{BaseAuthUrl}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type={responseCode}&scope={scope}";
+            var url = $"{BaseAuthUrl}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type={responseCode}{scope}";
 
             return new Uri(url);
         }
@@ -229,19 +229,21 @@ namespace Solomobro.Instagram
             }
         }
 
-        private string BuildScope()
+        private string BuildScopeUriPart()
         {
-            var sb = new StringBuilder("default");
+            var sb = new StringBuilder();
             if (Scopes.Any())
             {
+                sb.Append("&scope=");
                 foreach (var scope in Scopes)
                 {
-                    sb.Append("+");
                     sb.Append(scope);
+                    sb.Append("+");
                 }
+                
             }
 
-            return sb.ToString();
+            return sb.ToString().TrimEnd('+');
         }
     }
 }
