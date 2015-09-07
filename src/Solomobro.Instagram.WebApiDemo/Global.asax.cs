@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solomobro.Instagram.WebApiDemo.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace Solomobro.Instagram.WebApiDemo
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            SettingsLoader.LoadSettings();
         }
     }
 }

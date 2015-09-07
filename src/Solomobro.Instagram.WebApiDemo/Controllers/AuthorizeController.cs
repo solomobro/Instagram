@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Solomobro.Instagram.Interfaces;
+using Solomobro.Instagram.WebApiDemo.Settings;
 
 namespace Solomobro.Instagram.WebApiDemo.Controllers
 {
@@ -17,9 +18,9 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         [Route("api/authorize")]
         public IHttpActionResult AuthorizeInstagram(HttpRequestMessage req)
         {
-            var clientId = "af35f1d85c684c2da93e1d5a2c55550a";
-            var clientSecret = "1e64df299871489a947ea0d706afc6fc";
-            var redirectUrl = "http://localhost";
+            var clientId = Settings.Settings.InstaClientID;
+            var clientSecret = Settings.Settings.InstaClientSecret;
+            var redirectUrl = Settings.Settings.InstaRedirectUrl;
             var authConfig = new OAuthConfig(clientId, clientSecret, redirectUrl);
 
             using (var ctFactory = new CancellationTokenSource())
