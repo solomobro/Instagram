@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
+using Solomobro.Instagram.Exceptions;
 
 namespace Solomobro.Instagram
 {
     /// <summary>
-    /// Defines the configuration parameters required to authorize your app
+    /// Helps authenticate and authorize your instagram client to access user data
     /// </summary>
     public class OAuth
     {
@@ -37,6 +38,9 @@ namespace Solomobro.Instagram
             get { return _scopes; }
         }
 
+        /// <summary>
+        /// The URI to the Instagram authorization endpoint
+        /// </summary>
         public Uri AuthorizationUri { get { return _authUri.Value; } }
 
         /// <summary>
@@ -62,8 +66,8 @@ namespace Solomobro.Instagram
         /// <param name="clientId">The client id for your app</param>
         /// <param name="clientSecret">The client secret for your app</param>
         /// <param name="redirectUri">
-        ///     The URI where the user is redirected after authorization. 
-        ///     This must match the exact URI registered for your app in the Instagram dev console
+        /// The URI where the user is redirected after authorization. 
+        /// This must match the exact URI registered for your app in the Instagram dev console
         /// </param>
         /// <param name="authMethod">The authentication flow to use during the authorization process</param>
         public OAuth(string clientId, string clientSecret, string redirectUri, AuthenticationMethod authMethod) 
@@ -85,35 +89,89 @@ namespace Solomobro.Instagram
             }
         }
 
+        /// <summary>
+        /// Authorizes your client by retrieving the access token from Instagram's reply
+        /// to your request to access user data
+        /// </summary>
+        /// <param name="instagramResponseUri">
+        /// The redirect URI with either access code or access token</param>
+        /// <returns>An awaitable task</returns>
         public async Task AuthorizeAsync(Uri instagramResponseUri)
         {
+            string accessToken;
             switch (AuthMethod)
             {
                 case AuthenticationMethod.Implicit:
-                    _accessToken = await GetAccessTokenImplicitAsync(instagramResponseUri);
+                    accessToken = await GetAccessTokenImplicitAsync(instagramResponseUri);
                     break;
                 case AuthenticationMethod.Explicit:
                     var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri);
-                    _accessToken = authInfo.AccessToken;
+                    accessToken = authInfo.AccessToken;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(AuthMethod), "invalid authentication method");
             }
+
+            AuthorizeWithAccessToken(accessToken);
         }
 
+        /// <summary>
+        /// Authorizes your client by retrieving the access token from Instagram's reply
+        /// to your request to access user data
+        /// </summary>
+        /// <param name="instagramResponseUri">
+        /// The redirect URI with either access code or access token</param>
+        /// <returns>An awaitable task</returns>
         public async Task AuthorizeAsync(string instagramResponseUri)
         {
             await AuthorizeAsync(new Uri(instagramResponseUri));
         }
 
-        public Api CreateAuthenticatedApi()
+        /// <summary>
+        /// Call this method when you already have an access token for the user
+        /// </summary>
+        /// <param name="token">the access token</param>
+        public void AuthorizeWithAccessToken(string token)
         {
-            throw new NotImplementedException();
+            // check that object was not previously authorized
+            if (!string.IsNullOrWhiteSpace(this._accessToken))
+            {
+                throw new AlreadyAuthorizedException();
+            }
+
+            // basic sanity check on the access token
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                throw new ArgumentException("access token cannot be null or empty");
+            }
+
+            _accessToken = token;
         }
 
+        /// <summary>
+        /// Creates an API with access to authenticated endpoints
+        /// </summary>
+        /// <returns>An instagram API</returns>
+        /// <exception cref="OAuthAccessTokenException">
+        ///     Thrown when authentication is incomplete and there is no access token
+        /// </exception>
+        public Api CreateAuthenticatedApi()
+        {
+            if (string.IsNullOrWhiteSpace(_accessToken))
+            {
+                throw new OAuthAccessTokenException("access token is invalid");
+            }
+
+            return new Api(ClientId, ClientSecret, _accessToken);
+        }
+
+        /// <summary>
+        /// Creates an API with access to unauthenticated endpoints only
+        /// </summary>
+        /// <returns>An Instagram API</returns>
         public Api CreateUnauthenticatedApi()
         {
-            throw new NotImplementedException();
+            return new Api(ClientId, ClientSecret, null);
         }
 
         private async Task<string> GetAccessTokenImplicitAsync(Uri uri)
@@ -124,7 +182,6 @@ namespace Solomobro.Instagram
             return await Task.FromResult(token);
         }
 
-        // todo: this needs to be renamed
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
         {
             // todo: this too is bs - assumes success path and a whole lot of other crap

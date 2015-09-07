@@ -8,6 +8,6 @@ namespace Solomobro.Instagram.Exceptions
     /// </summary>
     public class OAuthAccessTokenException : Exception
     {
-        public OAuthAccessTokenException(string message) : base(message) { }
+        internal OAuthAccessTokenException(string message) : base(message) { }
     }
 }

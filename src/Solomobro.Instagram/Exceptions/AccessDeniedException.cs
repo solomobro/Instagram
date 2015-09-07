@@ -8,8 +8,8 @@ namespace Solomobro.Instagram.Exceptions
     /// </summary>
     public class AccessDeniedException : Exception
     {
-        public AccessDeniedException() : this("The user denied your request") { }
+        internal AccessDeniedException() : this("The user denied your request") { }
 
-        public AccessDeniedException(string message) : base(message) { }
+        internal AccessDeniedException(string message) : base(message) { }
     }
 }
