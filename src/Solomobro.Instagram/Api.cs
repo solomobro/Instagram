@@ -39,12 +39,19 @@ namespace Solomobro.Instagram
             _authConfig = authConfig;
         }
 
+        public Uri AuthUri
+        {
+            get
+            {
+                return BuildAuthorizationUri();
+            } 
+        }
+
         public async Task AuthorizeAsync()
         {
             try
             {
-                var authUri = BuildAuthorizationUri();
-                var resp = await _authProvider.ProcessAuthorizationAsync(authUri);
+                var resp = await _authProvider.ProcessAuthorizationAsync(AuthUri);
 
                 // todo: find out http code returned when access denied. the api docs don't say 
 

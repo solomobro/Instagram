@@ -18,7 +18,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         public IHttpActionResult AuthorizeInstagram(HttpRequestMessage req)
         {
             var clientId = "af35f1d85c684c2da93e1d5a2c55550a";
-            var clientSecret = "1e64df299871489a947ea0d706afc6fc";
+            var clientSecret = "e0c5a465e3274519b0544c3dfd54ac5b";
             var redirectUrl = "http://localhost";
             var authConfig = new OAuthConfig(clientId, clientSecret, redirectUrl);
 
@@ -26,8 +26,8 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             {
                 var ct = ctFactory.Token;
                 var api = new Api(new Redirector(req, ct), authConfig);
-                api.AuthorizeAsync().Wait((int)TimeSpan.FromMinutes(1).TotalMilliseconds, ct);
-                
+                api.AuthorizeAsync();
+                return Ok(api.AuthUri);
             }
 
 
@@ -46,12 +46,16 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
                 _request = req;
                 _token = token;
             }
-            public Task<HttpResponseMessage> ProcessAuthorizationAsync(Uri uri)
+            public async Task<HttpResponseMessage> ProcessAuthorizationAsync(Uri uri)
             {
+                // send user to instagram login/auth window
+                return await FOO();
                 
-                var resp = new RedirectResult(uri, _request);
-                var foo =  resp.ExecuteAsync(_token);
-                return foo;
+            }
+
+            private async Task<HttpResponseMessage> FOO()
+            {
+                throw new NotImplementedException();
             }
         }
     }
