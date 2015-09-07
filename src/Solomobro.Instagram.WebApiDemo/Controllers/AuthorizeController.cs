@@ -13,11 +13,19 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 {
     public class AuthorizeController : ApiController
     {
-        [HttpGet]
-        [Route("api/authorize")]
-        public IHttpActionResult AuthorizeInstagram(HttpRequestMessage req)
+        [Route("api/login-uri")]
+        public IHttpActionResult GetLoginUri(HttpRequestMessage req)
         {
-            return Ok("");
+            var auth = new OAuth("", "", "");
+        
+            return Ok(auth.AuthorizationUri);
+        }
+
+        [Route("api/authorize")]
+        public IHttpActionResult Authorize(HttpRequestMessage req)
+        {
+
+            return Ok("authorized");
         }
     }
 }
