@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.WebApiDemo.Settings;
 
 namespace Solomobro.Instagram.WebApiDemo.Controllers

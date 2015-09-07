@@ -51,7 +51,6 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
-    <Compile Include="Interfaces\IInteractiveAuthorizationProvider.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="OAuthScope.cs" />
@@ -59,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Endpoints\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
