@@ -1,5 +1,0 @@
-﻿#Instagram Settings
-InstaClientID=asdfasdfsdfaasdf
-InstaClientSecret=adsfasdf
-InstaWebsiteUrl=asdfasdfasdf
-InstaRedirectUrl=asdfasdf
