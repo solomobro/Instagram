@@ -6,6 +6,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Interfaces;
 
@@ -38,12 +39,19 @@ namespace Solomobro.Instagram
             _authConfig = authConfig;
         }
 
+        public Uri AuthUri
+        {
+            get
+            {
+                return BuildAuthorizationUri();
+            } 
+        }
+
         public async Task AuthorizeAsync()
         {
             try
             {
-                var authUri = BuildAuthorizationUri();
-                var resp = await _authProvider.ProcessAuthorizationAsync(authUri);
+                var resp = await _authProvider.ProcessAuthorizationAsync(AuthUri);
 
                 // todo: find out http code returned when access denied. the api docs don't say 
 
@@ -89,17 +97,20 @@ namespace Solomobro.Instagram
             using (var client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false}))
             {
                 var uri = new Uri($"{BaseAuthUrl}/access_token");
-                var accessTokenResp = await client.PostAsJsonAsync(uri.AbsoluteUri, new
+                var data = JsonConvert.SerializeObject(new
                 {
                     client_secret = _authConfig.ClientSecret,
                     grant_type = "authorization_code",
                     redirect_uri = _authConfig.RedirectUri,
                     code = accessCode
                 });
+                
+                var accessTokenResp = await client.PostAsync(uri, new StringContent(data));
 
                 // todo ensure success here
 
-                return await accessTokenResp.Content.ReadAsAsync<ExplicitAuthResponse>();
+                var userInfo = await accessTokenResp.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ExplicitAuthResponse>(userInfo);
             }
         } 
 
