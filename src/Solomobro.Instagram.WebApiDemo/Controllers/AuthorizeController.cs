@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Solomobro.Instagram.Interfaces;
+using Solomobro.Instagram.WebApiDemo.Settings;
 
 namespace Solomobro.Instagram.WebApiDemo.Controllers
 {
@@ -17,17 +18,17 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         [Route("api/authorize")]
         public IHttpActionResult AuthorizeInstagram(HttpRequestMessage req)
         {
-            var clientId = "af35f1d85c684c2da93e1d5a2c55550a";
-            var clientSecret = "e0c5a465e3274519b0544c3dfd54ac5b";
-            var redirectUrl = "http://localhost";
+            var clientId = Settings.Settings.InstaClientID;
+            var clientSecret = Settings.Settings.InstaClientSecret;
+            var redirectUrl = Settings.Settings.InstaRedirectUrl;
             var authConfig = new OAuthConfig(clientId, clientSecret, redirectUrl);
 
             using (var ctFactory = new CancellationTokenSource())
             {
                 var ct = ctFactory.Token;
                 var api = new Api(new Redirector(req, ct), authConfig);
-                api.AuthorizeAsync();
-                return Ok(api.AuthUri);
+                api.AuthorizeAsync().Wait((int)TimeSpan.FromMinutes(1).TotalMilliseconds, ct);
+                
             }
 
 
@@ -46,16 +47,12 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
                 _request = req;
                 _token = token;
             }
-            public async Task<HttpResponseMessage> ProcessAuthorizationAsync(Uri uri)
+            public Task<HttpResponseMessage> ProcessAuthorizationAsync(Uri uri)
             {
-                // send user to instagram login/auth window
-                return await FOO();
                 
-            }
-
-            private async Task<HttpResponseMessage> FOO()
-            {
-                throw new NotImplementedException();
+                var resp = new RedirectResult(uri, _request);
+                var foo =  resp.ExecuteAsync(_token);
+                return foo;
             }
         }
     }
