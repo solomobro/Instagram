@@ -19,23 +19,13 @@
 </head>
 <body>
     <div class="jumbotron">
-        <h1>Hello, Instagram!</h1>
-        <p>...</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button" onclick="login()">Login with Instagram</a></p>
+        <h1>Sup, bruh!</h1>
+        <p>you authorized this app to access your app. hip hop hooray!</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="Scripts/jquery-1.9.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="Scripts/bootstrap.min.js"></script>
-    <script>
-        function login() {
-            $.getJSON("api/login")
-                .done(function(data) {
-                    console.log(data);
-                    document.location.href = data;
-                });
-            };
-    </script>
 </body>
 </html>

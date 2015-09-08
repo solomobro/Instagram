@@ -102,10 +102,10 @@ namespace Solomobro.Instagram
             switch (AuthMethod)
             {
                 case AuthenticationMethod.Implicit:
-                    accessToken = await GetAccessTokenImplicitAsync(instagramResponseUri);
+                    accessToken = await GetAccessTokenImplicitAsync(instagramResponseUri).ConfigureAwait(false);
                     break;
                 case AuthenticationMethod.Explicit:
-                    var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri);
+                    var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri).ConfigureAwait(false);
                     accessToken = authInfo.AccessToken;
                     break;
                 default:
@@ -191,16 +191,20 @@ namespace Solomobro.Instagram
             using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             {
                 var accessTokenUri = new Uri($"{BaseAuthUrl}/access_token");
-                var data = JsonConvert.SerializeObject(new
+                var data = new FormUrlEncodedContent(new []
                 {
-                    client_secret = ClientSecret, grant_type = "authorization_code", redirect_uri = RedirectUri, code = accessCode
+                    new KeyValuePair<string, string>("client_id", ClientId),
+                    new KeyValuePair<string, string>("client_secret", ClientSecret),
+                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                    new KeyValuePair<string, string>("redirect_uri", RedirectUri), 
+                    new KeyValuePair<string, string>("code", accessCode)    
                 });
 
-                var accessTokenResp = await client.PostAsync(accessTokenUri, new StringContent(data));
+                var accessTokenResp = await client.PostAsync(accessTokenUri, data).ConfigureAwait(false);
 
                 // todo ensure success here
 
-                var userInfo = await accessTokenResp.Content.ReadAsStringAsync();
+                var userInfo = await accessTokenResp.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<ExplicitAuthResponse>(userInfo);
             }
         }
