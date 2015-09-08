@@ -32,11 +32,11 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
                 var auth = GetInstagramAuthenticator();
                 auth.AuthorizeAsync(uri).Wait();
                 
-                return Redirect("LoggedIn.html");
+                return Redirect("http://localhost:56841/LoggedIn.html");
             }
             catch (Exception)
             {
-                return Redirect("Failed.html");
+                return Redirect("http://localhost:/56841/Failed.html");
             }
         }
 
