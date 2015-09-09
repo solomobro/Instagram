@@ -13,6 +13,7 @@ namespace Solomobro.Instagram
     public class AuthenticationResult
     {
         public bool Success { get; internal set; }
+
         public string Message { get; internal set; }
 
         /// <summary>

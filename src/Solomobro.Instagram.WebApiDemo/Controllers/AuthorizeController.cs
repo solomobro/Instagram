@@ -30,9 +30,16 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                await auth.ValidateAuthenticationAsync(uri);
-                
-                return Redirect("http://localhost:56841/LoggedIn.html");
+                var result = await auth.ValidateAuthenticationAsync(uri);
+
+                if (result.Success)
+                {
+                    return Redirect("http://localhost:56841/LoggedIn.html");
+                }
+                else
+                {
+                    return Redirect("http://localhost:/56841/Failed.html");
+                }
             }
             catch (Exception)
             {
