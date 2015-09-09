@@ -24,13 +24,13 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
         [HttpGet]
         [Route("api/authorize")]
-        public IHttpActionResult Authorize(HttpRequestMessage req)
+        public async Task<IHttpActionResult> AuthorizeAsync(HttpRequestMessage req)
         {
             try
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                auth.AuthorizeAsync(uri).Wait();
+                await auth.AuthorizeAsync(uri);
                 
                 return Redirect("http://localhost:56841/LoggedIn.html");
             }
