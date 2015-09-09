@@ -102,7 +102,7 @@ namespace Solomobro.Instagram
             switch (AuthMethod)
             {
                 case AuthenticationMethod.Implicit:
-                    accessToken = await GetAccessTokenImplicitAsync(instagramResponseUri).ConfigureAwait(false);
+                    accessToken = GetAccessTokenImplicit(instagramResponseUri);
                     break;
                 case AuthenticationMethod.Explicit:
                     var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri).ConfigureAwait(false);
@@ -174,12 +174,12 @@ namespace Solomobro.Instagram
             return new Api(ClientId, ClientSecret, null);
         }
 
-        private async Task<string> GetAccessTokenImplicitAsync(Uri uri)
+        private string GetAccessTokenImplicit(Uri uri)
         {
             // todo: this is pure bs: needs testing and assumes auth succeeded
             var fragment = uri.Fragment;
             var token = fragment.Split(new[] {'#'}, StringSplitOptions.RemoveEmptyEntries).Last();
-            return await Task.FromResult(token);
+            return token;
         }
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
