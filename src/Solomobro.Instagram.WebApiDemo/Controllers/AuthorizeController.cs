@@ -19,7 +19,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         {
             var auth = GetInstagramAuthenticator();
         
-            return Ok(auth.AuthorizationUri);
+            return Ok(auth.AuthenticationUri);
         }
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                await auth.AuthorizeAsync(uri);
+                await auth.ValidateAuthenticationAsync(uri);
                 
                 return Redirect("http://localhost:56841/LoggedIn.html");
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,9 +40,14 @@ namespace Solomobro.Instagram
         }
 
         /// <summary>
-        /// The URI to the Instagram authorization endpoint
+        /// True if object has an access token
         /// </summary>
-        public Uri AuthorizationUri { get { return _authUri.Value; } }
+        public bool IsAuthenticated => !string.IsNullOrWhiteSpace(_accessToken);
+
+        /// <summary>
+        /// The URI to the Instagram authentication endpoint
+        /// </summary>
+        public Uri AuthenticationUri { get { return _authUri.Value; } }
 
         /// <summary>
         /// Initialize a new Auth configuration with default authentication method and basic scope
@@ -57,7 +63,7 @@ namespace Solomobro.Instagram
             ClientId = clientId;
             ClientSecret = clientSecret;
             RedirectUri = redirectUri;
-            _authUri = new Lazy<Uri>(BuildAuthorizationUri);
+            _authUri = new Lazy<Uri>(BuildAuthenticationUri);
         }
 
         /// <summary>
@@ -90,48 +96,71 @@ namespace Solomobro.Instagram
         }
 
         /// <summary>
-        /// Authorizes your client by retrieving the access token from Instagram's reply
+        /// Validates your authorization by retrieving the access token from Instagram's reply
         /// to your request to access user data
         /// </summary>
         /// <param name="instagramResponseUri">
         /// The redirect URI with either access code or access token</param>
         /// <returns>An awaitable task</returns>
-        public async Task AuthorizeAsync(Uri instagramResponseUri)
+        public async Task<AuthenticationResult> ValidateAuthenticationAsync(Uri instagramResponseUri)
         {
-            string accessToken;
-            switch (AuthMethod)
+            try
             {
-                case AuthenticationMethod.Implicit:
-                    accessToken = GetAccessTokenImplicit(instagramResponseUri);
-                    break;
-                case AuthenticationMethod.Explicit:
-                    var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri).ConfigureAwait(false);
-                    accessToken = authInfo.AccessToken;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(AuthMethod), "invalid authentication method");
-            }
+                string accessToken;
+                User user = null;
 
-            AuthorizeWithAccessToken(accessToken);
+                switch (AuthMethod)
+                {
+                    case AuthenticationMethod.Implicit:
+                        accessToken = GetAccessTokenImplicit(instagramResponseUri);
+                        break;
+                    case AuthenticationMethod.Explicit:
+                        var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri).ConfigureAwait(false);
+                        accessToken = authInfo.AccessToken;
+                        user = authInfo.User;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(AuthMethod), "invalid authentication method");
+                }
+
+                AuthenticateWithAccessToken(accessToken);
+                return new AuthenticationResult
+                {
+                    Success = true,
+                    User = user
+                };
+            }
+            catch (AlreadyAuthorizedException)
+            {
+                throw; // caller is trying to do something fishy
+            }
+            catch (Exception ex)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Message = $"[{ex.GetType().FullName}] {ex.Message}"
+                };
+            }
         }
 
         /// <summary>
-        /// Authorizes your client by retrieving the access token from Instagram's reply
+        /// Validates your authorization by retrieving the access token from Instagram's reply
         /// to your request to access user data
         /// </summary>
         /// <param name="instagramResponseUri">
         /// The redirect URI with either access code or access token</param>
         /// <returns>An awaitable task</returns>
-        public async Task AuthorizeAsync(string instagramResponseUri)
+        public async Task ValidateAuthenticationAsync(string instagramResponseUri)
         {
-            await AuthorizeAsync(new Uri(instagramResponseUri));
+            await ValidateAuthenticationAsync(new Uri(instagramResponseUri));
         }
 
         /// <summary>
         /// Call this method when you already have an access token for the user
         /// </summary>
         /// <param name="token">the access token</param>
-        public void AuthorizeWithAccessToken(string token)
+        public void AuthenticateWithAccessToken(string token)
         {
             // check that object was not previously authorized
             if (!string.IsNullOrWhiteSpace(this._accessToken))
@@ -174,17 +203,23 @@ namespace Solomobro.Instagram
             return new Api(ClientId, ClientSecret, null);
         }
 
-        private string GetAccessTokenImplicit(Uri uri)
+        private static string GetAccessTokenImplicit(Uri uri)
         {
-            // todo: this is pure bs: needs testing and assumes auth succeeded
-            var fragment = uri.Fragment;
-            var token = fragment.Split(new[] {'#'}, StringSplitOptions.RemoveEmptyEntries).Last();
-            return token;
+            EnsureSuccessUri(uri);
+
+            var parts = uri.Fragment.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != 2 || parts[1] != "#access_token")
+            {
+                throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
+            }
+
+            return parts[1];
         }
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
         {
-            // todo: this too is bs - assumes success path and a whole lot of other crap
+            EnsureSuccessUri(uri);
+
             var queryParams = HttpUtility.ParseQueryString(uri.Query);
             var accessCode = queryParams.Get("code");
 
@@ -200,16 +235,43 @@ namespace Solomobro.Instagram
                     new KeyValuePair<string, string>("code", accessCode)    
                 });
 
-                var accessTokenResp = await client.PostAsync(accessTokenUri, data).ConfigureAwait(false);
+                var resp = await client.PostAsync(accessTokenUri, data).ConfigureAwait(false);
+                resp.EnsureSuccessStatusCode();
 
-                // todo ensure success here
+                var content = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var userInfo =  JsonConvert.DeserializeObject<ExplicitAuthResponse>(content);
+                if (userInfo == null)
+                {
+                    throw new OAuthException(content);
+                }
 
-                var userInfo = await accessTokenResp.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<ExplicitAuthResponse>(userInfo);
+                return userInfo;
             }
         }
 
-        private Uri BuildAuthorizationUri()
+        private static void EnsureSuccessUri(Uri uri)
+        {
+            /*
+                If your request for approval is denied by the user, then we will redirect the user to your redirect_uri with the following parameters:
+
+                http://your-redirect-uri?error=access_denied&error_reason=user_denied&error_description=The+user+denied+your+request
+            */
+
+            var queryParams = HttpUtility.ParseQueryString(uri.Query);
+            var error = queryParams.Get("error");
+            if (error != null)
+            {
+                var errorReason = queryParams.Get("error_reason");
+                if (errorReason.Equals("user_denied", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new AccessDeniedException();
+                }
+
+                throw new OAuthException(errorReason);
+            }
+        }
+
+        private Uri BuildAuthenticationUri()
         {
             var responseCode = BuildResponseType();
             var scope = BuildScope();
