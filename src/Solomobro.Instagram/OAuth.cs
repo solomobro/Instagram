@@ -151,9 +151,23 @@ namespace Solomobro.Instagram
         /// <param name="instagramResponseUri">
         /// The redirect URI with either access code or access token</param>
         /// <returns>An awaitable task</returns>
-        public async Task ValidateAuthenticationAsync(string instagramResponseUri)
+        public async Task<AuthenticationResult> ValidateAuthenticationAsync(string instagramResponseUri)
         {
-            await ValidateAuthenticationAsync(new Uri(instagramResponseUri));
+            try
+            {
+                var uri = new Uri(instagramResponseUri);
+            }
+            catch (Exception ex) // don't catch any other exception here
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Message = $"[{ex.GetType().FullName}] {ex.Message}"
+                };
+            }
+
+            // don't wrap this in a try-catch
+            return await ValidateAuthenticationAsync(new Uri(instagramResponseUri));
         }
 
         /// <summary>
