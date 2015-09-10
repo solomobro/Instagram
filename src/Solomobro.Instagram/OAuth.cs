@@ -167,7 +167,7 @@ namespace Solomobro.Instagram
             }
 
             // don't wrap this in a try-catch
-            return await ValidateAuthenticationAsync(new Uri(instagramResponseUri));
+            return await ValidateAuthenticationAsync(new Uri(instagramResponseUri)).ConfigureAwait(false);
         }
 
         /// <summary>
