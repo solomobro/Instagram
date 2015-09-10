@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="InstagramSetingsFilePath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">c:\users\alpha\dev\instagramsettings.data</Value>
+      <Value Profile="(Default)">C:\Projects\Instagram\src\Solomobro.Instagram.WebApiDemo\Settings.txt</Value>
     </Setting>
   </Settings>
 </SettingsFile>

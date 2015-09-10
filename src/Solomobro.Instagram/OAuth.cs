@@ -9,6 +9,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram
 {
@@ -17,27 +18,17 @@ namespace Solomobro.Instagram
     /// </summary>
     public class OAuth
     {
-        private const string BaseAuthUrl = "https://api.instagram.com/oauth";
-        private readonly HashSet<string> _scopes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly Lazy<Uri> _authUri;
 
         private string _accessToken;
-            
+
         public string ClientId { get; }
 
         public string ClientSecret { get; }
 
         public string RedirectUri { get; }
 
-        /// <summary>
-        /// The authentication method to use. Default: Explicit (server-side)
-        /// </summary>
-        public AuthenticationMethod AuthMethod { get; } = AuthenticationMethod.Explicit;
-
-        public IEnumerable<string> Scopes
-        {
-            get { return _scopes; }
-        }
+        private IAuth AuthMethod { get; }
 
         /// <summary>
         /// True if object has an access token
@@ -79,21 +70,9 @@ namespace Solomobro.Instagram
         public OAuth(string clientId, string clientSecret, string redirectUri, AuthenticationMethod authMethod) 
             : this(clientId, clientSecret, redirectUri)
         {
-            AuthMethod = authMethod;
+            AuthMethod = AuthenticationUriFactory.BuildAuthenticationUri(authMethod, redirectUri, clientId);
         }
 
-        /// <summary>
-        /// Add scopes to the configuration
-        /// </summary>
-        /// <param name="scopes">one or more scopes</param>
-        /// <see cref="OAuthScope"/>
-        public void AddScopes(params string[] scopes)
-        {
-            foreach (var scope in scopes)
-            {
-                _scopes.Add(scope);
-            }
-        }
 
         /// <summary>
         /// Validates your authorization by retrieving the access token from Instagram's reply
@@ -109,7 +88,7 @@ namespace Solomobro.Instagram
                 string accessToken;
                 User user = null;
 
-                switch (AuthMethod)
+                switch (AuthMethod.Method)
                 {
                     case AuthenticationMethod.Implicit:
                         accessToken = GetAccessTokenImplicit(instagramResponseUri);
@@ -124,6 +103,7 @@ namespace Solomobro.Instagram
                 }
 
                 AuthenticateWithAccessToken(accessToken);
+
                 return new AuthenticationResult
                 {
                     Success = true,
@@ -222,13 +202,14 @@ namespace Solomobro.Instagram
         {
             EnsureSuccessUri(uri);
 
-            var parts = uri.Fragment.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 2 || parts[1] != "#access_token")
-            {
-                throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
-            }
+            //var parts = uri.Fragment.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
+            //if (parts.Length != 2 || parts[1] != "#access_token")
+            //{
+            //    throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
+            //}
 
-            return parts[1];
+            //return parts[1];
+            return uri.AbsoluteUri;
         }
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
@@ -240,7 +221,7 @@ namespace Solomobro.Instagram
 
             using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             {
-                var accessTokenUri = new Uri($"{BaseAuthUrl}/access_token");
+                var accessTokenUri = new Uri($"{AuthMethod.BaseAuthUrl}/access_token");
                 var data = new FormUrlEncodedContent(new []
                 {
                     new KeyValuePair<string, string>("client_id", ClientId),
@@ -288,41 +269,11 @@ namespace Solomobro.Instagram
 
         private Uri BuildAuthenticationUri()
         {
-            var responseCode = BuildResponseType();
-            var scope = BuildScope();
-
             //todo: this may need url encoding or escaping, especially in building the scope
-            var url = $"{BaseAuthUrl}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type={responseCode}&scope={scope}";
+            var url = $"{AuthMethod.BaseAuthUrl}/authorize/?client_id={AuthMethod.ClientId}&redirect_uri={AuthMethod.RedirectUri}&response_type={AuthMethod.ResponseCode}&scope={AuthMethod.Scope}";
 
             return new Uri(url);
         }
 
-        private string BuildResponseType()
-        {
-            switch (AuthMethod)
-            {
-                case AuthenticationMethod.Implicit:
-                    return "token";
-                case AuthenticationMethod.Explicit:
-                    return "code";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(AuthMethod));
-            }
-        }
-
-        private string BuildScope()
-        {
-            var sb = new StringBuilder(OAuthScope.Basic);
-            if (Scopes.Any())
-            {
-                foreach (var scope in Scopes)
-                {
-                    sb.Append("+");
-                    sb.Append(scope);
-                }
-            }
-
-            return sb.ToString();
-        }
     }
 }

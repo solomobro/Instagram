@@ -48,17 +48,22 @@
   <ItemGroup>
     <Compile Include="Api.cs" />
     <Compile Include="AuthenticationResult.cs" />
+    <Compile Include="AuthenticationUriFactory.cs" />
     <Compile Include="Entities\ExplicitAuthResponse.cs" />
+    <Compile Include="Entities\ImplicitAuthResponse.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\AlreadyAuthorizedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Exceptions\OAuthException.cs" />
-    <Compile Include="Interfaces\IServerSideAuthenticator.cs" />
+    <Compile Include="ExplicitAuth.cs" />
+    <Compile Include="ImplicitAuth.cs" />
+    <Compile Include="Interfaces\IAuth.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="OAuthScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScopeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Endpoints\" />
