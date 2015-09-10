@@ -153,9 +153,10 @@ namespace Solomobro.Instagram
         /// <returns>An awaitable task</returns>
         public async Task<AuthenticationResult> ValidateAuthenticationAsync(string instagramResponseUri)
         {
+            Uri uri;
             try
             {
-                var uri = new Uri(instagramResponseUri);
+                uri = new Uri(instagramResponseUri);
             }
             catch (Exception ex)
             {
@@ -167,7 +168,7 @@ namespace Solomobro.Instagram
             }
 
             // don't wrap this in a try-catch
-            return await ValidateAuthenticationAsync(new Uri(instagramResponseUri)).ConfigureAwait(false);
+            return await ValidateAuthenticationAsync(uri).ConfigureAwait(false);
         }
 
         /// <summary>
