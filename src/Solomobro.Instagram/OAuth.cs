@@ -101,7 +101,7 @@ namespace Solomobro.Instagram
         /// </summary>
         /// <param name="instagramResponseUri">
         /// The redirect URI with either access code or access token</param>
-        /// <returns>An awaitable task</returns>
+        /// <returns>A status indicating whether authentication succeeded</returns>
         public async Task<AuthenticationResult> ValidateAuthenticationAsync(Uri instagramResponseUri)
         {
             try
@@ -150,7 +150,7 @@ namespace Solomobro.Instagram
         /// </summary>
         /// <param name="instagramResponseUri">
         /// The redirect URI with either access code or access token</param>
-        /// <returns>An awaitable task</returns>
+        /// <returns>A status indicating whether authentication succeeded</returns>
         public async Task<AuthenticationResult> ValidateAuthenticationAsync(string instagramResponseUri)
         {
             Uri uri;
