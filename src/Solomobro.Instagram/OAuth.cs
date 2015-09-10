@@ -157,7 +157,7 @@ namespace Solomobro.Instagram
             {
                 var uri = new Uri(instagramResponseUri);
             }
-            catch (Exception ex) // don't catch any other exception here
+            catch (Exception ex)
             {
                 return new AuthenticationResult
                 {
