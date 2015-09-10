@@ -34,22 +34,22 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
                 if (result.Success)
                 {
-                    return Redirect("http://localhost:56841/LoggedIn.html");
+                    return Redirect("http://localhost:8012/LoggedIn.html");
                 }
                 else
                 {
-                    return Redirect("http://localhost:/56841/Failed.html");
+                    return Redirect("http://localhost:8012/Failed.html");
                 }
             }
             catch (Exception)
             {
-                return Redirect("http://localhost:/56841/Failed.html");
+                return Redirect("http://localhost:8012/Failed.html");
             }
         }
 
         private OAuth GetInstagramAuthenticator()
         {
-            return new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
+            return new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl, AuthenticationMethod.Implicit);
         }
     }
 }
