@@ -6,7 +6,7 @@ namespace Solomobro.Instagram.Exceptions
     /// Thrown for Instagram error=access_denied. 
     /// The user denied your access request.
     /// </summary>
-    public class AccessDeniedException : Exception
+    public class AccessDeniedException : OAuthException
     {
         internal AccessDeniedException() : this("The user denied your request") { }
 

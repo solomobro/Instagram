@@ -19,20 +19,27 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         {
             var auth = GetInstagramAuthenticator();
         
-            return Ok(auth.AuthorizationUri);
+            return Ok(auth.AuthenticationUri);
         }
 
         [HttpGet]
         [Route("api/authorize")]
-        public IHttpActionResult Authorize(HttpRequestMessage req)
+        public async Task<IHttpActionResult> AuthorizeAsync(HttpRequestMessage req)
         {
             try
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                auth.AuthorizeAsync(uri).Wait();
-                
-                return Redirect("http://localhost:56841/LoggedIn.html");
+                var result = await auth.ValidateAuthenticationAsync(uri);
+
+                if (result.Success)
+                {
+                    return Redirect("http://localhost:56841/LoggedIn.html");
+                }
+                else
+                {
+                    return Redirect("http://localhost:/56841/Failed.html");
+                }
             }
             catch (Exception)
             {
