@@ -41,7 +41,7 @@ namespace Solomobro.Instagram
 
         private static string Key<T>()
         {
-            return typeof (T).FullName;
+            return (typeof(T)).FullName;
         }
     }
 }
