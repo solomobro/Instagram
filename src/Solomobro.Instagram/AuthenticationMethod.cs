@@ -6,13 +6,13 @@
     public enum AuthenticationMethod
     {
         /// <summary>
-        /// Client-side flow
-        /// </summary>
-        Implicit = 0,
-
-        /// <summary>
         /// Server-side flow
         /// </summary>
-        Explicit = 1
+        Explicit = 0,
+
+        /// <summary>
+        /// Client-side flow
+        /// </summary>
+        Implicit = 1,
     }
 }

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
-using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram
 {
@@ -28,7 +24,7 @@ namespace Solomobro.Instagram
 
         public string RedirectUri { get; }
 
-        private IAuth AuthMethod { get; }
+        public AuthenticationMethod AuthMethod { get; }
 
         /// <summary>
         /// True if object has an access token
@@ -38,24 +34,9 @@ namespace Solomobro.Instagram
         /// <summary>
         /// The URI to the Instagram authentication endpoint
         /// </summary>
-        public Uri AuthenticationUri { get { return _authUri.Value; } }
+        public Uri AuthenticationUri => _authUri.Value;
 
-        /// <summary>
-        /// Initialize a new Auth configuration with default authentication method and basic scope
-        /// </summary>
-        /// <param name="clientId">The client id for your app</param>
-        /// <param name="clientSecret">The clien secret for you app</param>
-        /// <param name="redirectUri">
-        /// The URI where the user is redirected after authorization. 
-        /// This must match the exact URI registered for your app in the Instagram dev console
-        /// </param>
-        public OAuth(string clientId, string clientSecret, string redirectUri)
-        {
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-            RedirectUri = redirectUri;
-            _authUri = new Lazy<Uri>(BuildAuthenticationUri);
-        }
+        private AuthUriBuilder _uriBuilder;
 
         /// <summary>
         /// Initialize a new Auth confiuration with basic scope
@@ -67,10 +48,16 @@ namespace Solomobro.Instagram
         /// This must match the exact URI registered for your app in the Instagram dev console
         /// </param>
         /// <param name="authMethod">The authentication flow to use during the authorization process</param>
-        public OAuth(string clientId, string clientSecret, string redirectUri, AuthenticationMethod authMethod) 
-            : this(clientId, clientSecret, redirectUri)
+        public OAuth(string clientId, string clientSecret, string redirectUri, AuthenticationMethod authMethod = AuthenticationMethod.Explicit)
         {
-            AuthMethod = AuthenticationUriFactory.BuildAuthenticationUri(authMethod, redirectUri, clientId);
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+            RedirectUri = redirectUri;
+            AuthMethod = authMethod;
+
+            var uriBuilder = new AuthUriBuilder(clientId, redirectUri, AuthMethod);
+            _uriBuilder = uriBuilder;
+            _authUri = new Lazy<Uri>(uriBuilder.BuildAuthenticationUri);
         }
 
 
@@ -88,7 +75,7 @@ namespace Solomobro.Instagram
                 string accessToken;
                 User user = null;
 
-                switch (AuthMethod.Method)
+                switch (AuthMethod)
                 {
                     case AuthenticationMethod.Implicit:
                         accessToken = GetAccessTokenImplicit(instagramResponseUri);
@@ -202,14 +189,13 @@ namespace Solomobro.Instagram
         {
             EnsureSuccessUri(uri);
 
-            //var parts = uri.Fragment.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
-            //if (parts.Length != 2 || parts[1] != "#access_token")
-            //{
-            //    throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
-            //}
+            var parts = uri.Fragment.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != 2 || parts[1] != "#access_token")
+            {
+                throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
+            }
 
-            //return parts[1];
-            return uri.AbsoluteUri;
+            return parts[1];
         }
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
@@ -221,7 +207,7 @@ namespace Solomobro.Instagram
 
             using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             {
-                var accessTokenUri = new Uri($"{AuthMethod.BaseAuthUrl}/access_token");
+                var accessTokenUri = _uriBuilder.BuildAccessCodeUri();
                 var data = new FormUrlEncodedContent(new []
                 {
                     new KeyValuePair<string, string>("client_id", ClientId),
@@ -265,14 +251,6 @@ namespace Solomobro.Instagram
 
                 throw new OAuthException(errorReason);
             }
-        }
-
-        private Uri BuildAuthenticationUri()
-        {
-            //todo: this may need url encoding or escaping, especially in building the scope
-            var url = $"{AuthMethod.BaseAuthUrl}/authorize/?client_id={AuthMethod.ClientId}&redirect_uri={AuthMethod.RedirectUri}&response_type={AuthMethod.ResponseCode}&scope={AuthMethod.Scope}";
-
-            return new Uri(url);
         }
 
     }

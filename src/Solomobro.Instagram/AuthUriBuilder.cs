@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Solomobro.Instagram.Exceptions;
 
 namespace Solomobro.Instagram
 {
+    /// <summary>
+    /// an internal-only class used to build auth urls
+    /// </summary>
     internal class AuthUriBuilder
     {
         private readonly AuthenticationMethod _authMethod;
         private readonly string _clientId;
         private readonly string _redirectUri;
-        private readonly IEnumerable<string> _scopes;
+        private readonly HashSet<string> _scopes;
 
         private const string ExplicitBaseUri = "https://api.instagram.com";
         private const string ImplicitBaseUri = "https://instagram.com";
         private const string ExplicitResponseType = "code";
         private const string ImplicityResponseType = "token";
 
-        public AuthUriBuilder(string clientId, string redirectUri, AuthenticationMethod method, IEnumerable<string> scopes)
+        public AuthUriBuilder(string clientId, string redirectUri, AuthenticationMethod method)
         {
             _clientId = clientId;
             _redirectUri = redirectUri;
             _authMethod = method;
-            _scopes = scopes;
+            _scopes = new HashSet<string>() { OAuthScope.Basic };
         }
 
         public Uri BuildAuthenticationUri()
@@ -53,9 +54,14 @@ namespace Solomobro.Instagram
             return new Uri(uri);
         }
 
-        public Uri BuildAccessCodeUri(string accessCode)
+        public Uri BuildAccessCodeUri()
         {
             return new Uri($"{ExplicitBaseUri}/access_token");
+        }
+
+        public void AddScope(string scope)
+        {
+            _scopes.Add(scope);
         }
 
         private string BuildScope()
