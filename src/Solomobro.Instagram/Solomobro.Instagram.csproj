@@ -55,6 +55,7 @@
     <Compile Include="Exceptions\AlreadyAuthorizedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Exceptions\OAuthException.cs" />
+    <Compile Include="ExplicitAuthenticator.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Interfaces\IExplicitAuthenticator.cs" />
     <Compile Include="OAuth.cs" />

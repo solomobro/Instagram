@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
 using Solomobro.Instagram.Extensions;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram
 {
