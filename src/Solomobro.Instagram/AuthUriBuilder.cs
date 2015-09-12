@@ -25,7 +25,7 @@ namespace Solomobro.Instagram
             _clientId = clientId;
             _clientSecret = clientSecret;
             _redirectUri = redirectUri;
-            _scopes = scopes ?? new List<string>();
+            _scopes = scopes;
         }
 
         public Uri BuildAuthenticationUri()
@@ -54,14 +54,11 @@ namespace Solomobro.Instagram
             return new Uri(uri);
         }
 
-        /// <summary>
-        ///  Build the scope of this URI
-        /// </summary>
-        /// <returns>scope</returns>
         private string BuildScope()
         {
             var sb = new StringBuilder(OAuthScope.Basic);
-            if (_scopes.Any())
+
+            if (_scopes != null)
             {
                 foreach (var scope in _scopes)
                 {
