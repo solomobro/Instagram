@@ -59,6 +59,7 @@
     <Compile Include="ExplicitAuth.cs" />
     <Compile Include="ImplicitAuth.cs" />
     <Compile Include="Interfaces\IAuth.cs" />
+    <Compile Include="Interfaces\IExplicitAuthenticator.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="OAuthScope.cs" />
