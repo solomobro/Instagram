@@ -55,6 +55,11 @@ namespace Solomobro.Instagram
             return new Uri(uri);
         }
 
+        public Uri BuildAccessCodeUri(string accessCode)
+        {
+            return new Uri($"{ExplicitBaseUri}/access_token");
+        }
+
         private string BuildScope()
         {
             var sb = new StringBuilder(OAuthScope.Basic);
