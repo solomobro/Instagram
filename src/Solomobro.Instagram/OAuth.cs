@@ -159,6 +159,16 @@ namespace Solomobro.Instagram
             _accessToken = token;
         }
 
+        public void AddScope(string scope)
+        {
+            if (string.IsNullOrWhiteSpace(scope))
+            {
+                throw new OAuthException("invalid scope");
+            }
+
+            _uriBuilder.AddScope(scope);
+        }
+
         /// <summary>
         /// Creates an API with access to authenticated endpoints
         /// </summary>
