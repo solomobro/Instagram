@@ -159,6 +159,11 @@ namespace Solomobro.Instagram
             _accessToken = token;
         }
 
+        /// <summary>
+        /// Add a scope parameter to the Authentication URI. 
+        /// You must call this before authenticating your client if you want more than basic access
+        /// </summary>
+        /// <param name="scope">the scope to add</param>
         public void AddScope(string scope)
         {
             if (string.IsNullOrWhiteSpace(scope))
