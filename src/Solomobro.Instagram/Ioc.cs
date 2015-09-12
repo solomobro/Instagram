@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Solomobro.Instagram
 {
@@ -17,8 +18,13 @@ namespace Solomobro.Instagram
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mockInstance">the mock instance</param>
-        public static void Substitute<T>(T mockInstance)
+        public static void Substitute<T>(T mockInstance) where T: class 
         {
+            if (mockInstance == null)
+            {
+                throw new InvalidOperationException("Not allowed to substitude with a null instance");
+            }
+
             _substitutes[Key<T>()] = mockInstance;
         }
 
