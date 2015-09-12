@@ -49,6 +49,7 @@
     <Compile Include="Api.cs" />
     <Compile Include="AuthenticationResult.cs" />
     <Compile Include="AuthenticationUriFactory.cs" />
+    <Compile Include="AuthUriBuilder.cs" />
     <Compile Include="Entities\ExplicitAuthResponse.cs" />
     <Compile Include="Entities\ImplicitAuthResponse.cs" />
     <Compile Include="Entities\User.cs" />
