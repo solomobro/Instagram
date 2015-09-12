@@ -11,7 +11,6 @@ namespace Solomobro.Instagram
     {
         private readonly AuthenticationMethod _authMethod;
         private readonly string _clientId;
-        private readonly string _clientSecret;
         private readonly string _redirectUri;
         private readonly IEnumerable<string> _scopes;
 
@@ -20,10 +19,9 @@ namespace Solomobro.Instagram
         private const string ExplicitResponseType = "code";
         private const string ImplicityResponseType = "token";
 
-        public AuthUriBuilder(string clientId, string clientSecret, string redirectUri, AuthenticationMethod method, IEnumerable<string> scopes)
+        public AuthUriBuilder(string clientId, string redirectUri, AuthenticationMethod method, IEnumerable<string> scopes)
         {
             _clientId = clientId;
-            _clientSecret = clientSecret;
             _redirectUri = redirectUri;
             _authMethod = method;
             _scopes = scopes;
