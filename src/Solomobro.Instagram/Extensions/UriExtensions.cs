@@ -9,7 +9,7 @@ namespace Solomobro.Instagram.Extensions
     /// </summary>
     internal static class UriExtensions
     {
-        public static string ExtractAccessCoke(this Uri uri)
+        public static string ExtractAccessCode(this Uri uri)
         {
             uri.EnsureSuccessfulAuthReply();
 

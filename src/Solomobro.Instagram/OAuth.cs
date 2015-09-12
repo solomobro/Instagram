@@ -208,7 +208,7 @@ namespace Solomobro.Instagram
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
         {
-            var accessCode = uri.ExtractAccessCoke();
+            var accessCode = uri.ExtractAccessCode();
 
             using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             {
