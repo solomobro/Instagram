@@ -22,7 +22,7 @@ namespace Solomobro.Instagram
         {
             if (mockInstance == null)
             {
-                throw new InvalidOperationException("Not allowed to substitude with a null instance");
+                throw new InvalidOperationException("Not allowed to substitute with a null instance");
             }
 
             _substitutes[Key<T>()] = mockInstance;
