@@ -10,7 +10,7 @@ namespace Solomobro.Instagram
     /// </summary>
     internal static class Ioc
     {
-        private static Dictionary<string, object> _substitutes = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> Substitutes = new Dictionary<string, object>();
 
         /// <summary>
         /// Meant to be called within a unit test only
@@ -25,13 +25,13 @@ namespace Solomobro.Instagram
                 throw new InvalidOperationException("Not allowed to substitute with a null instance");
             }
 
-            _substitutes[Key<T>()] = mockInstance;
+            Substitutes[Key<T>()] = mockInstance;
         }
 
         public static T Resolve<T>() where T: class 
         {
             object instance;
-            if (_substitutes.TryGetValue(Key<T>(), out instance))
+            if (Substitutes.TryGetValue(Key<T>(), out instance))
             {
                 return (T) instance;
             }
