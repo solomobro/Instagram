@@ -6,6 +6,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Extensions;
 
 namespace Solomobro.Instagram
 {
@@ -179,7 +180,7 @@ namespace Solomobro.Instagram
         /// </summary>
         /// <returns>An instagram API</returns>
         /// <exception cref="OAuthAccessTokenException">
-        ///     Thrown when authentication is incomplete and there is no access token
+        /// Thrown when authentication is incomplete and there is no access token
         /// </exception>
         public Api CreateAuthenticatedApi()
         {
@@ -202,23 +203,12 @@ namespace Solomobro.Instagram
 
         private static string GetAccessTokenImplicit(Uri uri)
         {
-            EnsureSuccessUri(uri);
-
-            var parts = uri.Fragment.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 2 || parts[1] != "#access_token")
-            {
-                throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
-            }
-
-            return parts[1];
+            return uri.ExtractAccessToken();
         }
 
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
         {
-            EnsureSuccessUri(uri);
-
-            var queryParams = HttpUtility.ParseQueryString(uri.Query);
-            var accessCode = queryParams.Get("code");
+            var accessCode = uri.ExtractAccessCoke();
 
             using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             {
@@ -245,28 +235,5 @@ namespace Solomobro.Instagram
                 return userInfo;
             }
         }
-
-        private static void EnsureSuccessUri(Uri uri)
-        {
-            /*
-                If your request for approval is denied by the user, then we will redirect the user to your redirect_uri with the following parameters:
-
-                http://your-redirect-uri?error=access_denied&error_reason=user_denied&error_description=The+user+denied+your+request
-            */
-
-            var queryParams = HttpUtility.ParseQueryString(uri.Query);
-            var error = queryParams.Get("error");
-            if (error != null)
-            {
-                var errorReason = queryParams.Get("error_reason");
-                if (errorReason.Equals("user_denied", StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new AccessDeniedException();
-                }
-
-                throw new OAuthException(errorReason);
-            }
-        }
-
     }
 }
