@@ -25,6 +25,7 @@ namespace Solomobro.Instagram
             _clientId = clientId;
             _clientSecret = clientSecret;
             _redirectUri = redirectUri;
+            _authMethod = method;
             _scopes = scopes;
         }
 
