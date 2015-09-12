@@ -210,31 +210,24 @@ namespace Solomobro.Instagram
         private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
         {
             var accessCode = uri.ExtractAccessCode();
+            var accessTokenUri = _uriBuilder.BuildAccessCodeUri();
+            var authenticator = GetExplicitAuthenticator(accessCode);
 
-            using (var client = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
+            var authParams = new[]
             {
-                var accessTokenUri = _uriBuilder.BuildAccessCodeUri();
-                var data = new FormUrlEncodedContent(new []
-                {
-                    new KeyValuePair<string, string>("client_id", ClientId),
-                    new KeyValuePair<string, string>("client_secret", ClientSecret),
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    new KeyValuePair<string, string>("redirect_uri", RedirectUri), 
-                    new KeyValuePair<string, string>("code", accessCode)    
-                });
+                new KeyValuePair<string, string>("client_id", ClientId),
+                new KeyValuePair<string, string>("client_secret", ClientSecret),
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("redirect_uri", RedirectUri),
+                new KeyValuePair<string, string>("code", accessCode)
+            };
 
-                var resp = await client.PostAsync(accessTokenUri, data).ConfigureAwait(false);
-                resp.EnsureSuccessStatusCode();
+            return await authenticator.Authenticate(accessTokenUri, authParams).ConfigureAwait(false);
+        }
 
-                var content = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var userInfo =  JsonConvert.DeserializeObject<ExplicitAuthResponse>(content);
-                if (userInfo == null)
-                {
-                    throw new OAuthException(content);
-                }
-
-                return userInfo;
-            }
+        private IExplicitAuthenticator GetExplicitAuthenticator(string accessCode)
+        {
+            return Ioc.Resolve<IExplicitAuthenticator>() ?? new ExplicitAuthenticator(ClientId, ClientSecret, RedirectUri, accessCode);
         }
     }
 }
