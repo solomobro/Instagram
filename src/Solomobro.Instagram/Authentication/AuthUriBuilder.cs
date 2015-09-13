@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Solomobro.Instagram.Exceptions;
 
@@ -25,7 +26,7 @@ namespace Solomobro.Instagram.Authentication
             _clientId = clientId;
             _redirectUri = redirectUri;
             _authMethod = method;
-            _scopes = new HashSet<string>();
+            _scopes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
         public Uri BuildAuthenticationUri()
@@ -74,10 +75,10 @@ namespace Solomobro.Instagram.Authentication
 
             if (_scopes != null)
             {
-                foreach (var scope in _scopes)
+                foreach (var scope in _scopes.OrderBy(s => s))
                 {
                     sb.Append("+");
-                    sb.Append(scope);
+                    sb.Append(scope.ToLower());
                 }
             }
 

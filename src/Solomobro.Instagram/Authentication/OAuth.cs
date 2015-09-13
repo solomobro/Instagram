@@ -163,15 +163,18 @@ namespace Solomobro.Instagram
         /// Add a scope parameter to the Authentication URI. 
         /// You must call this before authenticating your client if you want more than basic access
         /// </summary>
-        /// <param name="scope">the scope to add</param>
-        public void AddScope(string scope)
+        /// <param name="scopes">the scopes to add</param>
+        public void AddScope(params string[] scopes)
         {
-            if (string.IsNullOrWhiteSpace(scope))
+            foreach (var scope in scopes)
             {
-                throw new OAuthException("invalid scope");
-            }
+                if (string.IsNullOrWhiteSpace(scope))
+                {
+                    throw new OAuthException("invalid scope");
+                }
 
-            _uriBuilder.AddScope(scope);
+                _uriBuilder.AddScope(scope); 
+            }
         }
 
         /// <summary>

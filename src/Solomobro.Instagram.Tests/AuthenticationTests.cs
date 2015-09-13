@@ -38,10 +38,17 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void AddingScopesWorks()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri, AuthenticationMethod.Implicit);
+            // test that adding basic scope doesn't screw up the scope list
+            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
             auth.AddScope(OAuthScope.Basic);
             var uri = auth.AuthenticationUri;
-            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
+
+            // test adding scopes other than basic, and they can be repeated
+            auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            auth.AddScope(OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments);
+            uri = auth.AuthenticationUri;
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
         }
 
     }
