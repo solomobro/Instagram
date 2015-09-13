@@ -44,6 +44,7 @@ namespace Solomobro.Instagram
                 resp.EnsureSuccessStatusCode();
 
                 var content = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
+
                 var userInfo = JsonConvert.DeserializeObject<ExplicitAuthResponse>(content);
                 if (userInfo == null)
                 {

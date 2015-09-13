@@ -49,7 +49,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
         private OAuth GetInstagramAuthenticator()
         {
-            return new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl, AuthenticationMethod.Implicit);
+            return new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
         }
     }
 }
