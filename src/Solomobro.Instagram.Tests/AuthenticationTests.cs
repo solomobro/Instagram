@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Solomobro.Instagram.Authentication;
+using Solomobro.Instagram.Exceptions;
 
 namespace Solomobro.Instagram.Tests
 {
@@ -9,6 +10,8 @@ namespace Solomobro.Instagram.Tests
         private const string ClientId = "CLIENT-ID";
         private const string ClientSecret = "CLIENT-SECRET";
         private const string RedirectUri = "REDIRECT-URI";
+        private const string AccessCode = "ACCESS-CODE";
+        private const string AccessToken = "ACCESS-TOKEN";
         private const string BaseExplicitUri = "https://api.instagram.com/oauth";
         private const string BaseImplicitUri = "https://instagram.com/oauth";
 
@@ -59,6 +62,28 @@ namespace Solomobro.Instagram.Tests
             auth.AddScope(OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments);
             uri = auth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
+        }
+
+        [Test]
+        public void CanAuthenticateWithAccessToken()
+        {
+            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            Assert.That(auth.IsAuthenticated, Is.False);
+
+            auth.AuthenticateWithAccessToken(AccessToken);
+            Assert.That(auth.IsAuthenticated, Is.True);
+        }
+
+        [Test]
+        public void VeryfyAccessTokenCannotBeChanged()
+        {
+            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            Assert.That(auth.IsAuthenticated, Is.False);
+
+            auth.AuthenticateWithAccessToken(AccessToken);
+            Assert.That(auth.IsAuthenticated, Is.True);
+
+            Assert.That(() => auth.AuthenticateWithAccessToken(AccessToken), Throws.InstanceOf<AlreadyAuthorizedException>());
         }
 
     }
