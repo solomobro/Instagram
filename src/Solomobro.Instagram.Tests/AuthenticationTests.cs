@@ -18,7 +18,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void ConfigSettingsAreCorrect()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             Assert.That(auth.ClientId, Is.EqualTo(ClientId));
             Assert.That(auth.ClientSecret, Is.EqualTo(ClientSecret));
             Assert.That(auth.RedirectUri, Is.EqualTo(RedirectUri));
@@ -28,14 +28,14 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void DefaultAuthMethodIsExplicit()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             Assert.That(auth.AuthMethod, Is.EqualTo(AuthenticationMethod.Explicit));
         }
 
         [Test]
         public void DefaultExplicitUriIsValid()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             var uri = auth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
         }
@@ -52,13 +52,13 @@ namespace Solomobro.Instagram.Tests
         public void AddingScopesWorks()
         {
             // test that adding basic scope doesn't screw up the scope list
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             auth.AddScope(OAuthScope.Basic);
             var uri = auth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
 
             // test adding scopes other than basic, and they can be repeated
-            auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            auth = GetDefaultOAuth();
             auth.AddScope(OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments);
             uri = auth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
@@ -67,7 +67,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void CanAuthenticateWithAccessToken()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             Assert.That(auth.IsAuthenticated, Is.False);
 
             auth.AuthenticateWithAccessToken(AccessToken);
@@ -77,7 +77,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void VerifyAccessTokenCannotBeChanged()
         {
-            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            var auth = GetDefaultOAuth();
             auth.AuthenticateWithAccessToken(AccessToken);
 
             Assert.That(auth.IsAuthenticated, Is.True);
@@ -85,7 +85,10 @@ namespace Solomobro.Instagram.Tests
             Assert.That(auth.IsAuthenticated, Is.True);
         }
 
-
+        private OAuth GetDefaultOAuth()
+        {
+            return new OAuth(ClientId, ClientSecret, RedirectUri);
+        }
 
     }
 }
