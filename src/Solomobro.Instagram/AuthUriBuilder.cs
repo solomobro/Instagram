@@ -25,7 +25,7 @@ namespace Solomobro.Instagram
             _clientId = clientId;
             _redirectUri = redirectUri;
             _authMethod = method;
-            _scopes = new HashSet<string>() { OAuthScope.Basic };
+            _scopes = new HashSet<string>();
         }
 
         public Uri BuildAuthenticationUri()
