@@ -25,7 +25,7 @@ namespace Solomobro.Instagram.WebApiDemo.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Projects\\Instagram\\src\\Solomobro.Instagram.WebApiDemo\\Settings.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Alpha\\dev\\instagramsettings.data")]
         public string InstagramSetingsFilePath {
             get {
                 return ((string)(this["InstagramSetingsFilePath"]));
