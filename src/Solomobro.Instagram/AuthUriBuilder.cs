@@ -49,7 +49,7 @@ namespace Solomobro.Instagram
 
             var scope = BuildScope();
 
-            var uri = $"{baseUri}/authorize/?client_id={_clientId}&redirect_uri={_redirectUri}&response_type={responseType}&scope={scope}";
+            var uri = $"{baseUri}/oauth/authorize/?client_id={_clientId}&redirect_uri={_redirectUri}&response_type={responseType}&scope={scope}";
 
             return new Uri(uri);
         }
