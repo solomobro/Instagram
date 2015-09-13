@@ -83,7 +83,7 @@ namespace Solomobro.Instagram.Tests
             auth.AuthenticateWithAccessToken(AccessToken);
             Assert.That(auth.IsAuthenticated, Is.True);
 
-            Assert.That(() => auth.AuthenticateWithAccessToken(AccessToken), Throws.InstanceOf<AlreadyAuthorizedException>());
+            Assert.That(() => auth.AuthenticateWithAccessToken(AccessToken), Throws.InstanceOf<AlreadyAuthenticatedException>());
         }
 
     }

@@ -98,7 +98,7 @@ namespace Solomobro.Instagram
                     User = user
                 };
             }
-            catch (AlreadyAuthorizedException)
+            catch (AlreadyAuthenticatedException)
             {
                 throw; // caller is trying to do something fishy
             }
@@ -148,7 +148,7 @@ namespace Solomobro.Instagram
             // check that object was not previously authorized
             if (!string.IsNullOrWhiteSpace(this._accessToken))
             {
-                throw new AlreadyAuthorizedException();
+                throw new AlreadyAuthenticatedException();
             }
 
             // basic sanity check on the access token

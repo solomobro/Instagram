@@ -52,7 +52,7 @@
     <Compile Include="Entities\ExplicitAuthResponse.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
-    <Compile Include="Exceptions\AlreadyAuthorizedException.cs" />
+    <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Exceptions\OAuthException.cs" />
     <Compile Include="Authentication\ExplicitAuthenticator.cs" />

@@ -9,9 +9,9 @@ namespace Solomobro.Instagram.Exceptions
     /// <summary>
     /// Thrown when client attempts to change an already existing token on an <see cref="OAuth"/> object
     /// </summary>
-    public class AlreadyAuthorizedException : Exception
+    public class AlreadyAuthenticatedException : Exception
     {
-        internal AlreadyAuthorizedException() : base("Previously authorized with an access token. Access token cannot be changed.") { }
-        internal AlreadyAuthorizedException(string message) : base(message) { }
+        internal AlreadyAuthenticatedException() : base("Previously authorized with an access token. Access token cannot be changed.") { }
+        internal AlreadyAuthenticatedException(string message) : base(message) { }
     }
 }
