@@ -22,7 +22,7 @@ namespace Solomobro.Instagram.Authentication
             uri.EnsureSuccessfulAuthReply();
 
             var parts = uri.Fragment.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 2 || parts[1] != "#access_token")
+            if (parts.Length != 2 || parts[0] != "#access_token")
             {
                 throw new ArgumentException($"bad uri fragment - {uri.Fragment}");
             }

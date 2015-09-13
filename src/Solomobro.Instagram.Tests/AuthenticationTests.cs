@@ -1,6 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Solomobro.Instagram.Authentication;
 using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Interfaces;
+using Solomobro.Instagram.Tests.Mocks;
 
 namespace Solomobro.Instagram.Tests
 {
@@ -9,7 +12,7 @@ namespace Solomobro.Instagram.Tests
     {
         private const string ClientId = "CLIENT-ID";
         private const string ClientSecret = "CLIENT-SECRET";
-        private const string RedirectUri = "REDIRECT-URI";
+        private const string RedirectUri = "http://REDIRECT-URI";
         private const string AccessCode = "ACCESS-CODE";
         private const string AccessToken = "ACCESS-TOKEN";
         private const string BaseExplicitUri = "https://api.instagram.com/oauth";
@@ -71,7 +74,7 @@ namespace Solomobro.Instagram.Tests
             Assert.That(auth.IsAuthenticated, Is.False);
 
             auth.AuthenticateWithAccessToken(AccessToken);
-            Assert.That(auth.IsAuthenticated, Is.True);
+            Assert.That(auth.IsAuthenticated);
         }
 
         [Test]
@@ -80,9 +83,33 @@ namespace Solomobro.Instagram.Tests
             var auth = GetDefaultOAuth();
             auth.AuthenticateWithAccessToken(AccessToken);
 
-            Assert.That(auth.IsAuthenticated, Is.True);
+            Assert.That(auth.IsAuthenticated);
             Assert.That(() => auth.AuthenticateWithAccessToken("FAKE-ACCESS-TOKEN"), Throws.InstanceOf<AlreadyAuthenticatedException>());
-            Assert.That(auth.IsAuthenticated, Is.True);
+            Assert.That(auth.IsAuthenticated);
+        }
+
+        [Test]
+        public void CanAuthenticateExplictily()
+        {
+            Ioc.Substitute<IExplicitAuthenticator>(new MockExplicitAuthenticator());
+
+            var instagramredirect = $"{RedirectUri}?code={AccessCode}";
+            var auth = GetDefaultOAuth();
+
+            var result = auth.ValidateAuthenticationAsync(new Uri(instagramredirect)).Result;
+            Assert.That(result.Success);
+            Assert.That(auth.IsAuthenticated);
+        }
+
+        [Test]
+        public void CanAuthenticateImplicitly()
+        {
+            var instagramRedirect = $"{RedirectUri}#access_token={AccessToken}";
+            var auth = new OAuth(ClientId, ClientSecret, RedirectUri, AuthenticationMethod.Implicit);
+
+            var result = auth.ValidateAuthenticationAsync(new Uri(instagramRedirect)).Result;
+            Assert.That(result.Success);
+            Assert.That(auth.IsAuthenticated);
         }
 
         private OAuth GetDefaultOAuth()
