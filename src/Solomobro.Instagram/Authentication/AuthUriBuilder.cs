@@ -61,6 +61,10 @@ namespace Solomobro.Instagram.Authentication
 
         public void AddScope(string scope)
         {
+            if (scope.Equals(OAuthScope.Basic, StringComparison.OrdinalIgnoreCase))
+            {
+                return; // basic scope. no need to add explicitly
+            }
             _scopes.Add(scope);
         }
 
