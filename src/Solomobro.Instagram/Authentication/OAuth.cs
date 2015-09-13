@@ -24,6 +24,8 @@ namespace Solomobro.Instagram
 
         public string RedirectUri { get; }
 
+        private readonly AuthUriBuilder _uriBuilder;
+
         public AuthenticationMethod AuthMethod { get; }
 
         /// <summary>
@@ -36,7 +38,6 @@ namespace Solomobro.Instagram
         /// </summary>
         public Uri AuthenticationUri => _authUri.Value;
 
-        private AuthUriBuilder _uriBuilder;
 
         /// <summary>
         /// Initialize a new Auth confiuration with basic scope
