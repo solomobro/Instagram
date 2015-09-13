@@ -5,6 +5,7 @@ using Solomobro.Instagram.Authentication;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
 using Solomobro.Instagram.Interfaces;
+using AuthUriBuilder = Solomobro.Instagram.Authentication.AuthUriBuilder;
 
 namespace Solomobro.Instagram
 {

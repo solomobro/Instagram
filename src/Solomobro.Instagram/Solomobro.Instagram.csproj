@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="AuthenticationResult.cs" />
+    <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\AuthUriBuilder.cs" />
     <Compile Include="Entities\ExplicitAuthResponse.cs" />
     <Compile Include="Entities\User.cs" />
@@ -59,7 +59,7 @@
     <Compile Include="Authentication\UriExtensions.cs" />
     <Compile Include="Interfaces\IExplicitAuthenticator.cs" />
     <Compile Include="Ioc.cs" />
-    <Compile Include="OAuth.cs" />
+    <Compile Include="Authentication\OAuth.cs" />
     <Compile Include="Authentication\AuthenticationMethod.cs" />
     <Compile Include="Authentication\OAuthScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
