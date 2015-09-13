@@ -31,5 +31,14 @@ namespace Solomobro.Instagram.WebApiDemo.Properties {
                 return ((string)(this["InstagramSetingsFilePath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("56841")]
+        public int ServerPort {
+            get {
+                return ((int)(this["ServerPort"]));
+            }
+        }
     }
 }

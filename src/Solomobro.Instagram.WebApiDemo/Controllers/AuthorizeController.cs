@@ -26,6 +26,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         [Route("api/authorize")]
         public async Task<IHttpActionResult> AuthorizeAsync(HttpRequestMessage req)
         {
+            var port = Properties.Settings.Default.ServerPort;
             try
             {
                 var uri = req.RequestUri;
@@ -34,16 +35,16 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
                 if (result.Success)
                 {
-                    return Redirect("http://localhost:56841/LoggedIn.html");
+                    return Redirect($"http://localhost:{port}/LoggedIn.html");
                 }
                 else
                 {
-                    return Redirect("http://localhost:56841/Failed.html");
+                    return Redirect($"http://localhost:{port}/Failed.html");
                 }
             }
             catch (Exception)
             {
-                return Redirect("http://localhost:56841/Failed.html");
+                return Redirect($"http://localhost:{port}/Failed.html");
             }
         }
 
