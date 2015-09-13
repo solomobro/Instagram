@@ -75,16 +75,17 @@ namespace Solomobro.Instagram.Tests
         }
 
         [Test]
-        public void VeryfyAccessTokenCannotBeChanged()
+        public void VerifyAccessTokenCannotBeChanged()
         {
             var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
-            Assert.That(auth.IsAuthenticated, Is.False);
-
             auth.AuthenticateWithAccessToken(AccessToken);
-            Assert.That(auth.IsAuthenticated, Is.True);
 
-            Assert.That(() => auth.AuthenticateWithAccessToken(AccessToken), Throws.InstanceOf<AlreadyAuthenticatedException>());
+            Assert.That(auth.IsAuthenticated, Is.True);
+            Assert.That(() => auth.AuthenticateWithAccessToken("FAKE-ACCESS-TOKEN"), Throws.InstanceOf<AlreadyAuthenticatedException>());
+            Assert.That(auth.IsAuthenticated, Is.True);
         }
+
+
 
     }
 }
