@@ -1,6 +1,6 @@
 ﻿using Solomobro.Instagram.Entities;
 
-namespace Solomobro.Instagram.Authentication
+namespace Solomobro.Instagram
 {
     /// <summary>
     /// Result of a call to one of the Authorize methods in <see cref="OAuth"/>
