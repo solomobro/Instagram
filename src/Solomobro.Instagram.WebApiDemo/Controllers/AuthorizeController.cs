@@ -34,16 +34,16 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
                 if (result.Success)
                 {
-                    return Redirect("http://localhost:8012/LoggedIn.html");
+                    return Redirect("http://localhost:56841/LoggedIn.html");
                 }
                 else
                 {
-                    return Redirect("http://localhost:8012/Failed.html");
+                    return Redirect("http://localhost:56841/Failed.html");
                 }
             }
             catch (Exception)
             {
-                return Redirect("http://localhost:8012/Failed.html");
+                return Redirect("http://localhost:56841/Failed.html");
             }
         }
 
