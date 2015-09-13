@@ -13,6 +13,16 @@ namespace Solomobro.Instagram.Tests
         private const string BaseImplicitUri = "https://instagram.com/oauth";
 
         [Test]
+        public void ConfigSettingsAreCorrect()
+        {
+            var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
+            Assert.That(auth.ClientId, Is.EqualTo(ClientId));
+            Assert.That(auth.ClientSecret, Is.EqualTo(ClientSecret));
+            Assert.That(auth.RedirectUri, Is.EqualTo(RedirectUri));
+        }
+
+
+        [Test]
         public void DefaultAuthMethodIsExplicit()
         {
             var auth = new OAuth(ClientId, ClientSecret, RedirectUri);
