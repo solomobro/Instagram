@@ -1,4 +1,4 @@
-﻿namespace Solomobro.Instagram
+﻿namespace Solomobro.Instagram.Authentication
 {
     /// <summary>
     /// Defines the OAuth scopes supported by the Instagram API

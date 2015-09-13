@@ -1,4 +1,4 @@
-﻿namespace Solomobro.Instagram
+﻿namespace Solomobro.Instagram.Authentication
 {
     /// <summary>
     /// Authentication methods supported by the Instagram API: implicit (client) or explicit (server)

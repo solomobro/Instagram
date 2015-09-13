@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
-using Newtonsoft.Json;
+using Solomobro.Instagram.Authentication;
 using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
-using Solomobro.Instagram.Extensions;
 using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram

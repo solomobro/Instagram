@@ -47,21 +47,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="AuthenticationResult.cs" />
-    <Compile Include="AuthUriBuilder.cs" />
+    <Compile Include="Authentication\AuthenticationResult.cs" />
+    <Compile Include="Authentication\AuthUriBuilder.cs" />
     <Compile Include="Entities\ExplicitAuthResponse.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\AlreadyAuthorizedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Exceptions\OAuthException.cs" />
-    <Compile Include="ExplicitAuthenticator.cs" />
-    <Compile Include="Extensions\UriExtensions.cs" />
+    <Compile Include="Authentication\ExplicitAuthenticator.cs" />
+    <Compile Include="Authentication\UriExtensions.cs" />
     <Compile Include="Interfaces\IExplicitAuthenticator.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="OAuth.cs" />
-    <Compile Include="AuthenticationMethod.cs" />
-    <Compile Include="OAuthScope.cs" />
+    <Compile Include="Authentication\AuthenticationMethod.cs" />
+    <Compile Include="Authentication\OAuthScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

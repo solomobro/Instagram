@@ -2,7 +2,7 @@
 using System.Web;
 using Solomobro.Instagram.Exceptions;
 
-namespace Solomobro.Instagram.Extensions
+namespace Solomobro.Instagram.Authentication
 {
     /// <summary>
     /// Internal-only class to validate and extract data from URIs we get from Instagram

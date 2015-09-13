@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Solomobro.Instagram.Exceptions;
 
-namespace Solomobro.Instagram
+namespace Solomobro.Instagram.Authentication
 {
     /// <summary>
     /// an internal-only class used to build auth urls

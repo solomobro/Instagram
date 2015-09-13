@@ -7,7 +7,7 @@ using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
 using Solomobro.Instagram.Interfaces;
 
-namespace Solomobro.Instagram
+namespace Solomobro.Instagram.Authentication
 {
     /// <summary>
     /// Internal-only class to help make OAuth testable by abstracting code that calls instagram over the network
