@@ -107,7 +107,7 @@ namespace Solomobro.Instagram.Tests
             var instagramRedirect = $"{RedirectUri}#access_token={AccessToken}";
             var auth = new OAuth(ClientId, ClientSecret, RedirectUri, AuthenticationMethod.Implicit);
 
-            var result = auth.ValidateAuthenticationAsync(new Uri(instagramRedirect)).Result;
+            var result = auth.ValidateAuthenticationAsync(instagramRedirect).Result;
             Assert.That(result.Success);
             Assert.That(auth.IsAuthenticated);
         }
