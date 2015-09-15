@@ -112,6 +112,16 @@ namespace Solomobro.Instagram.Tests
             Assert.That(auth.IsAuthenticated);
         }
 
+        [Test]
+        public void BadUriFailsAuthentication()
+        {
+            var auth = GetDefaultOAuth();
+            var badUri =
+                $"{RedirectUri}?error=access_denied&error_reason=user_denied&error_description=The+user+denied+your+request";
+            var result = auth.ValidateAuthenticationAsync(badUri).Result;
+            Assert.That(!result.Success);
+        }
+
         private OAuth GetDefaultOAuth()
         {
             return new OAuth(ClientId, ClientSecret, RedirectUri);
