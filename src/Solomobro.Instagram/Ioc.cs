@@ -20,6 +20,11 @@ namespace Solomobro.Instagram
         /// <param name="mockInstance">the mock instance</param>
         public static void Substitute<T>(T mockInstance) where T: class 
         {
+            if (!typeof(T).IsInterface)
+            {
+                throw new ArgumentException("Not allowed to substitute a concrete type - must be an interface");
+            }
+
             if (mockInstance == null)
             {
                 throw new InvalidOperationException("Not allowed to substitute with a null instance");
