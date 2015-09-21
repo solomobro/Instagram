@@ -3,7 +3,7 @@
     /// <summary>
     /// Authentication methods supported by the Instagram API: implicit (client) or explicit (server)
     /// </summary>
-    public enum AuthenticationMethod
+    internal enum AuthenticationMethod
     {
         /// <summary>
         /// Server-side flow

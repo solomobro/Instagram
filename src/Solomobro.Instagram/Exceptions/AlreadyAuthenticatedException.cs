@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Solomobro.Instagram.Authentication;
 
 namespace Solomobro.Instagram.Exceptions
 {
     /// <summary>
-    /// Thrown when client attempts to change an already existing token on an <see cref="OAuth"/> object
+    /// Thrown when client attempts to change an already existing token on an <see cref="OAuthBase"/> object
     /// </summary>
     public class AlreadyAuthenticatedException : Exception
     {

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Solomobro.Instagram.Authentication;
 using Solomobro.Instagram.WebApiDemo.Settings;
 
 namespace Solomobro.Instagram.WebApiDemo.Controllers
@@ -31,7 +32,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                var result = await auth.ValidateAuthenticationAsync(uri);
+                var result = await auth.AuthenticateFromResponseAsync(uri);
 
                 if (result.Success)
                 {
@@ -48,9 +49,9 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             }
         }
 
-        private OAuth GetInstagramAuthenticator()
+        private ExplicitAuth GetInstagramAuthenticator()
         {
-            return new OAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
+            return new ExplicitAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
         }
     }
 }
