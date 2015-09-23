@@ -64,6 +64,7 @@
     <Compile Include="Authentication\OAuthBase.cs" />
     <Compile Include="Authentication\AccessScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnixTimeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Endpoints\" />
