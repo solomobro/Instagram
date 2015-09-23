@@ -7,9 +7,6 @@ using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Authentication
 {
-    /// <summary>
-    /// Helps authenticate and authorize your instagram client to access user data
-    /// </summary>
     public abstract class OAuthBase
     {
         private string _accessToken;
