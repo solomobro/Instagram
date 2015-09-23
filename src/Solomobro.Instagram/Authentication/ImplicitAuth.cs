@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Exceptions;
 
@@ -9,11 +10,11 @@ namespace Solomobro.Instagram.Authentication
         private readonly AuthUriBuilder _uriBuilder;
 
 
-        public override Uri AuthenticationUri => _uriBuilder.BuildAuthenticationUri();
+        public override Uri AuthenticationUri => _uriBuilder.BuildImplicitAuthUri();
 
-        public ImplicitAuth(string clientId, string clientSecret, string redirectUri) : base(clientId, clientSecret, redirectUri)
+        public ImplicitAuth(string clientId, string clientSecret, string redirectUri, IEnumerable<string> scopes = null ) : base(clientId, clientSecret, redirectUri)
         {
-            _uriBuilder = new AuthUriBuilder(clientId, redirectUri, AuthenticationMethod.Implicit);
+            _uriBuilder = new AuthUriBuilder(clientId, redirectUri, scopes);
         }
 
         public  AuthenticationResult AuthenticateFromResponse(Uri instagramResponseUri)

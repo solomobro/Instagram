@@ -14,30 +14,16 @@ namespace Solomobro.Instagram.Authentication
     {
         private string _accessToken;
 
-        public string ClientId { get; }
+        internal string ClientId { get; }
 
-        public string ClientSecret { get; }
+        internal string ClientSecret { get; }
 
-        public string RedirectUri { get; }
+        internal string RedirectUri { get; }
 
         public abstract Uri AuthenticationUri { get; }
 
-        /// <summary>
-        /// True if object has an access token
-        /// </summary>
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(_accessToken);
 
-
-
-        /// <summary>
-        /// Initialize a new Auth confiuration with basic scope
-        /// </summary>
-        /// <param name="clientId">The client id for your app</param>
-        /// <param name="clientSecret">The client secret for your app</param>
-        /// <param name="redirectUri">
-        /// The URI where the user is redirected after authorization. 
-        /// This must match the exact URI registered for your app in the Instagram dev console
-        /// </param>
         protected internal OAuthBase(string clientId, string clientSecret, string redirectUri)
         {
             ClientId = clientId;
@@ -45,12 +31,6 @@ namespace Solomobro.Instagram.Authentication
             RedirectUri = redirectUri;
         }
 
-
-
-        /// <summary>
-        /// Call this method when you already have an access token for the user
-        /// </summary>
-        /// <param name="token">the access token</param>
         public void AuthenticateWithAccessToken(string token)
         {
             // check that object was not previously authorized
@@ -68,13 +48,6 @@ namespace Solomobro.Instagram.Authentication
             _accessToken = token;
         }
 
-        /// <summary>
-        /// Creates an API with access to authenticated endpoints
-        /// </summary>
-        /// <returns>An instagram API</returns>
-        /// <exception cref="OAuthAccessTokenException">
-        /// Thrown when authentication is incomplete and there is no access token
-        /// </exception>
         public Api CreateAuthenticatedApi()
         {
             if (string.IsNullOrWhiteSpace(_accessToken))
@@ -85,10 +58,6 @@ namespace Solomobro.Instagram.Authentication
             return new Api(ClientId, ClientSecret, _accessToken);
         }
 
-        /// <summary>
-        /// Creates an API with access to unauthenticated endpoints only
-        /// </summary>
-        /// <returns>An Instagram API</returns>
         public Api CreateUnauthenticatedApi()
         {
             return new Api(ClientId, ClientSecret, null);

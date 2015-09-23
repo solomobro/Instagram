@@ -13,18 +13,18 @@ namespace Solomobro.Instagram.Authentication
     {
         private readonly AuthUriBuilder _uriBuilder;
 
-        public override Uri AuthenticationUri => _uriBuilder.BuildAuthenticationUri();
+        public override Uri AuthenticationUri => _uriBuilder.BuildExplicitAuthUri();
 
-        public ExplicitAuth(string clientId, string clientSecret, string redirectUri) : base(clientId, clientSecret, redirectUri)
+        public ExplicitAuth(string clientId, string clientSecret, string redirectUri, IEnumerable<string> scopes = null ) : base(clientId, clientSecret, redirectUri)
         {
-            _uriBuilder = new AuthUriBuilder(clientId, redirectUri, AuthenticationMethod.Explicit);
+            _uriBuilder = new AuthUriBuilder(clientId, redirectUri, scopes);
         }
 
         public async Task<AuthenticationResult> AuthenticateFromResponseAsync(Uri instagramResponseUri)
         {
             try
             {
-                var authInfo = await GetAuthInfoExplicitAsync(instagramResponseUri)
+                var authInfo = await GetAuthInfoAsync(instagramResponseUri)
                         .ConfigureAwait(false);
 
                 AuthenticateWithAccessToken(authInfo.AccessToken);
@@ -50,10 +50,10 @@ namespace Solomobro.Instagram.Authentication
         }
 
 
-        private async Task<ExplicitAuthResponse> GetAuthInfoExplicitAsync(Uri uri)
+        private async Task<ExplicitAuthResponse> GetAuthInfoAsync(Uri uri)
         {
             var accessCode = uri.ExtractAccessCode();
-            var accessTokenUri = _uriBuilder.BuildAccessCodeUri();
+            var accessTokenUri = AuthUriBuilder.BuildAccessCodeUri();
             var authenticator = GetExplicitAuthenticator(accessCode);
 
             var authParams = new[]
@@ -68,9 +68,9 @@ namespace Solomobro.Instagram.Authentication
             return await authenticator.Authenticate(accessTokenUri, authParams).ConfigureAwait(false);
         }
 
-        private IExplicitAuthenticator GetExplicitAuthenticator(string accessCode)
+        private IAccessTokenRetriever GetExplicitAuthenticator(string accessCode)
         {
-            return Ioc.Resolve<IExplicitAuthenticator>() ?? new ExplicitAuthenticator(ClientId, ClientSecret, RedirectUri, accessCode);
+            return Ioc.Resolve<IAccessTokenRetriever>() ?? new AccessTokenRetriever(ClientId, ClientSecret, RedirectUri, accessCode);
         }
     }
 }

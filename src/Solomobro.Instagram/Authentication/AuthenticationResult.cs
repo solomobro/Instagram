@@ -2,9 +2,6 @@
 
 namespace Solomobro.Instagram.Authentication
 {
-    /// <summary>
-    /// Result of a call to one of the Authorize methods in <see cref="OAuthBase"/>
-    /// </summary>
     public class AuthenticationResult
     {
         public bool Success { get; internal set; }

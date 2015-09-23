@@ -57,12 +57,11 @@
     <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
     <Compile Include="Exceptions\OAuthException.cs" />
-    <Compile Include="Authentication\ExplicitAuthenticator.cs" />
+    <Compile Include="Authentication\AccessTokenRetriever.cs" />
     <Compile Include="Authentication\UriExtensions.cs" />
-    <Compile Include="Interfaces\IExplicitAuthenticator.cs" />
+    <Compile Include="Interfaces\IAccessTokenRetriever.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="Authentication\OAuthBase.cs" />
-    <Compile Include="Authentication\AuthenticationMethod.cs" />
     <Compile Include="Authentication\OAuthScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

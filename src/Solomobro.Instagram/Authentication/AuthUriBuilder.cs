@@ -11,7 +11,6 @@ namespace Solomobro.Instagram.Authentication
     /// </summary>
     internal class AuthUriBuilder
     {
-        private readonly AuthenticationMethod _authMethod;
         private readonly string _clientId;
         private readonly string _redirectUri;
         private readonly HashSet<string> _scopes;
@@ -19,54 +18,55 @@ namespace Solomobro.Instagram.Authentication
         private const string ExplicitBaseUri = "https://api.instagram.com";
         private const string ImplicitBaseUri = "https://instagram.com";
         private const string ExplicitResponseType = "code";
-        private const string ImplicityResponseType = "token";
+        private const string ImplicitResponseType = "token";
 
-        public AuthUriBuilder(string clientId, string redirectUri, AuthenticationMethod method)
+        public AuthUriBuilder(string clientId, string redirectUri, IEnumerable<string> scopes )
         {
             _clientId = clientId;
             _redirectUri = redirectUri;
-            _authMethod = method;
             _scopes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            AddScopes(scopes);
+
         }
 
-        public Uri BuildAuthenticationUri()
+        public Uri BuildExplicitAuthUri()
         {
-            string baseUri;
-            string responseType;
-
-            switch (_authMethod)
-            {
-                case AuthenticationMethod.Implicit:
-                    baseUri = ImplicitBaseUri;
-                    responseType = ImplicityResponseType;
-                    break;
-                case AuthenticationMethod.Explicit:
-                    baseUri = ExplicitBaseUri;
-                    responseType = ExplicitResponseType;
-                    break;
-                default:
-                    throw new OAuthException("bad OAuth method");
-            }
-
             var scope = BuildScope();
 
-            var uri = $"{baseUri}/oauth/authorize/?client_id={_clientId}&redirect_uri={_redirectUri}&response_type={responseType}&scope={scope}";
+            var uri = $"{ExplicitBaseUri}/oauth/authorize/?client_id={_clientId}&redirect_uri={_redirectUri}&response_type={ExplicitResponseType}&scope={scope}";
 
             return new Uri(uri);
         }
 
-        public Uri BuildAccessCodeUri()
+        public Uri BuildImplicitAuthUri()
+        {
+            var scope = BuildScope();
+
+            var uri = $"{ImplicitBaseUri}/oauth/authorize/?client_id={_clientId}&redirect_uri={_redirectUri}&response_type={ImplicitResponseType}&scope={scope}";
+
+            return new Uri(uri);
+        }
+
+        public static Uri BuildAccessCodeUri()
         {
             return new Uri($"{ExplicitBaseUri}/oauth/access_token");
         }
 
-        public void AddScope(string scope)
+        private void AddScopes(IEnumerable<string> scopes)
         {
-            if (scope.Equals(OAuthScope.Basic, StringComparison.OrdinalIgnoreCase))
+            if (scopes == null)
             {
-                return; // basic scope. no need to add explicitly
+                return;
             }
-            _scopes.Add(scope);
+
+            foreach (var scope in scopes)
+            {
+                if (scope.Equals(OAuthScope.Basic, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue; // basic scope. no need to add explicitly
+                }
+                _scopes.Add(scope); 
+            }
         }
 
         private string BuildScope()

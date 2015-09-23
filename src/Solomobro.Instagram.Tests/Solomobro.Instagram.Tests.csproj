@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationTests.cs" />
-    <Compile Include="Mocks\MockExplicitAuthenticator.cs" />
+    <Compile Include="Mocks\MockAccessTokenRetriever.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

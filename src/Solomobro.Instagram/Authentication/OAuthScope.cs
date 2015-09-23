@@ -1,8 +1,5 @@
 ﻿namespace Solomobro.Instagram.Authentication
 {
-    /// <summary>
-    /// Defines the OAuth scopes supported by the Instagram API
-    /// </summary>
     public static class OAuthScope
     {
         public const string Basic = "basic";

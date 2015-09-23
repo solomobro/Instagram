@@ -6,7 +6,7 @@ using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Tests.Mocks
 {
-    class MockExplicitAuthenticator : IExplicitAuthenticator
+    class MockAccessTokenRetriever : IAccessTokenRetriever
     {
         public Task<ExplicitAuthResponse> Authenticate(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams)
         {

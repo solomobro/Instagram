@@ -43,21 +43,39 @@ namespace Solomobro.Instagram.Tests
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
         }
 
-        //[Test]
-        //public void AddingScopesWorks()
-        //{
-        //    // test that adding basic scope doesn't screw up the scope list
-        //    var auth = GetExplicitAuth();
-        //    auth.AddScope(OAuthScope.Basic);
-        //    var uri = auth.AuthenticationUri;
-        //    Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
+        [Test]
+        public void AddingScopesToExplicitAuthWorks()
+        {
+            // test that adding basic scope doesn't screw up the scope list
+            var basicScope = new[] {OAuthScope.Basic};
+            var basicAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
+            var uri = basicAuth.AuthenticationUri;
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
 
-        //    // test adding scopes other than basic, and they can be repeated
-        //    auth = GetExplicitAuth();
-        //    auth.AddScope(OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments);
-        //    uri = auth.AuthenticationUri;
-        //    Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
-        //}
+            // test adding scopes other than basic, and they can be repeated
+            var bunchOfScopes = new[]
+            {OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments};
+            var complexAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes) ;
+            uri = complexAuth.AuthenticationUri;
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
+        }
+
+        [Test]
+        public void AddingScopesToImplicitAuthWorks()
+        {
+            // test that adding basic scope doesn't screw up the scope list
+            var basicScope = new[] { OAuthScope.Basic };
+            var basicAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
+            var uri = basicAuth.AuthenticationUri;
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
+
+            // test adding scopes other than basic, and they can be repeated
+            var bunchOfScopes = new[]
+            {OAuthScope.Basic, OAuthScope.Relationships, OAuthScope.Comments, OAuthScope.Likes, OAuthScope.Comments};
+            var complexAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes);
+            uri = complexAuth.AuthenticationUri;
+            Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic+comments+likes+relationships"));
+        }
 
         [Test]
         public void CanAuthenticateWithAccessToken()
@@ -83,7 +101,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void CanAuthenticateExplictily()
         {
-            Ioc.Substitute<IExplicitAuthenticator>(new MockExplicitAuthenticator());
+            Ioc.Substitute<IAccessTokenRetriever>(new MockAccessTokenRetriever());
 
             var instagramredirect = $"{RedirectUri}?code={AccessCode}";
             var auth = GetExplicitAuth();
