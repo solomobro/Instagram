@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
- using Solomobro.Instagram.Entities;
  using Solomobro.Instagram.Exceptions;
  using Solomobro.Instagram.Interfaces;
+ using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Authentication
 {

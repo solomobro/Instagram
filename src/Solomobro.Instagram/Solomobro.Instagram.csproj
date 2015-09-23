@@ -51,8 +51,8 @@
     <Compile Include="Authentication\AuthUriBuilder.cs" />
     <Compile Include="Authentication\ExplicitAuth.cs" />
     <Compile Include="Authentication\ImplicitAuth.cs" />
-    <Compile Include="Entities\ExplicitAuthResponse.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Authentication\ExplicitAuthResponse.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />
     <Compile Include="Exceptions\OAuthAccessTokenException.cs" />

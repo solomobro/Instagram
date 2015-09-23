@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Solomobro.Instagram.Entities;
+using Solomobro.Instagram.Authentication;
 using Solomobro.Instagram.Interfaces;
+using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Tests.Mocks
 {

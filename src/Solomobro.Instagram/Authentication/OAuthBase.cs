@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Solomobro.Instagram.Entities;
 using Solomobro.Instagram.Exceptions;
 using Solomobro.Instagram.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿using Solomobro.Instagram.Entities;
+﻿using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Authentication
 {

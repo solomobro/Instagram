@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Solomobro.Instagram.Entities
+namespace Solomobro.Instagram.Models
 {
     /// <summary>
     /// data structure holding basic info about an Instagram user
