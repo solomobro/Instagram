@@ -42,6 +42,9 @@ namespace Solomobro.Instagram.Models
     {
         internal MiniUser() { }
 
+        [DataMember(Name = "id")]
+        public string Id { get; internal set; }
+
         [DataMember(Name = "username")]
         public string UserName { get; internal set; }
 

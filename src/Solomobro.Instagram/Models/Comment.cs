@@ -8,6 +8,9 @@ namespace Solomobro.Instagram.Models
     {
         internal Comment() { }
 
+        [DataMember(Name = "id")]
+        public string Id { get; internal set; }
+
         public DateTime CreatedTime 
             => UnixTimeConverter.ConvertFromUnixTime(CreatedTimeInternal);
 
@@ -18,6 +21,6 @@ namespace Solomobro.Instagram.Models
         public string Text { get; internal set; }
 
         [DataMember(Name = "from")]
-        public User From { get; internal set; }
+        public MiniUser From { get; internal set; }
     }
 }
