@@ -14,7 +14,7 @@ namespace Solomobro.Instagram.Tests.Mocks
             var resp = new ExplicitAuthResponse
             {
                 AccessToken = "ACCESS-TOKEN",
-                User = new User
+                User = new UserDetails
                 {
                     Id = "1234567890",
                     UserName = "solomobro",

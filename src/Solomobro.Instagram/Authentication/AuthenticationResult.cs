@@ -11,6 +11,6 @@ namespace Solomobro.Instagram.Authentication
         /// <summary>
         /// The Authenticated user's basic info. Available only with Server-side/Explicit authentication
         /// </summary>
-        public User User { get; internal set; }
+        public UserDetails User { get; internal set; }
     }
 }

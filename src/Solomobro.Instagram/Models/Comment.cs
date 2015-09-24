@@ -21,6 +21,6 @@ namespace Solomobro.Instagram.Models
         public string Text { get; internal set; }
 
         [DataMember(Name = "from")]
-        public MiniUser From { get; internal set; }
+        public User From { get; internal set; }
     }
 }
