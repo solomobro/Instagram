@@ -53,6 +53,8 @@
     <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\LocationInfo.cs" />
+    <Compile Include="Models\MediaInfo.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\User.cs" />
