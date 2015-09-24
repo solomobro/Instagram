@@ -24,7 +24,7 @@ namespace Solomobro.Instagram.Tests.Mocks
                     Bio = "Making the world a better place",
                     Counts = new UserStats
                     {
-                        Follow = 100,
+                        Follows = 100,
                         FollowedBy = 200,
                         Media = 300
                     }

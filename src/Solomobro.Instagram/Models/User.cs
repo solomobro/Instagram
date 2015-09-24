@@ -41,7 +41,7 @@ namespace Solomobro.Instagram.Models
         public int Media { get; internal set; }
 
         [DataMember(Name = "follows")]
-        public int Follow { get; internal set; }
+        public int Follows { get; internal set; }
 
         [DataMember(Name = "followed_by")]
         public int FollowedBy { get; set; }
