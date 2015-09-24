@@ -8,9 +8,6 @@ namespace Solomobro.Instagram.Authentication
 
         public string Message { get; internal set; }
 
-        /// <summary>
-        /// The Authenticated user's basic info. Available only with Server-side/Explicit authentication
-        /// </summary>
         public UserDetails User { get; internal set; }
     }
 }
