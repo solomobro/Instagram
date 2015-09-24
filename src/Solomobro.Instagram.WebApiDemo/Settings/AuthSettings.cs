@@ -11,7 +11,7 @@ namespace Solomobro.Instagram.WebApiDemo.Settings
     internal static class AuthSettings
     {
         //Instagram Settings
-        public static string InstaClientID { get; set; }
+        public static string InstaClientId { get; set; }
         public static string InstaClientSecret { get; set; }
         public static string InstaWebsiteUrl { get; set; } 
         public static string InstaRedirectUrl { get; set; }

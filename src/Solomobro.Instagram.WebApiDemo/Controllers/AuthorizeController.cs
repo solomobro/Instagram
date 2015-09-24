@@ -51,7 +51,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
 
         private ExplicitAuth GetInstagramAuthenticator()
         {
-            return new ExplicitAuth(AuthSettings.InstaClientID, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
+            return new ExplicitAuth(AuthSettings.InstaClientId, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
         }
     }
 }
