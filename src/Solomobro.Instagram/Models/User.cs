@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Solomobro.Instagram.Models
 {
@@ -19,8 +20,11 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "full_name")]
         public string FullName { get; internal set; }
 
+        
+        public Uri ProfilePicture => new Uri(ProfilePictureInternal);
+
         [DataMember(Name = "profile_picture")]
-        public string ProfilePicture { get; internal set; }
+        internal string ProfilePictureInternal;
 
         [DataMember(Name = "bio")]
         public string Bio { get; internal set; }
@@ -30,6 +34,24 @@ namespace Solomobro.Instagram.Models
 
         [DataMember(Name = "counts")]
         public UserStats Counts { get; internal set; }
+    }
+
+    //todo: this class is badly named
+    [DataContract]
+    public class MiniUser
+    {
+        internal MiniUser() { }
+
+        [DataMember(Name = "username")]
+        public string UserName { get; internal set; }
+
+        public Uri ProfilePicture => new Uri(ProfilePictureInternal);
+
+        [DataMember(Name = "profile_picture")]
+        internal string ProfilePictureInternal;
+
+        [DataMember(Name = "full_name")]
+        public string FullName { get; internal set; }
     }
 
     [DataContract]

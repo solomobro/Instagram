@@ -19,7 +19,7 @@ namespace Solomobro.Instagram.Tests.Mocks
                     Id = "1234567890",
                     UserName = "solomobro",
                     FullName = "So Lo Mo Bro",
-                    ProfilePicture = "http://foo.com/bar",
+                    ProfilePictureInternal = "http://foo.com/bar",
                     Website = "https://github.com/solomobro/Instagram",
                     Bio = "Making the world a better place",
                     Counts = new UserStats
