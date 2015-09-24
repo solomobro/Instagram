@@ -8,11 +8,13 @@ namespace Solomobro.Instagram.Models
     [DataContract]
     public class User
     {
+        internal User() { }
+
         [DataMember(Name = "id")]
         public string Id { get; internal set; }
 
         [DataMember(Name = "username")]
-        public string UserName { get; set; }
+        public string UserName { get; internal set; }
 
         [DataMember(Name = "full_name")]
         public string FullName { get; internal set; }
@@ -33,6 +35,8 @@ namespace Solomobro.Instagram.Models
     [DataContract]
     public class UserStats
     {
+        internal UserStats() { }
+
         [DataMember(Name = "media")]
         public int Media { get; internal set; }
 

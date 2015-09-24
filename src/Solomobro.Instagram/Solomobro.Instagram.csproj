@@ -52,6 +52,9 @@
     <Compile Include="Authentication\ExplicitAuth.cs" />
     <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Meta.cs" />
+    <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />

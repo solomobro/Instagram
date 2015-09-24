@@ -7,7 +7,7 @@ using System.Web.SessionState;
 
 namespace Solomobro.Instagram
 {
-    class UnixTimeConverter
+    internal class UnixTimeConverter
     {
         private static DateTime _nineteenSeventy = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
