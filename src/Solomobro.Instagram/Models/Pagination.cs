@@ -10,7 +10,7 @@ namespace Solomobro.Instagram.Models
     [DataContract]
     public class Pagination
     {
-        internal Pagination() {};
+        internal Pagination() {}
 
         public Uri NextUrl => new Uri(NextUrlInternal);
 
