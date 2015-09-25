@@ -57,6 +57,7 @@
     <Compile Include="Models\MediaInfo.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\Pagination.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />
     <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />
