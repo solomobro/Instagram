@@ -19,7 +19,5 @@ namespace Solomobro.Instagram.Models
 
         [DataMember(Name = "pagination")]
         internal Pagination Pagination { get; set; }
-
-        public abstract Response Next();
     }
 }

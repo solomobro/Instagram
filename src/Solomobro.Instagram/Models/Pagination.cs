@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class Pagination
+    internal class Pagination
     {
         internal Pagination() {}
 

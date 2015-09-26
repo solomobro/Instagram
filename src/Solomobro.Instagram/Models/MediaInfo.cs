@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    class MediaInfo
+    public class MediaInfo
     {
         internal MediaInfo() { }
 

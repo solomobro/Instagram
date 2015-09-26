@@ -3,9 +3,9 @@
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class LocationInfo
+    public class Location
     {
-        internal LocationInfo() { }
+        internal Location() { }
 
         [DataMember(Name = "id")]
         public long Id { get; internal set; }
