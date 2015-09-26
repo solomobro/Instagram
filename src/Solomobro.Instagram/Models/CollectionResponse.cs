@@ -23,5 +23,10 @@ namespace Solomobro.Instagram.Models
 
         [DataMember(Name = "pagination")]
         internal Pagination Pagination { get; set; }
+
+        public async Task<CollectionResponse<T>> GetNextResultAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
