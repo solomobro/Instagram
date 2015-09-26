@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Solomobro.Instagram.Models
@@ -19,7 +20,7 @@ namespace Solomobro.Instagram.Models
         {
             if (Data == null)
             {
-                return new List<T>().GetEnumerator();
+                return Enumerable.Empty<T>().GetEnumerator();
             }
 
             return Data.GetEnumerator();
