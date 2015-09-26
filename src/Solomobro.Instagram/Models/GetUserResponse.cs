@@ -6,16 +6,11 @@ using Solomobro.Instagram.Interfaces;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class GetUserResponse : Response, IPagination<GetUserResponse>
+    public class GetUserResponse : Response
     {
         internal GetUserResponse() { }
 
         [DataMember(Name = "data")]
         public UserDetails Data { get; internal set; }
-
-        public Task<GetUserResponse> GetNextResultAsync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
