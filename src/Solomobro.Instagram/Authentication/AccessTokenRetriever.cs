@@ -39,8 +39,8 @@ namespace Solomobro.Instagram.Authentication
                 });
 
             using (var http = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
+            using (var resp = await http.PostAsync(authEndpoint, data).ConfigureAwait(false))
             {
-                var resp = await http.PostAsync(authEndpoint, data).ConfigureAwait(false);
                 resp.EnsureSuccessStatusCode();
 
                 var content = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
