@@ -52,6 +52,13 @@
     <Compile Include="Authentication\ExplicitAuth.cs" />
     <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
+    <Compile Include="Endpoints\Comments.cs" />
+    <Compile Include="Endpoints\Likes.cs" />
+    <Compile Include="Endpoints\Locations.cs" />
+    <Compile Include="Endpoints\Media.cs" />
+    <Compile Include="Endpoints\Relationships.cs" />
+    <Compile Include="Endpoints\Tags.cs" />
+    <Compile Include="Endpoints\Users.cs" />
     <Compile Include="Interfaces\IPagination.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\MediaInfoCollection.cs" />
@@ -81,9 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnixTimeConverter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Endpoints\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
