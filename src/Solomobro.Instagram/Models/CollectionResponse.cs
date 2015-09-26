@@ -4,35 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    class CollectionResponse<T> : Response, IEnumerable<T>
+    class CollectionResponse<T> : ObjectCollection<T>, IResponse
     {
-        public IReadOnlyList<T> Data => DataInternal.AsReadOnly();
+        internal CollectionResponse() { }
 
-        [DataMember(Name = "data")]
-        internal List<T> DataInternal;
+        public override int Count => Data?.Count ?? 0;
 
-        public async Task<CollectionResponse<T>> GetNextResultAsync()
-        {
-            throw new NotImplementedException();
-        }
+        [DataMember(Name = "meta")]
+        public Meta Meta { get; internal set; }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            if (Data == null)
-            {
-                return Enumerable.Empty<T>().GetEnumerator();
-            }
+        public int RateLimit { get; internal set; }
 
-            return Data.GetEnumerator();
-        }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        [DataMember(Name = "pagination")]
+        internal Pagination Pagination { get; set; }
     }
 }
