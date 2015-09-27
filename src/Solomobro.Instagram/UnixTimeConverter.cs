@@ -15,5 +15,10 @@ namespace Solomobro.Instagram
         {
             return ConvertFromUnixTime(long.Parse(unixTime));
         }
+
+        public static long ConvertToUnixTime(DateTime dt)
+        {
+            return Convert.ToInt64((dt - _nineteenSeventy).TotalSeconds);
+        }
     }
 }
