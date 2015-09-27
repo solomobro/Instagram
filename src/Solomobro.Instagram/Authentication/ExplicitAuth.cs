@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
  using Solomobro.Instagram.Exceptions;
+ using Solomobro.Instagram.Extensions;
  using Solomobro.Instagram.Interfaces;
  using Solomobro.Instagram.Models;
 
@@ -52,7 +53,7 @@ namespace Solomobro.Instagram.Authentication
 
         private async Task<ExplicitAuthResponse> GetAuthInfoAsync(Uri uri)
         {
-            var accessCode = uri.ExtractAccessCode();
+            var accessCode = uri.ExtractAuthAccessCode();
             var accessTokenUri = AuthUriBuilder.BuildAccessCodeUri();
             var authenticator = GetExplicitAuthenticator(accessCode);
 

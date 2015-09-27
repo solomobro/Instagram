@@ -2,14 +2,14 @@
 using System.Web;
 using Solomobro.Instagram.Exceptions;
 
-namespace Solomobro.Instagram.Authentication
+namespace Solomobro.Instagram.Extensions
 {
     /// <summary>
     /// Internal-only class to validate and extract data from URIs we get from Instagram
     /// </summary>
     internal static class UriExtensions
     {
-        public static string ExtractAccessCode(this Uri uri)
+        public static string ExtractAuthAccessCode(this Uri uri)
         {
             uri.EnsureSuccessfulAuthReply();
 
@@ -17,7 +17,7 @@ namespace Solomobro.Instagram.Authentication
             return queryParams.Get("code");
         }
 
-        public static string ExtractAccessToken(this Uri uri)
+        public static string ExtractAuthAccessToken(this Uri uri)
         {
             uri.EnsureSuccessfulAuthReply();
 

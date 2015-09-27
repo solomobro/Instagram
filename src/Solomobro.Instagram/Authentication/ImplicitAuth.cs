@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Extensions;
 
 namespace Solomobro.Instagram.Authentication
 {
@@ -21,7 +22,7 @@ namespace Solomobro.Instagram.Authentication
         {
             try
             {
-                var accessToken = instagramResponseUri.ExtractAccessToken();
+                var accessToken = instagramResponseUri.ExtractAuthAccessToken();
                 AuthenticateWithAccessToken(accessToken);
                 return new AuthenticationResult
                 {

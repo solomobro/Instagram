@@ -9,7 +9,7 @@ using Solomobro.Instagram.Interfaces;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    class CollectionResponse<T> : ObjectCollection<T>, IResponse
+    public class CollectionResponse<T> : ObjectCollection<T>, IResponse
     {
         internal CollectionResponse() { }
 
