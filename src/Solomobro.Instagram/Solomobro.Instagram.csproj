@@ -52,7 +52,9 @@
     <Compile Include="Authentication\ExplicitAuth.cs" />
     <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
+    <Compile Include="Endpoints\ApiClient.cs" />
     <Compile Include="Endpoints\Comments.cs" />
+    <Compile Include="Endpoints\EndpointBase.cs" />
     <Compile Include="Endpoints\Likes.cs" />
     <Compile Include="Endpoints\Locations.cs" />
     <Compile Include="Endpoints\Media.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Endpoints\Tags.cs" />
     <Compile Include="Endpoints\Users.cs" />
     <Compile Include="Extensions\HttpResponseMessageExtensions.cs" />
+    <Compile Include="Interfaces\IApiClient.cs" />
     <Compile Include="Interfaces\IResponse.cs" />
     <Compile Include="Models\CollectionResponse.cs" />
     <Compile Include="Models\Comment.cs" />
