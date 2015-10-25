@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
+    [KnownType(typeof(UserDetails))]
+    [KnownType(typeof(UserSearchResult))]
     public class User
     {
         internal User() { }

@@ -10,9 +10,7 @@ using Solomobro.Instagram.Models;
 namespace Solomobro.Instagram.Endpoints
 {
     public class Users : EndpointBase
-    {
-
-        
+    {   
         private const string BaseEndpointUri = "https://api.instagram.com/v1/users";
 
         internal Users(string accessToken) : base(accessToken)
@@ -22,9 +20,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements /users/{user-id}
         /// </summary>
-        /// <param name="userId">a user id or the string "self" for the authenticated user</param>
-        /// <returns>Basic information about the user</returns>
-        public async Task<ObjectResponse<UserDetails>> GetUserInfoAsync(string userId = Self)
+        public async Task<ObjectResponse<UserDetails>> GetDetailsAsync(string userId = Self)
         {
             var uri = new Uri($"{BaseEndpointUri}/{userId}/?access_token={AccessToken}");
             return await GetObjectResponseAsync<UserDetails>(uri).ConfigureAwait(false);
@@ -33,13 +29,37 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements /users/self/feed
         /// </summary>
-        /// <returns>The authenticated user's feed</returns>
-        public async Task<CollectionResponse<Post>> GetUserFeedAsync()
+        public async Task<CollectionResponse<Post>> GetFeedAsync()
         {
             var uri = new Uri($"{BaseEndpointUri}/self/feed?access_token={AccessToken}");
             return await GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
-        
+        /// <summary>
+        /// Implements /users/{user-id}/media/recent
+        /// </summary>
+        public async Task<CollectionResponse<Post>> GetRecentMediaAsync(string userId = Self)
+        {
+            var uri = new Uri($"{BaseEndpointUri}/{userId}/media/recent?access_token={AccessToken}");
+            return await GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Implements /users/self/media/liked
+        /// </summary>
+        public async Task<CollectionResponse<Post>> GetLikedMediaAsync()
+        {
+            var uri = new Uri($"{BaseEndpointUri}/self/media/liked?access_token={AccessToken}");
+            return await GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Implements /users/search
+        /// </summary>
+        public async Task<CollectionResponse<UserSearchResult>> SearchAsync(string query)
+        {
+            var uri = new Uri($"{BaseEndpointUri}/search?access_token={AccessToken}&q={query}");
+            return await GetCollectionResponseAsync<UserSearchResult>(uri).ConfigureAwait(false);
+        }
     }
 }
