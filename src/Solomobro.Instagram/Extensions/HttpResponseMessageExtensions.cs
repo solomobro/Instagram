@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Collections.Concurrent;
 using System.Net.Http;
-using System.Text;
+using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Solomobro.Instagram.Extensions
 {
     internal static class HttpResponseMessageExtensions
     {
-        private static readonly JsonSerializer Serializer = new JsonSerializer();
+        private static readonly ConcurrentDictionary<Type, DataContractJsonSerializer> Serializers = new ConcurrentDictionary<Type, DataContractJsonSerializer>(); 
 
         public static async Task<T> DeserializeAsync<T>(this HttpResponseMessage message)
         {
             using (var data = await message.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            using (var sr = new StreamReader(data))
-            using (var jr = new JsonTextReader(sr))
             {
-                return Serializer.Deserialize<T>(jr);
+                var serializer = GetSerializerForType<T>();
+                return (T)serializer.ReadObject(data);
             }
+        }
+
+        private static DataContractJsonSerializer GetSerializerForType<T>()
+        {
+            var t = typeof (T);
+            return Serializers.GetOrAdd(t, type => new DataContractJsonSerializer(type));
         }
     }
 }

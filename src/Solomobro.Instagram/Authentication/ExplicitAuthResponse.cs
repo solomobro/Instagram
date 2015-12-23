@@ -3,6 +3,7 @@ using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Authentication
 {
+    [DataContract]
     internal class ExplicitAuthResponse
     {
         [DataMember(Name = "access_token")]

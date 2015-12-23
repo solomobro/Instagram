@@ -1,10 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Solomobro.Instagram.Extensions;
-using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints

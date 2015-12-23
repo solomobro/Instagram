@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Extensions;
 using Solomobro.Instagram.Interfaces;
-using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Authentication
 {
@@ -42,14 +40,7 @@ namespace Solomobro.Instagram.Authentication
             using (var resp = await http.PostAsync(authEndpoint, data).ConfigureAwait(false))
             {
                 resp.EnsureSuccessStatusCode();
-
-                var content = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var userInfo = JsonConvert.DeserializeObject<ExplicitAuthResponse>(content);
-                if (userInfo == null)
-                {
-                    throw new OAuthException(content);
-                }
+                var userInfo = await resp.DeserializeAsync<ExplicitAuthResponse>().ConfigureAwait(false);
 
                 return userInfo;
             }
