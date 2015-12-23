@@ -8,6 +8,6 @@ namespace Solomobro.Instagram.Authentication
 
         public string Message { get; internal set; }
 
-        public UserDetails User { get; internal set; }
+        public User User { get; internal set; }
     }
 }

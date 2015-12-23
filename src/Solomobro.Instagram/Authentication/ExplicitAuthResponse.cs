@@ -10,6 +10,6 @@ namespace Solomobro.Instagram.Authentication
         public string AccessToken { get; set; }
 
         [DataMember(Name = "user")]
-        public UserDetails User { get; set; }
+        public User User { get; set; }
     }
 }

@@ -15,10 +15,10 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements /users/{user-id}
         /// </summary>
-        public async Task<ObjectResponse<UserDetails>> GetDetailsAsync(string userId = Self)
+        public async Task<ObjectResponse<User>> GetDetailsAsync(string userId = Self)
         {
             var uri = new Uri($"{BaseEndpointUri}/{userId}/?access_token={AccessToken}");
-            return await GetObjectResponseAsync<UserDetails>(uri).ConfigureAwait(false);
+            return await GetObjectResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements /users/search
         /// </summary>
-        public async Task<CollectionResponse<UserSearchResult>> SearchAsync(string query)
+        public async Task<CollectionResponse<User>> SearchAsync(string query)
         {
             var uri = new Uri($"{BaseEndpointUri}/search?access_token={AccessToken}&q={query}");
-            return await GetCollectionResponseAsync<UserSearchResult>(uri).ConfigureAwait(false);
+            return await GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
     }
 }

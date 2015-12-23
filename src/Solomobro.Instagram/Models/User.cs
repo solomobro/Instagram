@@ -4,8 +4,6 @@ using System.Runtime.Serialization;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    [KnownType(typeof(UserDetails))]
-    [KnownType(typeof(UserSearchResult))]
     public class User
     {
         internal User() { }
@@ -23,5 +21,20 @@ namespace Solomobro.Instagram.Models
 
         [DataMember(Name = "full_name")]
         public virtual string FullName { get; internal set; }
+
+        [DataMember(Name = "first_name")]
+        public string FirstName { get; internal set; }
+
+        [DataMember(Name = "last_name")]
+        public string LastName { get; internal set; }
+
+        [DataMember(Name = "bio")]
+        public string Bio { get; internal set; }
+
+        [DataMember(Name = "website")]
+        public string Website { get; internal set; }
+
+        [DataMember(Name = "counts")]
+        public UserStats Counts { get; internal set; }
     }
 }
