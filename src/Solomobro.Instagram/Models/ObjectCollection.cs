@@ -11,21 +11,19 @@ namespace Solomobro.Instagram.Models
         internal ObjectCollection() { }
 
         [DataMember(Name = "count")]
-        public virtual int Count { get; internal set; }
-
-        public IReadOnlyList<T> Data => DataInternal.AsReadOnly();
+        public int Count { get; internal set; }        
 
         [DataMember(Name = "data")]
         internal List<T> DataInternal;
 
         public IEnumerator<T> GetEnumerator()
         {
-            if (Data == null)
+            if (DataInternal == null)
             {
                 return Enumerable.Empty<T>().GetEnumerator();
             }
 
-            return Data.GetEnumerator();
+            return DataInternal.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -4,7 +4,7 @@ using Solomobro.Instagram.Interfaces;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class ObjectResponse<T> : IResponse
+    public class ObjectResponse<T> 
     {
         internal ObjectResponse() { }
 

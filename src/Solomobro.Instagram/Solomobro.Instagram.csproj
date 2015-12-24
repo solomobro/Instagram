@@ -59,7 +59,6 @@
     <Compile Include="Endpoints\Users.cs" />
     <Compile Include="Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Interfaces\IApiClient.cs" />
-    <Compile Include="Interfaces\IResponse.cs" />
     <Compile Include="Models\CollectionResponse.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\MediaInfoCollection.cs" />
