@@ -14,9 +14,9 @@ namespace Solomobro.Instagram.Models
         public string Name { get; internal set; }
 
         [DataMember(Name = "latitude")]
-        public int Latitude { get; internal set; }
+        public float Latitude { get; internal set; }
 
         [DataMember(Name = "longitude")]
-        public int Longitude { get; internal set; }
+        public float Longitude { get; internal set; }
     }
 }
