@@ -1,4 +1,6 @@
-﻿namespace Solomobro.Instagram
+﻿using Solomobro.Instagram.Endpoints;
+
+namespace Solomobro.Instagram
 {
     /// <summary>
     /// The entry point for interacting with the Instagram API
@@ -9,7 +11,8 @@
         private readonly string _clientSecret;
         private readonly string _accessToken;
 
-        public bool IsAuthenticated { get; private set; }
+        internal const string Self = "self";
+
 
         internal Api(string clientId, string clientSecret, string accessToken)
         {
@@ -17,7 +20,10 @@
             _clientSecret = clientSecret;
             _accessToken = accessToken;
 
-            IsAuthenticated = !(string.IsNullOrWhiteSpace(accessToken));
+            var epBase = new EndpointBase(accessToken);
+            Users = new Users(epBase, accessToken);
         }
+
+        public Users Users { get; private set; }
     }
 }
