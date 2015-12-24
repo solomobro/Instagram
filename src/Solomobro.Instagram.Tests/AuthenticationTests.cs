@@ -47,14 +47,14 @@ namespace Solomobro.Instagram.Tests
         public void AddingScopesToExplicitAuthWorks()
         {
             // test that adding basic scope doesn't screw up the scope list
-            var basicScope = new[] {Permissions.Basic};
+            var basicScope = new[] {Scopes.Basic};
             var basicAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
             var uri = basicAuth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
 
             // test adding scopes other than basic, and they can be repeated
             var bunchOfScopes = new[]
-            {Permissions.Basic, Permissions.Relationships, Permissions.Comments, Permissions.Likes, Permissions.Comments};
+            {Scopes.Basic, Scopes.Relationships, Scopes.Comments, Scopes.Likes, Scopes.Comments};
             var complexAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes) ;
             uri = complexAuth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
@@ -64,14 +64,14 @@ namespace Solomobro.Instagram.Tests
         public void AddingScopesToImplicitAuthWorks()
         {
             // test that adding basic scope doesn't screw up the scope list
-            var basicScope = new[] { Permissions.Basic };
+            var basicScope = new[] { Scopes.Basic };
             var basicAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
             var uri = basicAuth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
 
             // test adding scopes other than basic, and they can be repeated
             var bunchOfScopes = new[]
-            {Permissions.Basic, Permissions.Relationships, Permissions.Comments, Permissions.Likes, Permissions.Comments};
+            {Scopes.Basic, Scopes.Relationships, Scopes.Comments, Scopes.Likes, Scopes.Comments};
             var complexAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes);
             uri = complexAuth.AuthenticationUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic+comments+likes+relationships"));

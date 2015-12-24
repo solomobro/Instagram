@@ -1,6 +1,6 @@
 ﻿namespace Solomobro.Instagram.Authentication
 {
-    public static class Permissions
+    public static class Scopes
     {
         public const string Basic = "basic";
 

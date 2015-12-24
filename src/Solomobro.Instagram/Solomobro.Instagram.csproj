@@ -78,7 +78,7 @@
     <Compile Include="Interfaces\IAccessTokenRetriever.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="Authentication\OAuthBase.cs" />
-    <Compile Include="Authentication\Permissions.cs" />
+    <Compile Include="Authentication\Scopes.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\UserStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
