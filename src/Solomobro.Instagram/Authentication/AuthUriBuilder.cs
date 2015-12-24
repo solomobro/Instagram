@@ -61,7 +61,7 @@ namespace Solomobro.Instagram.Authentication
 
             foreach (var scope in scopes)
             {
-                if (scope.Equals(AccessScope.Basic, StringComparison.OrdinalIgnoreCase))
+                if (scope.Equals(Permissions.Basic, StringComparison.OrdinalIgnoreCase))
                 {
                     continue; // basic scope. no need to add explicitly
                 }
@@ -71,7 +71,7 @@ namespace Solomobro.Instagram.Authentication
 
         private string BuildScope()
         {
-            var sb = new StringBuilder(AccessScope.Basic);
+            var sb = new StringBuilder(Permissions.Basic);
 
             if (_scopes != null)
             {

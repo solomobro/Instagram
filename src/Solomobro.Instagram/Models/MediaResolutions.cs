@@ -3,7 +3,7 @@
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class MediaInfoCollection
+    public class MediaResolutions
     {
         [DataMember(Name = "low_resolution")]
         public MediaInfo LowResolution { get; internal set; }

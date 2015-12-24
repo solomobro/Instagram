@@ -39,7 +39,6 @@ namespace Solomobro.Instagram.Models
             return GetEnumerator();
         }
 
-
         public IEnumerator<T> GetEnumerator()
         {
             if (Data == null)

@@ -61,7 +61,7 @@
     <Compile Include="Interfaces\IApiClient.cs" />
     <Compile Include="Models\CollectionResponse.cs" />
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\MediaInfoCollection.cs" />
+    <Compile Include="Models\MediaResolutions.cs" />
     <Compile Include="Models\ObjectCollection.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MediaInfo.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Interfaces\IAccessTokenRetriever.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="Authentication\OAuthBase.cs" />
-    <Compile Include="Authentication\AccessScope.cs" />
+    <Compile Include="Authentication\Permissions.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\UserStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

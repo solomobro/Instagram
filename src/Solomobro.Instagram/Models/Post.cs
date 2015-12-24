@@ -47,9 +47,9 @@ namespace Solomobro.Instagram.Models
         internal List<string> TagsInternal;
 
         [DataMember(Name = "images")]
-        public MediaInfoCollection Images { get; internal set; }
+        public MediaResolutions Images { get; internal set; }
 
         [DataMember(Name = "videos")]
-        public MediaInfoCollection Videos { get; internal set; }
+        public MediaResolutions Videos { get; internal set; }
     }
 }
