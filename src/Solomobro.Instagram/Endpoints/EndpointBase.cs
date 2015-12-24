@@ -23,17 +23,22 @@ namespace Solomobro.Instagram.Endpoints
 
         internal async Task<ObjectResponse<T>> GetObjectResponseAsync<T>(Uri uri)
         {
-            return await _apiClient.GetAsync<ObjectResponse<T>>(uri).ConfigureAwait(false);
+            var resp = await _apiClient.GetAsync<ObjectResponse<T>>(uri).ConfigureAwait(false);
+            return resp.Data;
         }
 
         internal async Task<CollectionResponse<T>> GetCollectionResponseAsync<T>(Uri uri)
         {
-            return await _apiClient.GetAsync<CollectionResponse<T>>(uri).ConfigureAwait(false);
+            var resp = await _apiClient.GetAsync<CollectionResponse<T>>(uri).ConfigureAwait(false);
+
+            return resp.Data;
         }
 
         internal async Task<ObjectResponse<T>> PostObjectResponseAsync<T>(Uri uri, HttpContent content)
         {
-            return await _apiClient.PostAsync<ObjectResponse<T>>(uri, content).ConfigureAwait(false);
+            var resp =  await _apiClient.PostAsync<ObjectResponse<T>>(uri, content).ConfigureAwait(false);
+
+            return resp.Data;
         }
 
         

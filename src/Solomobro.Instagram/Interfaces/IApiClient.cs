@@ -9,12 +9,12 @@ namespace Solomobro.Instagram.Interfaces
 {
     internal interface IApiClient
     {
-        Task<T> GetAsync<T>(Uri uri);
+        Task<ApiResponse<T>> GetAsync<T>(Uri uri);
 
-        Task<T> PostAsync<T>(Uri uri, HttpContent content);
+        Task<ApiResponse<T>> PostAsync<T>(Uri uri, HttpContent content);
 
-        Task<T> PutAsync<T>(Uri uri, HttpContent content);
+        Task<ApiResponse<T>> PutAsync<T>(Uri uri, HttpContent content);
 
-        Task<T> DeleteAsync<T>(Uri uri);
+        Task<ApiResponse<T>> DeleteAsync<T>(Uri uri);
     }
 }

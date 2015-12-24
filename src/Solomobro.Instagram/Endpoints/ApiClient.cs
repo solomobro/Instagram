@@ -9,40 +9,59 @@ namespace Solomobro.Instagram.Endpoints
 {
     internal class ApiClient : IApiClient
     {
-        public async Task<T> GetAsync<T>(Uri uri)
+        private readonly HttpClient _http = new HttpClient();
+
+        public async Task<ApiResponse<T>> GetAsync<T>(Uri uri)
         {
-            using (var http = new HttpClient())
-            using (var resp = await http.GetAsync(uri).ConfigureAwait(false))
+            using (var resp = await _http.GetAsync(uri).ConfigureAwait(false))
             {
-                return await resp.DeserializeAsync<T>();
+                return new ApiResponse<T>
+                {
+                    Data = await resp.DeserializeAsync<T>(),
+                    RateLimitMax = resp.GetRateLimitMax(),
+                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                };
             }
         }
 
-        public async Task<T> PostAsync<T>(Uri uri, HttpContent content)
+        public async Task<ApiResponse<T>> PostAsync<T>(Uri uri, HttpContent content)
         {
-            using (var http = new HttpClient())
-            using (var resp = await http.PostAsync(uri, content).ConfigureAwait(false))
+            using (var resp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
-                return await resp.DeserializeAsync<T>();
+                return new ApiResponse<T>
+                {
+                    Data = await resp.DeserializeAsync<T>(),
+                    RateLimitMax = resp.GetRateLimitMax(),
+                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                };
             }
         }
 
-        public async Task<T> PutAsync<T>(Uri uri, HttpContent content)
+        public async Task<ApiResponse<T>> PutAsync<T>(Uri uri, HttpContent content)
         {
-            using (var http = new HttpClient())
-            using (var resp = await http.PutAsync(uri, content).ConfigureAwait(false))
+            using (var resp = await _http.PutAsync(uri, content).ConfigureAwait(false))
             {
-                return await resp.DeserializeAsync<T>();
+                return new ApiResponse<T>
+                {
+                    Data = await resp.DeserializeAsync<T>(),
+                    RateLimitMax = resp.GetRateLimitMax(),
+                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                };
             }
         }
 
-        public async Task<T> DeleteAsync<T>(Uri uri)
+        public async Task<ApiResponse<T>>  DeleteAsync<T>(Uri uri)
         {
-            using (var http = new HttpClient())
-            using (var resp = await http.DeleteAsync(uri).ConfigureAwait(false))
+            using (var resp = await _http.DeleteAsync(uri).ConfigureAwait(false))
             {
-                return await resp.DeserializeAsync<T>();
+                return new ApiResponse<T>
+                {
+                    Data = await resp.DeserializeAsync<T>(),
+                    RateLimitMax = resp.GetRateLimitMax(),
+                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                };
             }
         }
+
     }
 }
