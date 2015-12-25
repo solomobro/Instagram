@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Extensions;
 using Solomobro.Instagram.Interfaces;
+using Solomobro.Instagram.Models;
 
 
 namespace Solomobro.Instagram.Endpoints
@@ -18,8 +19,11 @@ namespace Solomobro.Instagram.Endpoints
                 return new ApiResponse<T>
                 {
                     Data = await resp.DeserializeAsync<T>(),
-                    RateLimitMax = resp.GetRateLimitMax(),
-                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                    RateLimit = new RateLimit
+                    {
+                        Max = resp.GetRateLimitMax(),
+                        Remaining = resp.GetRateLimitRemaining()
+                    }
                 };
             }
         }
@@ -31,8 +35,11 @@ namespace Solomobro.Instagram.Endpoints
                 return new ApiResponse<T>
                 {
                     Data = await resp.DeserializeAsync<T>(),
-                    RateLimitMax = resp.GetRateLimitMax(),
-                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                    RateLimit = new RateLimit
+                    {
+                        Max = resp.GetRateLimitMax(),
+                        Remaining = resp.GetRateLimitRemaining()
+                    }
                 };
             }
         }
@@ -44,8 +51,11 @@ namespace Solomobro.Instagram.Endpoints
                 return new ApiResponse<T>
                 {
                     Data = await resp.DeserializeAsync<T>(),
-                    RateLimitMax = resp.GetRateLimitMax(),
-                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                    RateLimit = new RateLimit
+                    {
+                        Max = resp.GetRateLimitMax(),
+                        Remaining = resp.GetRateLimitRemaining()
+                    }
                 };
             }
         }
@@ -57,8 +67,11 @@ namespace Solomobro.Instagram.Endpoints
                 return new ApiResponse<T>
                 {
                     Data = await resp.DeserializeAsync<T>(),
-                    RateLimitMax = resp.GetRateLimitMax(),
-                    RateLimitRemaining = resp.GetRateLimitRemaining()
+                    RateLimit = new RateLimit
+                    {
+                        Max = resp.GetRateLimitMax(),
+                        Remaining = resp.GetRateLimitRemaining()
+                    }
                 };
             }
         }

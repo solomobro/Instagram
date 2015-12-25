@@ -18,7 +18,7 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "meta")]
         public Meta Meta { get; internal set; }
 
-        public int RateLimit { get; internal set; }
+        public RateLimit RateLimit { get; internal set; }
 
 
         public IReadOnlyList<T> Data => DataInternal.AsReadOnly();

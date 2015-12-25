@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Models
 {
@@ -14,6 +13,6 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "meta")]
         public Meta Meta { get; internal set; }
 
-        public int RateLimit { get; internal set; }
+        public RateLimit RateLimit { get; internal set; }
     }
 }
