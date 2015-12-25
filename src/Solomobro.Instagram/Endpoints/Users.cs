@@ -60,5 +60,16 @@ namespace Solomobro.Instagram.Endpoints
             var uri = new Uri($"{EndpointUri}/search?access_token={_accessToken}&q={query}");
             return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
+
+        internal async Task<CollectionResponse<User>> GetFollowsAsync()
+        {
+            var uri = new Uri($"{EndpointUri}/self/follows/?access_token={_accessToken}");
+            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+        }
+
+        //internal async Task<CollectionResponse<User>> GetFollowedByAsync()
+        //{
+        //    var uri = new Uri("");
+        //} 
     }
 }
