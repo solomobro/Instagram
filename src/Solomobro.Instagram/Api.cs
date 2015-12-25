@@ -20,6 +20,7 @@ namespace Solomobro.Instagram
             _clientSecret = clientSecret;
             _accessToken = accessToken;
 
+            // initialize endpoints
             var epBase = new EndpointBase(accessToken);
             var users = new Users(epBase, accessToken);
             Users = users;

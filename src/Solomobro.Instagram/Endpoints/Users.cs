@@ -19,7 +19,7 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements /users/{user-id}
+        /// Implements ET /users/{user-id}
         /// </summary>
         public async Task<ObjectResponse<User>> GetAsync(string userId = Api.Self)
         {
@@ -28,7 +28,7 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements /users/self/feed
+        /// Implements GET /users/self/feed
         /// </summary>
         public async Task<CollectionResponse<Post>> GetFeedAsync()
         {
@@ -37,7 +37,7 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements /users/{user-id}/media/recent
+        /// Implements GET /users/{user-id}/media/recent
         /// </summary>
         public async Task<CollectionResponse<Post>> GetMediaRecentAsync(string userId = Api.Self)
         {
@@ -46,7 +46,7 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements /users/self/media/liked
+        /// Implements GET /users/self/media/liked
         /// </summary>
         public async Task<CollectionResponse<Post>> GetMediaLikedAsync()
         {
@@ -55,13 +55,15 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements /users/search
+        /// Implements GET /users/search
         /// </summary>
         public async Task<CollectionResponse<User>> SearchAsync(string query)
         {
             var uri = new Uri($"{EndpointUri}/search?access_token={_accessToken}&q={query}");
             return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
+
+#region Relationships
 
         internal async Task<CollectionResponse<User>> GetFollowsAsync()
         {
@@ -98,6 +100,8 @@ namespace Solomobro.Instagram.Endpoints
             );
 
             return await _endpointBase.PostObjectResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
-        } 
+        }
+
+#endregion Relationships 
     }
 }
