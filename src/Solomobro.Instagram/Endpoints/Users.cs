@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Models;
 
@@ -67,9 +69,35 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
-        //internal async Task<CollectionResponse<User>> GetFollowedByAsync()
-        //{
-        //    var uri = new Uri("");
-        //} 
+        internal async Task<CollectionResponse<User>> GetFollowedByAsync()
+        {
+            var uri = new Uri($"{EndpointUri}/self/followed-by?access_token={_accessToken}");
+            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+        }
+
+        internal async Task<CollectionResponse<User>> GetRequestedByAsync()
+        {
+            var uri = new Uri($"{EndpointUri}/self/requested-by?access_token={_accessToken}");
+            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+        }
+
+        internal async Task<ObjectResponse<RelationShip>> GetRelationshipAsync(string userId)
+        {
+            var uri = new Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
+            return await _endpointBase.GetObjectResponseAsync<RelationShip>(uri).ConfigureAwait(false);
+        }
+
+        internal async Task<ObjectResponse<RelationShip>> PostRelationshipAsync(string userId, string action)
+        {
+            var uri = new  Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
+            var data = new FormUrlEncodedContent(
+                new[]
+                {
+                    new KeyValuePair<string, string>("action", action),
+                }
+            );
+
+            return await _endpointBase.PostObjectResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
+        } 
     }
 }

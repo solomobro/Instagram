@@ -71,6 +71,7 @@
     <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\RateLimit.cs" />
     <Compile Include="Models\RelationShip.cs" />
+    <Compile Include="Models\RelationshipAction.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Exceptions\AccessDeniedException.cs" />

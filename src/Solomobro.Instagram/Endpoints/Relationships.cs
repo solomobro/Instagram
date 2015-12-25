@@ -19,6 +19,26 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<User>> GetFollowsAsync()
         {
             return await _users.GetFollowsAsync().ConfigureAwait(false);
-        } 
+        }
+
+        public async Task<CollectionResponse<User>> GetFollowedByAsync()
+        {
+            return  await _users.GetFollowedByAsync().ConfigureAwait(false);
+        }
+
+        public async Task<CollectionResponse<User>> GetRequestedByAsync()
+        {
+            return await _users.GetFollowedByAsync().ConfigureAwait(false);
+        }
+
+        public async Task<ObjectResponse<RelationShip>> GetRelationshipAsync(string userId)
+        {
+            return await _users.GetRelationshipAsync(userId).ConfigureAwait(false);
+        }
+
+        public async Task<ObjectResponse<RelationShip>> ModifyRelationshipAsync(string userId, string action)
+        {
+            return await _users.PostRelationshipAsync(userId, action).ConfigureAwait(false);
+        }
     }
 }

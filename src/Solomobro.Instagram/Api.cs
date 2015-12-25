@@ -21,9 +21,13 @@ namespace Solomobro.Instagram
             _accessToken = accessToken;
 
             var epBase = new EndpointBase(accessToken);
-            Users = new Users(epBase, accessToken);
+            var users = new Users(epBase, accessToken);
+            Users = users;
+            Relationships = new Relationships(users);
         }
 
         public Users Users { get; private set; }
+
+        public Relationships Relationships { get; private set; }
     }
 }
