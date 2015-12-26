@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Solomobro.Instagram")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("An Instagram API wrapper for .NET")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("SoLoMo Bro!")]
 [assembly: AssemblyProduct("Solomobro.Instagram")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
