@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints
@@ -55,20 +56,32 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.GetCollectionResponseAsync<Comment>(uri);
         }
 
-        internal async Task<ObjectResponse<Comment>> PostComment(string mediaId, string text)
+        internal async Task<Response> PostComment(string mediaId, string text)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
             var data = new FormUrlEncodedContent(
                 new []{new KeyValuePair<string, string>("text", text), }
             );
 
-            return await _endpointBase.PostObjectResponseAsync<Comment>(uri, data).ConfigureAwait(false);
+            var resp = await _endpointBase.PostObjectResponseAsync<Comment>(uri, data).ConfigureAwait(false);
+
+            return new Response
+            {
+                Meta = resp.Meta,
+                RateLimit = resp.RateLimit
+            };
         }
 
-        internal async Task<ObjectResponse<Comment>> DeleteComment(string mediaId, string commentId)
+        internal async Task<Response> DeleteComment(string mediaId, string commentId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
-            return await _endpointBase.DeleteObjectResponseAsync<Comment>(uri).ConfigureAwait(false);
+            var resp = await _endpointBase.DeleteObjectResponseAsync<Comment>(uri).ConfigureAwait(false);
+
+            return new Response
+            {
+                Meta = resp.Meta,
+                RateLimit = resp.RateLimit
+            };
         }
 
         #endregion comments

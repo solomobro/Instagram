@@ -9,7 +9,7 @@ using Solomobro.Instagram.Interfaces;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class CollectionResponse<T> : IEnumerable
+    public class CollectionResponse<T> : IResponse, IEnumerable
     {
         internal CollectionResponse() { }
 
@@ -19,7 +19,6 @@ namespace Solomobro.Instagram.Models
         public Meta Meta { get; internal set; }
 
         public RateLimit RateLimit { get; internal set; }
-
 
         public IReadOnlyList<T> Data => DataInternal.AsReadOnly();
 

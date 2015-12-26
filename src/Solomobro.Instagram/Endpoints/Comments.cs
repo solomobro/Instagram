@@ -24,12 +24,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements POST /media/{media-id}comments
         /// </summary>
-        /// <param name="mediaId">media identifier</param>
-        /// <param name="text">the comment text</param>
-        /// <returns>
-        /// todo: maybe just return a meta object here
-        /// </returns>
-        public async Task<ObjectResponse<Comment>> Post(string mediaId, string text)
+        public async Task<Response> Post(string mediaId, string text)
         {
             return await _media.PostComment(mediaId, text).ConfigureAwait(false);
         }
@@ -37,12 +32,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements DEL /media/{media-id}/comments/{comment-id}
         /// </summary>
-        /// <param name="mediaId">media identifier</param>
-        /// <param name="commentId">comment identifier</param>
-        /// <returns>
-        /// todo: should probably just return a meta object here
-        /// </returns>
-        public async Task<ObjectResponse<Comment>> Delete(string mediaId, string commentId)
+        public async Task<Response> Delete(string mediaId, string commentId)
         {
             return await _media.DeleteComment(mediaId, commentId).ConfigureAwait(false);
         } 

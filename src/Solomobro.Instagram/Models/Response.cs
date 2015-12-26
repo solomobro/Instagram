@@ -3,12 +3,9 @@
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class ObjectResponse<T> : IResponse
+    public class Response : IResponse
     {
-        internal ObjectResponse() { }
-
-        [DataMember(Name = "data")]
-        public T Data { get; internal set; }
+        internal Response() {}
 
         [DataMember(Name = "meta")]
         public Meta Meta { get; internal set; }
