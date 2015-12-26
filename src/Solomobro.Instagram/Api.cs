@@ -26,12 +26,14 @@ namespace Solomobro.Instagram
             var media = new Media(epBase, accessToken);
             var comments = new Comments(media);
             var likes = new Likes(media);
+            var tags = new Tags(epBase, accessToken);
 
             this.Users = users;
             this.Relationships = new Relationships(users);
             this.Media = media;
             this.Comments = comments;
             this.Likes = likes;
+            this.Tags = tags;
         }
 
         public Users Users { get; private set; }
