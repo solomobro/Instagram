@@ -39,6 +39,11 @@ namespace Solomobro.Instagram.Endpoints
             return resp.Data;
         }
 
-        
+        internal async Task<ObjectResponse<T>> DeleteObjectResponseAsync<T>(Uri uri)
+        {
+            var resp = await _apiClient.DeleteAsync<ObjectResponse<T>>(uri);
+            resp.Data.RateLimit = resp.RateLimit;
+            return resp.Data;
+        } 
     }
 }

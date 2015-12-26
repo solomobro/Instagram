@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Models;
 
@@ -34,10 +36,42 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.GetObjectResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Implments /media/search
+        /// </summary>
+        /// <param name="req">Parameters for search query</param>
+        /// <returns></returns>
         public async Task<CollectionResponse<Post>> Search(SearchMediaRequest req)
         {
             var uri = new Uri($"{EndpointUri}/search/?access_token={_accessToken}&lat={req.Latitude}&lng={req.Longitude}&distance={req.DistanceMeters}");
             return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
-        } 
+        }
+
+        #region comments
+
+        internal async Task<CollectionResponse<Comment>> GetComments(string mediaId)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
+            return await _endpointBase.GetCollectionResponseAsync<Comment>(uri);
+        }
+
+        internal async Task<ObjectResponse<Comment>> PostComment(string mediaId, string text)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
+            var data = new FormUrlEncodedContent(
+                new []{new KeyValuePair<string, string>("text", text), }
+            );
+
+            return await _endpointBase.PostObjectResponseAsync<Comment>(uri, data).ConfigureAwait(false);
+        }
+
+        internal async Task<ObjectResponse<Comment>> DeletePost(string mediaId, string commentId)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
+            return await _endpointBase.DeleteObjectResponseAsync<Comment>(uri).ConfigureAwait(false);
+        }
+
+        #endregion comments
+
     }
 }

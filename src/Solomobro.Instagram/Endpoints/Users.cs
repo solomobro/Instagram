@@ -63,7 +63,7 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
-#region Relationships
+        #region Relationships
 
         internal async Task<CollectionResponse<User>> GetFollowsAsync()
         {
@@ -102,6 +102,6 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.PostObjectResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
         }
 
-#endregion Relationships 
+        #endregion Relationships 
     }
 }
