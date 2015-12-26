@@ -24,10 +24,14 @@ namespace Solomobro.Instagram
             var epBase = new EndpointBase(accessToken);
             var users = new Users(epBase, accessToken);
             var media = new Media(epBase, accessToken);
+            var comments = new Comments(media);
+            var likes = new Likes(media);
 
             this.Users = users;
             this.Relationships = new Relationships(users);
             this.Media = media;
+            this.Comments = comments;
+            this.Likes = likes;
         }
 
         public Users Users { get; private set; }
@@ -35,5 +39,13 @@ namespace Solomobro.Instagram
         public Relationships Relationships { get; private set; }
 
         public Media Media { get; private set; }
+
+        public Comments Comments { get; private set; }
+
+        public Likes Likes { get; private set; }
+
+        public Tags Tags { get; private set; }
+
+        public Locations Locations { get; private set; }
     }
 }
