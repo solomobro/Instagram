@@ -42,7 +42,7 @@ namespace Solomobro.Instagram.Endpoints
         /// </summary>
         /// <param name="req">Parameters for search query</param>
         /// <returns></returns>
-        public async Task<CollectionResponse<Post>> Search(SearchMediaRequest req)
+        public async Task<CollectionResponse<Post>> SearchAsync(SearchMediaRequest req)
         {
             var uri = new Uri($"{EndpointUri}/search/?access_token={_accessToken}&lat={req.Latitude}&lng={req.Longitude}&distance={req.DistanceMeters}");
             return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
@@ -50,41 +50,53 @@ namespace Solomobro.Instagram.Endpoints
 
         #region comments
 
-        internal async Task<CollectionResponse<Comment>> GetComments(string mediaId)
+        internal async Task<CollectionResponse<Comment>> GetCommentsAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
             return await _endpointBase.GetCollectionResponseAsync<Comment>(uri);
         }
 
-        internal async Task<Response> PostComment(string mediaId, string text)
+        internal async Task<Response> PostCommentAsync(string mediaId, string text)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
             var data = new FormUrlEncodedContent(
                 new []{new KeyValuePair<string, string>("text", text), }
             );
 
-            var resp = await _endpointBase.PostObjectResponseAsync<Comment>(uri, data).ConfigureAwait(false);
-
-            return new Response
-            {
-                Meta = resp.Meta,
-                RateLimit = resp.RateLimit
-            };
+            return await _endpointBase.PostResponseAsync(uri, data).ConfigureAwait(false);
         }
 
-        internal async Task<Response> DeleteComment(string mediaId, string commentId)
+        internal async Task<Response> DeleteCommentAsync(string mediaId, string commentId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
-            var resp = await _endpointBase.DeleteObjectResponseAsync<Comment>(uri).ConfigureAwait(false);
+            return await _endpointBase.DeleteResponseAsync(uri).ConfigureAwait(false);
 
-            return new Response
-            {
-                Meta = resp.Meta,
-                RateLimit = resp.RateLimit
-            };
         }
 
         #endregion comments
+
+        #region Likes
+
+        internal async Task<CollectionResponse<User>> GetLikesAsync(string mediaId)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+        }
+
+        internal async Task<Response> PostLikeAsync(string mediaId)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _endpointBase.PostResponseAsync(uri, null).ConfigureAwait(false);
+        }
+
+        internal async Task<Response> DeleteLikeAsync(string mediaId)
+        {
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _endpointBase.DeleteResponseAsync(uri).ConfigureAwait(false);
+        }
+
+        #endregion Likes
+
 
     }
 }
