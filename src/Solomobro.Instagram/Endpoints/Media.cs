@@ -65,7 +65,7 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.PostObjectResponseAsync<Comment>(uri, data).ConfigureAwait(false);
         }
 
-        internal async Task<ObjectResponse<Comment>> DeletePost(string mediaId, string commentId)
+        internal async Task<ObjectResponse<Comment>> DeleteComment(string mediaId, string commentId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
             return await _endpointBase.DeleteObjectResponseAsync<Comment>(uri).ConfigureAwait(false);
