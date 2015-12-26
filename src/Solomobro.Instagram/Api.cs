@@ -23,12 +23,17 @@ namespace Solomobro.Instagram
             // initialize endpoints
             var epBase = new EndpointBase(accessToken);
             var users = new Users(epBase, accessToken);
-            Users = users;
-            Relationships = new Relationships(users);
+            var media = new Media(epBase, accessToken);
+
+            this.Users = users;
+            this.Relationships = new Relationships(users);
+            this.Media = media;
         }
 
         public Users Users { get; private set; }
 
         public Relationships Relationships { get; private set; }
+
+        public Media Media { get; private set; }
     }
 }
