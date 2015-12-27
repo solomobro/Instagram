@@ -46,7 +46,7 @@ namespace Solomobro.Instagram.Models
         /// <returns>The next result set if any, else null</returns>
         public async Task<CollectionResponse<T>> GetNextResultAsync()
         {
-            if (Pagination == null || string.IsNullOrWhiteSpace(Pagination.NextUrlInternal))
+            if (string.IsNullOrWhiteSpace(Pagination?.NextUrlInternal))
             {
                 return null;
             }
