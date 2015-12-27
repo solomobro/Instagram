@@ -62,7 +62,7 @@
     <Compile Include="Interfaces\IApiClient.cs" />
     <Compile Include="Models\CollectionResponse.cs" />
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\MediaNearLocationRequest.cs" />
+    <Compile Include="Models\MediaSearchOptions.cs" />
     <Compile Include="Models\MediaResolutions.cs" />
     <Compile Include="Models\ObjectCollection.cs" />
     <Compile Include="Models\Location.cs" />
