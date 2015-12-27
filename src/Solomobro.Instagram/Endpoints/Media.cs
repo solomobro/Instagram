@@ -20,7 +20,7 @@ namespace Solomobro.Instagram.Endpoints
         }
 
         /// <summary>
-        /// Implements GET /media/{media-idea}
+        /// Implements GET /media/{media-id}
         /// </summary>
         public async Task<ObjectResponse<Post>> GetAsync(string mediaId)
         {
