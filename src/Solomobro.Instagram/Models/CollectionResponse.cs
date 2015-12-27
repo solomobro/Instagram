@@ -4,13 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Endpoints;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
     public class CollectionResponse<T> : IResponse, IEnumerable
     {
-        internal CollectionResponse() { }
+        /// <summary>
+        /// We need this to be lazy because we don't want to risk instantiating
+        /// an http client unless we absolutely need to
+        /// </summary>
+        private readonly Lazy<IApiClient> _lazyApiClient;
+
+
+        internal CollectionResponse()
+        {
+            _lazyApiClient = new Lazy<IApiClient>(
+                () => Ioc.Resolve<IApiClient>() ?? new ApiClient());
+        }
 
         public int Count => Data?.Count ?? 0;
 
@@ -27,9 +40,22 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "pagination")]
         internal Pagination Pagination { get; set; }
 
+        /// <summary>
+        /// Implements pagination
+        /// </summary>
+        /// <returns>The next result set if any, else null</returns>
         public async Task<CollectionResponse<T>> GetNextResultAsync()
         {
-            throw new NotImplementedException();
+            if (Pagination == null || string.IsNullOrWhiteSpace(Pagination.NextUrlInternal))
+            {
+                return null;
+            }
+
+            var apiClient = _lazyApiClient.Value;
+            var apiReply = await apiClient.GetAsync<CollectionResponse<T>>(Pagination.NextUrl).ConfigureAwait(false);
+            var resp = apiReply.Data;
+            resp.RateLimit = apiReply.RateLimit;
+            return resp;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
