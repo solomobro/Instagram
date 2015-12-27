@@ -18,9 +18,9 @@ namespace Solomobro.Instagram.Endpoints
             _apiClient = Ioc.Resolve<IApiClient>() ?? new ApiClient();
         }
 
-        internal async Task<ObjectResponse<T>> GetObjectResponseAsync<T>(Uri uri)
+        internal async Task<Response<T>> GetResponseAsync<T>(Uri uri)
         {
-            var resp = await _apiClient.GetAsync<ObjectResponse<T>>(uri).ConfigureAwait(false);
+            var resp = await _apiClient.GetAsync<Response<T>>(uri).ConfigureAwait(false);
             resp.Data.RateLimit = resp.RateLimit;
             return resp.Data;
         }
@@ -32,16 +32,16 @@ namespace Solomobro.Instagram.Endpoints
             return resp.Data;
         }
 
-        internal async Task<ObjectResponse<T>> PostObjectResponseAsync<T>(Uri uri, HttpContent content)
+        internal async Task<Response<T>> PostResponseAsync<T>(Uri uri, HttpContent content)
         {
-            var resp =  await _apiClient.PostAsync<ObjectResponse<T>>(uri, content).ConfigureAwait(false);
+            var resp =  await _apiClient.PostAsync<Response<T>>(uri, content).ConfigureAwait(false);
             resp.Data.RateLimit = resp.RateLimit;
             return resp.Data;
         }
 
-        internal async Task<ObjectResponse<T>> DeleteObjectResponseAsync<T>(Uri uri)
+        internal async Task<Response<T>> DeleteResponseAsync<T>(Uri uri)
         {
-            var resp = await _apiClient.DeleteAsync<ObjectResponse<T>>(uri);
+            var resp = await _apiClient.DeleteAsync<Response<T>>(uri);
             resp.Data.RateLimit = resp.RateLimit;
             return resp.Data;
         }

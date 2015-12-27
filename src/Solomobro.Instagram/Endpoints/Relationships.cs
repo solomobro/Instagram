@@ -44,7 +44,7 @@ namespace Solomobro.Instagram.Endpoints
         /// Implements GET /users/{user-id}/relationship
         /// </summary>
         /// <param name="userId"></param>
-        public async Task<ObjectResponse<RelationShip>> GetRelationshipAsync(string userId)
+        public async Task<Response<RelationShip>> GetRelationshipAsync(string userId)
         {
             return await _users.GetRelationshipAsync(userId).ConfigureAwait(false);
         }
@@ -55,7 +55,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <param name="userId">a user id</param>
         /// <param name="action">either one of: follow|unfollow|ignore|approve</param>
         /// <returns></returns>
-        public async Task<ObjectResponse<RelationShip>> ModifyRelationshipAsync(string userId, string action)
+        public async Task<Response<RelationShip>> ModifyRelationshipAsync(string userId, string action)
         {
             return await _users.PostRelationshipAsync(userId, action).ConfigureAwait(false);
         }

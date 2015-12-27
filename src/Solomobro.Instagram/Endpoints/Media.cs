@@ -22,19 +22,19 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements GET /media/{media-id}
         /// </summary>
-        public async Task<ObjectResponse<Post>> GetAsync(string mediaId)
+        public async Task<Response<Post>> GetAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Implement GET /media/shortcode/{media-id}
         /// </summary>
-        public async Task<ObjectResponse<Post>> GetWithShortCodeAsync(string shortCode)
+        public async Task<Response<Post>> GetWithShortCodeAsync(string shortCode)
         {
             var uri = new Uri($"{EndpointUri}/shortcode/{shortCode}?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -22,10 +22,10 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements GET /locations/{location-id}
         /// </summary>
-        public async Task<ObjectResponse<Location>> GetAsync(string locationId)
+        public async Task<Response<Location>> GetAsync(string locationId)
         {
             var uri = new Uri($"{EndpointUri}/{locationId}?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<Location>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<Location>(uri).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -68,7 +68,6 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\MediaInfo.cs" />
     <Compile Include="Models\Meta.cs" />
-    <Compile Include="Models\ObjectResponse.cs" />
     <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\RateLimit.cs" />
     <Compile Include="Models\RelationShip.cs" />

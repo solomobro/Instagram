@@ -22,10 +22,10 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements GET /tags/{tag-name}
         /// </summary>
-        public async Task<ObjectResponse<Tag>> GetAsync(string tagName)
+        public async Task<Response<Tag>> GetAsync(string tagName)
         {
             var uri = new Uri($"{EndpointUri}/{tagName}?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<Tag>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<Tag>(uri).ConfigureAwait(false);
         }
 
         /// <summary>

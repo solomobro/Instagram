@@ -23,10 +23,10 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements ET /users/{user-id}
         /// </summary>
-        public async Task<ObjectResponse<User>> GetAsync(string userId = Self)
+        public async Task<Response<User>> GetAsync(string userId = Self)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -85,13 +85,13 @@ namespace Solomobro.Instagram.Endpoints
             return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
-        internal async Task<ObjectResponse<RelationShip>> GetRelationshipAsync(string userId)
+        internal async Task<Response<RelationShip>> GetRelationshipAsync(string userId)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
-            return await _endpointBase.GetObjectResponseAsync<RelationShip>(uri).ConfigureAwait(false);
+            return await _endpointBase.GetResponseAsync<RelationShip>(uri).ConfigureAwait(false);
         }
 
-        internal async Task<ObjectResponse<RelationShip>> PostRelationshipAsync(string userId, string action)
+        internal async Task<Response<RelationShip>> PostRelationshipAsync(string userId, string action)
         {
             var uri = new  Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
             var data = new FormUrlEncodedContent(
@@ -101,7 +101,7 @@ namespace Solomobro.Instagram.Endpoints
                 }
             );
 
-            return await _endpointBase.PostObjectResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
+            return await _endpointBase.PostResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
         }
 
         #endregion Relationships 
