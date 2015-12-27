@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Solomobro.Instagram.Exceptions
+﻿namespace Solomobro.Instagram.Exceptions
 {
     /// <summary>
     /// Thrown for Instagram error=access_denied. 

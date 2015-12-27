@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Authentication;
-using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Interfaces
 {

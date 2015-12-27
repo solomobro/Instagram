@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Models
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints

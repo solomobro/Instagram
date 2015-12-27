@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Solomobro.Instagram.Exceptions;
 
 namespace Solomobro.Instagram.Authentication
 {
