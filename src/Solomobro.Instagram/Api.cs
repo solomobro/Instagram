@@ -11,9 +11,6 @@ namespace Solomobro.Instagram
         private readonly string _clientSecret;
         private readonly string _accessToken;
 
-        internal const string Self = "self";
-
-
         internal Api(string clientId, string clientSecret, string accessToken)
         {
             _clientId = clientId;
