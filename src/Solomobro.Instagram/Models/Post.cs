@@ -14,6 +14,11 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "user")]
         public User User { get; internal set; }
 
+        [DataMember(Name = "users_in_photo")]
+        internal List<UserInPhoto> UsersInPhotoInternal { get; set; }
+
+        public IReadOnlyCollection<UserInPhoto> UsersInPhoto => UsersInPhotoInternal?.AsReadOnly();
+
         [DataMember(Name = "location")]
         public Location Location { get; internal set; }
 
