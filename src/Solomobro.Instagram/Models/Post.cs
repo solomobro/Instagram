@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-// todo: add users in photo
-
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
