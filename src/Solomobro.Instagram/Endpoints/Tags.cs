@@ -8,12 +8,12 @@ namespace Solomobro.Instagram.Endpoints
     public class Tags
     {
         private const string EndpointUri = "https://api.instagram.com/v1/tags";
-        private readonly IApiClient _endpointBase;
+        private readonly IApiClient _apiClient;
         private readonly string _accessToken;
 
-        internal Tags(IApiClient endpoint, string accessToken)
+        internal Tags(IApiClient apiClient, string accessToken)
         {
-            _endpointBase = endpoint;
+            _apiClient = apiClient;
             _accessToken = accessToken;
         }
 
@@ -23,7 +23,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<Response<Tag>> GetAsync(string tagName)
         {
             var uri = new Uri($"{EndpointUri}/{tagName}?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<Tag>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<Tag>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Post>> GetRecentMediaAsync(string tagName)
         {
             var uri = new Uri($"{EndpointUri}/{tagName}/media/recent?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Tag>> SearchAsync(string query)
         {
             var uri = new Uri($"{EndpointUri}/search?access_token={_accessToken}&q={query}");
-            return await _endpointBase.GetCollectionResponseAsync<Tag>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Tag>(uri).ConfigureAwait(false);
         }
     }
 }

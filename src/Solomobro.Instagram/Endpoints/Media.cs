@@ -10,12 +10,12 @@ namespace Solomobro.Instagram.Endpoints
     public class Media
     {
         private const string EndpointUri = "https://api.instagram.com/v1/media";
-        private readonly IApiClient _endpointBase;
+        private readonly IApiClient _apiClient;
         private readonly string _accessToken;
 
-        internal Media(IApiClient endpoint, string accessToken)
+        internal Media(IApiClient apiClient, string accessToken)
         {
-            _endpointBase = endpoint;
+            _apiClient = apiClient;
             _accessToken = accessToken;
         }
 
@@ -25,7 +25,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<Response<Post>> GetAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<Response<Post>> GetWithShortCodeAsync(string shortCode)
         {
             var uri = new Uri($"{EndpointUri}/shortcode/{shortCode}?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Post>> SearchAsync(SearchMediaRequest req)
         {
             var uri = new Uri($"{EndpointUri}/search/?access_token={_accessToken}&lat={req.Latitude}&lng={req.Longitude}&distance={req.DistanceMeters}");
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         #region comments
@@ -53,7 +53,7 @@ namespace Solomobro.Instagram.Endpoints
         internal async Task<CollectionResponse<Comment>> GetCommentsAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<Comment>(uri);
+            return await _apiClient.GetCollectionResponseAsync<Comment>(uri);
         }
 
         internal async Task<Response> PostCommentAsync(string mediaId, string text)
@@ -63,13 +63,13 @@ namespace Solomobro.Instagram.Endpoints
                 new []{new KeyValuePair<string, string>("text", text), }
             );
 
-            return await _endpointBase.PostResponseAsync(uri, data).ConfigureAwait(false);
+            return await _apiClient.PostResponseAsync(uri, data).ConfigureAwait(false);
         }
 
         internal async Task<Response> DeleteCommentAsync(string mediaId, string commentId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
-            return await _endpointBase.DeleteResponseAsync(uri).ConfigureAwait(false);
+            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
 
         }
 
@@ -80,19 +80,19 @@ namespace Solomobro.Instagram.Endpoints
         internal async Task<CollectionResponse<User>> GetLikesAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         internal async Task<Response> PostLikeAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _endpointBase.PostResponseAsync(uri, null).ConfigureAwait(false);
+            return await _apiClient.PostResponseAsync(uri, null).ConfigureAwait(false);
         }
 
         internal async Task<Response> DeleteLikeAsync(string mediaId)
         {
             var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _endpointBase.DeleteResponseAsync(uri).ConfigureAwait(false);
+            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
         }
 
         #endregion Likes

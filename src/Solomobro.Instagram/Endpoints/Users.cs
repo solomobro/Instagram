@@ -10,14 +10,14 @@ namespace Solomobro.Instagram.Endpoints
     public class Users 
     {   
         private const string EndpointUri = "https://api.instagram.com/v1/users";
-        private readonly IApiClient _endpointBase;
+        private readonly IApiClient _apiClient;
         private readonly string _accessToken;
 
         private const string Self = "self";
 
-        internal Users(IApiClient endpoint, string accessToken)
+        internal Users(IApiClient apiClient, string accessToken)
         {
-            _endpointBase = endpoint;
+            _apiClient = apiClient;
             _accessToken = accessToken;
         }
 
@@ -27,7 +27,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<Response<User>> GetAsync(string userId = Self)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Post>> GetFeedAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/feed?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Post>> GetMediaRecentAsync(string userId = Self)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/media/recent?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<Post>> GetMediaLikedAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/media/liked?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<CollectionResponse<User>> SearchAsync(string query)
         {
             var uri = new Uri($"{EndpointUri}/search?access_token={_accessToken}&q={query}");
-            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         #region Relationships
@@ -71,25 +71,25 @@ namespace Solomobro.Instagram.Endpoints
         internal async Task<CollectionResponse<User>> GetFollowsAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/follows/?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         internal async Task<CollectionResponse<User>> GetFollowedByAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/followed-by?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         internal async Task<CollectionResponse<User>> GetRequestedByAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/requested-by?access_token={_accessToken}");
-            return await _endpointBase.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         internal async Task<Response<RelationShip>> GetRelationshipAsync(string userId)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<RelationShip>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<RelationShip>(uri).ConfigureAwait(false);
         }
 
         internal async Task<Response<RelationShip>> PostRelationshipAsync(string userId, string action)
@@ -102,7 +102,7 @@ namespace Solomobro.Instagram.Endpoints
                 }
             );
 
-            return await _endpointBase.PostResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
+            return await _apiClient.PostResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
         }
 
         #endregion Relationships 

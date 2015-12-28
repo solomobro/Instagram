@@ -8,12 +8,12 @@ namespace Solomobro.Instagram.Endpoints
     public class Locations
     {
         private const string EndpointUri = "https://api.instagram.com/v1/locations";
-        private readonly IApiClient _endpointBase;
+        private readonly IApiClient _apiClient;
         private readonly string _accessToken;
 
-        internal Locations(IApiClient endpoint, string accessToken)
+        internal Locations(IApiClient apiClient, string accessToken)
         {
-            _endpointBase = endpoint;
+            _apiClient = apiClient;
             _accessToken = accessToken;
         }
 
@@ -23,7 +23,7 @@ namespace Solomobro.Instagram.Endpoints
         public async Task<Response<Location>> GetAsync(string locationId)
         {
             var uri = new Uri($"{EndpointUri}/{locationId}?access_token={_accessToken}");
-            return await _endpointBase.GetResponseAsync<Location>(uri).ConfigureAwait(false);
+            return await _apiClient.GetResponseAsync<Location>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Solomobro.Instagram.Endpoints
             }
 
             var uri = new Uri(uriStr);
-            return await _endpointBase.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Solomobro.Instagram.Endpoints
 
         private async Task<CollectionResponse<Location>> SearchAsync(Uri uri)
         {
-            return await _endpointBase.GetCollectionResponseAsync<Location>(uri).ConfigureAwait(false);
+            return await _apiClient.GetCollectionResponseAsync<Location>(uri).ConfigureAwait(false);
         } 
     }
 }
