@@ -1,4 +1,5 @@
 ﻿using Solomobro.Instagram.Endpoints;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram
 {
@@ -18,13 +19,13 @@ namespace Solomobro.Instagram
             _accessToken = accessToken;
 
             // initialize endpoints
-            var epBase = new EndpointBase(accessToken);
-            var users = new Users(epBase, accessToken);
-            var media = new Media(epBase, accessToken);
+            var apiClient = Ioc.Resolve<IApiClient>() ?? new ApiClient();
+            var users = new Users(apiClient, accessToken);
+            var media = new Media(apiClient, accessToken);
             var comments = new Comments(media);
             var likes = new Likes(media);
-            var tags = new Tags(epBase, accessToken);
-            var locations = new Locations(epBase, accessToken);
+            var tags = new Tags(apiClient, accessToken);
+            var locations = new Locations(apiClient, accessToken);
 
             this.Users = users;
             this.Relationships = new Relationships(users);

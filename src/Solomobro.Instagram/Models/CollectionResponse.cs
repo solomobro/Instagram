@@ -52,10 +52,7 @@ namespace Solomobro.Instagram.Models
             }
 
             var apiClient = _lazyApiClient.Value;
-            var apiReply = await apiClient.GetAsync<CollectionResponse<T>>(Pagination.NextUrl).ConfigureAwait(false);
-            var resp = apiReply.Data;
-            resp.RateLimit = apiReply.RateLimit;
-            return resp;
+            return await apiClient.GetCollectionResponseAsync<T>(Pagination.NextUrl).ConfigureAwait(false);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

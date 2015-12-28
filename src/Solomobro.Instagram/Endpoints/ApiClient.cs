@@ -18,7 +18,7 @@ namespace Solomobro.Instagram.Endpoints
 
         #region Response
 
-        internal async Task<Response> GetResponseAsync(Uri uri)
+        public async Task<Response> GetResponseAsync(Uri uri)
         {
             using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
             {
@@ -28,7 +28,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<Response> PostResponseAsync(Uri uri, HttpContent content)
+        public async Task<Response> PostResponseAsync(Uri uri, HttpContent content)
         {
             using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
@@ -38,7 +38,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<Response> DeleteResponseAsync(Uri uri)
+        public async Task<Response> DeleteResponseAsync(Uri uri)
         {
             using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
             {
@@ -52,7 +52,7 @@ namespace Solomobro.Instagram.Endpoints
 
         #region Response<T>
 
-        internal async Task<Response<T>> GetResponseAsync<T>(Uri uri)
+        public async Task<Response<T>> GetResponseAsync<T>(Uri uri)
         {
             using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
             {
@@ -62,7 +62,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<Response<T>> PostResponseAsync<T>(Uri uri, HttpContent content)
+        public async Task<Response<T>> PostResponseAsync<T>(Uri uri, HttpContent content)
         {
             using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
@@ -72,7 +72,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<Response<T>> DeleteResponseAsync<T>(Uri uri)
+        public async Task<Response<T>> DeleteResponseAsync<T>(Uri uri)
         {
             using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
             {
@@ -86,7 +86,8 @@ namespace Solomobro.Instagram.Endpoints
 
 
         #region CollectionResponse<T>
-        internal async Task<CollectionResponse<T>> GetCollectionResponseAsync<T>(Uri uri)
+
+        public async Task<CollectionResponse<T>> GetCollectionResponseAsync<T>(Uri uri)
         {
             using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
             {
@@ -96,7 +97,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<CollectionResponse<T>> PostCollectionResponseAsync<T>(Uri uri, HttpContent content)
+        public async Task<CollectionResponse<T>> PostCollectionResponseAsync<T>(Uri uri, HttpContent content)
         {
             using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
@@ -106,7 +107,7 @@ namespace Solomobro.Instagram.Endpoints
             }
         }
 
-        internal async Task<CollectionResponse<T>> DeleteCollectionResponseAsync<T>(Uri uri)
+        public async Task<CollectionResponse<T>> DeleteCollectionResponseAsync<T>(Uri uri)
         {
             using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
             {

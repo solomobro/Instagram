@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints
@@ -7,10 +8,10 @@ namespace Solomobro.Instagram.Endpoints
     public class Tags
     {
         private const string EndpointUri = "https://api.instagram.com/v1/tags";
-        private readonly EndpointBase _endpointBase;
+        private readonly IApiClient _endpointBase;
         private readonly string _accessToken;
 
-        internal Tags(EndpointBase endpoint, string accessToken)
+        internal Tags(IApiClient endpoint, string accessToken)
         {
             _endpointBase = endpoint;
             _accessToken = accessToken;
