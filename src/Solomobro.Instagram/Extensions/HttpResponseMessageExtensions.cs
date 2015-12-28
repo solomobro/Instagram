@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Extensions
 {
@@ -21,7 +22,7 @@ namespace Solomobro.Instagram.Extensions
             }
         }
 
-        public static int GetRateLimitMax(this HttpResponseMessage message)
+        private static int GetRateLimitMax(this HttpResponseMessage message)
         {
             IEnumerable<string> values;
             if (message.Headers.TryGetValues("X-Ratelimit-Limit", out values))
@@ -32,7 +33,7 @@ namespace Solomobro.Instagram.Extensions
             return -1;
         }
 
-        public static int GetRateLimitRemaining(this HttpResponseMessage message)
+        private static int GetRateLimitRemaining(this HttpResponseMessage message)
         {
             IEnumerable<string> values;
             if (message.Headers.TryGetValues("X-Ratelimit-Remaining", out values))
@@ -41,6 +42,15 @@ namespace Solomobro.Instagram.Extensions
             }
 
             return -1;
+        }
+
+        public static RateLimit GetRateLimitInfo(this HttpResponseMessage message)
+        {
+            return new RateLimit
+            {
+                Max = message.GetRateLimitMax(),
+                Remaining = message.GetRateLimitRemaining()
+            };
         }
 
         private static DataContractJsonSerializer GetSerializerForType<T>()

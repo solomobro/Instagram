@@ -12,69 +12,109 @@ namespace Solomobro.Instagram.Endpoints
     {
         private readonly HttpClient _http = new HttpClient();
 
-        public async Task<ApiResponse<T>> GetAsync<T>(Uri uri)
+        internal ApiClient()
         {
-            using (var resp = await _http.GetAsync(uri).ConfigureAwait(false))
+        }
+
+        #region Response
+
+        internal async Task<Response> GetResponseAsync(Uri uri)
+        {
+            using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
             {
-                return new ApiResponse<T>
-                {
-                    Data = await resp.DeserializeAsync<T>(),
-                    RateLimit = new RateLimit
-                    {
-                        Max = resp.GetRateLimitMax(),
-                        Remaining = resp.GetRateLimitRemaining()
-                    }
-                };
+                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
             }
         }
 
-        public async Task<ApiResponse<T>> PostAsync<T>(Uri uri, HttpContent content)
+        internal async Task<Response> PostResponseAsync(Uri uri, HttpContent content)
         {
-            using (var resp = await _http.PostAsync(uri, content).ConfigureAwait(false))
+            using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
-                return new ApiResponse<T>
-                {
-                    Data = await resp.DeserializeAsync<T>(),
-                    RateLimit = new RateLimit
-                    {
-                        Max = resp.GetRateLimitMax(),
-                        Remaining = resp.GetRateLimitRemaining()
-                    }
-                };
+                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
             }
         }
 
-        public async Task<ApiResponse<T>> PutAsync<T>(Uri uri, HttpContent content)
+        internal async Task<Response> DeleteResponseAsync(Uri uri)
         {
-            using (var resp = await _http.PutAsync(uri, content).ConfigureAwait(false))
+            using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
             {
-                return new ApiResponse<T>
-                {
-                    Data = await resp.DeserializeAsync<T>(),
-                    RateLimit = new RateLimit
-                    {
-                        Max = resp.GetRateLimitMax(),
-                        Remaining = resp.GetRateLimitRemaining()
-                    }
-                };
+                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
+            }
+        }
+        #endregion
+
+
+        #region Response<T>
+
+        internal async Task<Response<T>> GetResponseAsync<T>(Uri uri)
+        {
+            using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
             }
         }
 
-        public async Task<ApiResponse<T>>  DeleteAsync<T>(Uri uri)
+        internal async Task<Response<T>> PostResponseAsync<T>(Uri uri, HttpContent content)
         {
-            using (var resp = await _http.DeleteAsync(uri).ConfigureAwait(false))
+            using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
             {
-                return new ApiResponse<T>
-                {
-                    Data = await resp.DeserializeAsync<T>(),
-                    RateLimit = new RateLimit
-                    {
-                        Max = resp.GetRateLimitMax(),
-                        Remaining = resp.GetRateLimitRemaining()
-                    }
-                };
+                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
             }
         }
 
+        internal async Task<Response<T>> DeleteResponseAsync<T>(Uri uri)
+        {
+            using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
+            }
+        }
+
+        #endregion
+
+
+        #region CollectionResponse<T>
+        internal async Task<CollectionResponse<T>> GetCollectionResponseAsync<T>(Uri uri)
+        {
+            using (var httpResp = await _http.GetAsync(uri).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
+            }
+        }
+
+        internal async Task<CollectionResponse<T>> PostCollectionResponseAsync<T>(Uri uri, HttpContent content)
+        {
+            using (var httpResp = await _http.PostAsync(uri, content).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
+            }
+        }
+
+        internal async Task<CollectionResponse<T>> DeleteCollectionResponseAsync<T>(Uri uri)
+        {
+            using (var httpResp = await _http.DeleteAsync(uri).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
+                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                return apiResp;
+            }
+        }
+        #endregion
     }
 }
