@@ -49,6 +49,7 @@
     <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
     <Compile Include="ApiClient.cs" />
+    <Compile Include="Authentication\OAuth.cs" />
     <Compile Include="Endpoints\Comments.cs" />
     <Compile Include="Interfaces\IApiClient.cs" />
     <Compile Include="Endpoints\Likes.cs" />
