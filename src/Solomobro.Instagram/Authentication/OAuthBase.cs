@@ -50,11 +50,5 @@ namespace Solomobro.Instagram.Authentication
 
             return new Api(ClientId, ClientSecret, _accessToken);
         }
-
-        public Api CreateUnauthenticatedApi()
-        {
-            return new Api(ClientId, ClientSecret, null);
-        }
-
     }
 }
