@@ -22,7 +22,7 @@ namespace Solomobro.Instagram
             var apiClient = Ioc.Resolve<IApiClient>() ?? new ApiClient();
             var users = new Users(apiClient, accessToken);
             var media = new Media(apiClient, accessToken);
-            var comments = new Comments(media);
+            var comments = new Comments(apiClient, accessToken);
             var likes = new Likes(media);
             var tags = new Tags(apiClient, accessToken);
             var locations = new Locations(apiClient, accessToken);

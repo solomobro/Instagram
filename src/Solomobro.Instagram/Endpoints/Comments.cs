@@ -1,15 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints
 {
     public class Comments
     {
-        private Media _media;
+        private const string EndpointUri = "https://api.instagram.com/v1/media";
+        private readonly IApiClient _apiClient;
+        private readonly string _accessToken;
 
-        internal Comments(Media endpoint)
+        internal Comments(IApiClient apiClient, string accessToken)
         {
-            _media = endpoint;
+            _apiClient = apiClient;
+            _accessToken = accessToken;
         }
 
         /// <summary>
@@ -18,7 +25,8 @@ namespace Solomobro.Instagram.Endpoints
         /// <returns>data property is null</returns>
         public async Task<CollectionResponse<Comment>> GetAsync(string mediaId)
         {
-            return await _media.GetCommentsAsync(mediaId).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
+            return await _apiClient.GetCollectionResponseAsync<Comment>(uri);
         }
 
         /// <summary>
@@ -26,7 +34,12 @@ namespace Solomobro.Instagram.Endpoints
         /// </summary>
         public async Task<Response> PostAsync(string mediaId, string text)
         {
-            return await _media.PostCommentAsync(mediaId, text).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
+            var data = new FormUrlEncodedContent(
+                new[] { new KeyValuePair<string, string>("text", text), }
+            );
+
+            return await _apiClient.PostResponseAsync(uri, data).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -34,7 +47,8 @@ namespace Solomobro.Instagram.Endpoints
         /// </summary>
         public async Task<Response> DeleteAsync(string mediaId, string commentId)
         {
-            return await _media.DeleteCommentAsync(mediaId, commentId).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
+            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
         } 
     }
 }

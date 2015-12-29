@@ -48,33 +48,6 @@ namespace Solomobro.Instagram.Endpoints
             return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
 
-        #region comments
-
-        internal async Task<CollectionResponse<Comment>> GetCommentsAsync(string mediaId)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
-            return await _apiClient.GetCollectionResponseAsync<Comment>(uri);
-        }
-
-        internal async Task<Response> PostCommentAsync(string mediaId, string text)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
-            var data = new FormUrlEncodedContent(
-                new []{new KeyValuePair<string, string>("text", text), }
-            );
-
-            return await _apiClient.PostResponseAsync(uri, data).ConfigureAwait(false);
-        }
-
-        internal async Task<Response> DeleteCommentAsync(string mediaId, string commentId)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/comments/{commentId}?access_token={_accessToken}");
-            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
-
-        }
-
-        #endregion comments
-
         #region Likes
 
         internal async Task<CollectionResponse<User>> GetLikesAsync(string mediaId)
