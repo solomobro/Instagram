@@ -23,7 +23,7 @@ namespace Solomobro.Instagram
             var users = new Users(apiClient, accessToken);
             var media = new Media(apiClient, accessToken);
             var comments = new Comments(apiClient, accessToken);
-            var likes = new Likes(media);
+            var likes = new Likes(apiClient, accessToken);
             var tags = new Tags(apiClient, accessToken);
             var locations = new Locations(apiClient, accessToken);
 

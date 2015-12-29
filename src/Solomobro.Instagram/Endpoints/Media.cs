@@ -47,29 +47,5 @@ namespace Solomobro.Instagram.Endpoints
             var uri = new Uri($"{EndpointUri}/search/?access_token={_accessToken}&lat={req.Latitude}&lng={req.Longitude}&distance={req.DistanceMeters}");
             return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
         }
-
-        #region Likes
-
-        internal async Task<CollectionResponse<User>> GetLikesAsync(string mediaId)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
-        }
-
-        internal async Task<Response> PostLikeAsync(string mediaId)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _apiClient.PostResponseAsync(uri, null).ConfigureAwait(false);
-        }
-
-        internal async Task<Response> DeleteLikeAsync(string mediaId)
-        {
-            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
-            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
-        }
-
-        #endregion Likes
-
-
     }
 }

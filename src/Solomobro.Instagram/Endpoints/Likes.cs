@@ -1,15 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
 
 namespace Solomobro.Instagram.Endpoints
 {
     public class Likes
     {
-        private readonly Media _media;
+        private const string EndpointUri = "https://api.instagram.com/v1/media";
+        private readonly IApiClient _apiClient;
+        private readonly string _accessToken;
 
-        internal Likes(Media mediaEndpoint)
+        internal Likes(IApiClient apiClient, string accessToken)
         {
-            _media = mediaEndpoint;
+            _apiClient = apiClient;
+            _accessToken = accessToken;
         }
 
         /// <summary>
@@ -18,7 +23,8 @@ namespace Solomobro.Instagram.Endpoints
         /// <returns>collection of users that like this media</returns>
         public async Task<CollectionResponse<User>> GetAsync(string mediaId)
         {
-            return await _media.GetLikesAsync(mediaId).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -27,7 +33,8 @@ namespace Solomobro.Instagram.Endpoints
         /// </summary>
         public async Task<Response> PostAsync(string mediaId)
         {
-            return await _media.PostLikeAsync(mediaId).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _apiClient.PostResponseAsync(uri, null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -36,7 +43,8 @@ namespace Solomobro.Instagram.Endpoints
         /// </summary>
         public async Task<Response> DeleteAsync(string mediaId)
         {
-            return await _media.DeleteLikeAsync(mediaId).ConfigureAwait(false);
+            var uri = new Uri($"{EndpointUri}/{mediaId}/likes?access_token={_accessToken}");
+            return await _apiClient.DeleteResponseAsync(uri).ConfigureAwait(false);
         } 
     }
 }
