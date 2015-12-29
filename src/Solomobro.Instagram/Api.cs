@@ -28,7 +28,7 @@ namespace Solomobro.Instagram
             var locations = new Locations(apiClient, accessToken);
 
             this.Users = users;
-            this.Relationships = new Relationships(users);
+            this.Relationships = new Relationships(apiClient, accessToken);
             this.Media = media;
             this.Comments = comments;
             this.Likes = likes;

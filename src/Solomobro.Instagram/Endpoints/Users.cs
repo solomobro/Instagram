@@ -13,7 +13,7 @@ namespace Solomobro.Instagram.Endpoints
         private readonly IApiClient _apiClient;
         private readonly string _accessToken;
 
-        private const string Self = "self";
+        internal const string Self = "self";
 
         internal Users(IApiClient apiClient, string accessToken)
         {
@@ -65,46 +65,5 @@ namespace Solomobro.Instagram.Endpoints
             var uri = new Uri($"{EndpointUri}/search?access_token={_accessToken}&q={query}");
             return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
         }
-
-        #region Relationships
-
-        internal async Task<CollectionResponse<User>> GetFollowsAsync()
-        {
-            var uri = new Uri($"{EndpointUri}/{Self}/follows/?access_token={_accessToken}");
-            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
-        }
-
-        internal async Task<CollectionResponse<User>> GetFollowedByAsync()
-        {
-            var uri = new Uri($"{EndpointUri}/{Self}/followed-by?access_token={_accessToken}");
-            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
-        }
-
-        internal async Task<CollectionResponse<User>> GetRequestedByAsync()
-        {
-            var uri = new Uri($"{EndpointUri}/{Self}/requested-by?access_token={_accessToken}");
-            return await _apiClient.GetCollectionResponseAsync<User>(uri).ConfigureAwait(false);
-        }
-
-        internal async Task<Response<RelationShip>> GetRelationshipAsync(string userId)
-        {
-            var uri = new Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
-            return await _apiClient.GetResponseAsync<RelationShip>(uri).ConfigureAwait(false);
-        }
-
-        internal async Task<Response<RelationShip>> PostRelationshipAsync(string userId, string action)
-        {
-            var uri = new  Uri($"{EndpointUri}/{userId}/relationship?access_token={_accessToken}");
-            var data = new FormUrlEncodedContent(
-                new[]
-                {
-                    new KeyValuePair<string, string>("action", action),
-                }
-            );
-
-            return await _apiClient.PostResponseAsync<RelationShip>(uri, data).ConfigureAwait(false);
-        }
-
-        #endregion Relationships 
     }
 }
