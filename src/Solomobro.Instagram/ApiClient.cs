@@ -5,8 +5,7 @@ using Solomobro.Instagram.Extensions;
 using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
 
-
-namespace Solomobro.Instagram.Endpoints
+namespace Solomobro.Instagram
 {
     internal class ApiClient : IApiClient
     {
