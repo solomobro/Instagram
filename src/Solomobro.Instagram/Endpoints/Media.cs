@@ -58,7 +58,7 @@ namespace Solomobro.Instagram.Endpoints
 
         internal async Task<Response> PostCommentAsync(string mediaId, string text)
         {
-            var uri = new Uri($"{EndpointUri}/{mediaId}?access_token={_accessToken}");
+            var uri = new Uri($"{EndpointUri}/{mediaId}/comments?access_token={_accessToken}");
             var data = new FormUrlEncodedContent(
                 new []{new KeyValuePair<string, string>("text", text), }
             );
