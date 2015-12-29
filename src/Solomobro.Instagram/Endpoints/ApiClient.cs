@@ -22,32 +22,17 @@ namespace Solomobro.Instagram.Endpoints
 
         public async Task<Response> GetResponseAsync(Uri uri)
         {
-            using (var httpResp = await Http.GetAsync(uri).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await GetAsync<Response>(uri).ConfigureAwait(false);
         }
 
         public async Task<Response> PostResponseAsync(Uri uri, HttpContent content)
         {
-            using (var httpResp = await Http.PostAsync(uri, content).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await PostAsync<Response>(uri, content).ConfigureAwait(false);
         }
 
         public async Task<Response> DeleteResponseAsync(Uri uri)
         {
-            using (var httpResp = await Http.DeleteAsync(uri).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await DeleteAsync<Response>(uri).ConfigureAwait(false);
         }
         #endregion
 
@@ -56,32 +41,17 @@ namespace Solomobro.Instagram.Endpoints
 
         public async Task<Response<T>> GetResponseAsync<T>(Uri uri)
         {
-            using (var httpResp = await Http.GetAsync(uri).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await GetAsync<Response<T>>(uri).ConfigureAwait(false);
         }
 
         public async Task<Response<T>> PostResponseAsync<T>(Uri uri, HttpContent content)
         {
-            using (var httpResp = await Http.PostAsync(uri, content).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await PostAsync<Response<T>>(uri, content).ConfigureAwait(false);
         }
 
         public async Task<Response<T>> DeleteResponseAsync<T>(Uri uri)
         {
-            using (var httpResp = await Http.DeleteAsync(uri).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<Response<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await DeleteAsync<Response<T>>(uri).ConfigureAwait(false);
         }
 
         #endregion
@@ -91,33 +61,48 @@ namespace Solomobro.Instagram.Endpoints
 
         public async Task<CollectionResponse<T>> GetCollectionResponseAsync<T>(Uri uri)
         {
-            using (var httpResp = await Http.GetAsync(uri).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await GetAsync<CollectionResponse<T>>(uri).ConfigureAwait(false);
         }
 
         public async Task<CollectionResponse<T>> PostCollectionResponseAsync<T>(Uri uri, HttpContent content)
         {
-            using (var httpResp = await Http.PostAsync(uri, content).ConfigureAwait(false))
-            {
-                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
-                return apiResp;
-            }
+            return await PostAsync<CollectionResponse<T>>(uri, content).ConfigureAwait(false);
         }
 
         public async Task<CollectionResponse<T>> DeleteCollectionResponseAsync<T>(Uri uri)
         {
-            using (var httpResp = await Http.DeleteAsync(uri).ConfigureAwait(false))
+            return await DeleteAsync<CollectionResponse<T>>(uri).ConfigureAwait(false);
+        }
+        #endregion
+
+        private async Task<T> GetAsync<T>(Uri uri) where T : IRateLimitable
+        {
+            using (var httpResp = await Http.GetAsync(uri).ConfigureAwait(false))
             {
-                var apiResp = await httpResp.DeserializeAsync<CollectionResponse<T>>().ConfigureAwait(false);
-                apiResp.RateLimit = httpResp.GetRateLimitInfo();
+                var apiResp = await httpResp.DeserializeAsync<T>().ConfigureAwait(false);
+                ((IRateLimitable)apiResp).SetRateLimit(httpResp.GetRateLimitInfo());
                 return apiResp;
             }
         }
-        #endregion
+
+        private async Task<T> DeleteAsync<T>(Uri uri) where T : IRateLimitable
+        {
+            using (var httpResp = await Http.DeleteAsync(uri).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<T>().ConfigureAwait(false);
+                ((IRateLimitable)apiResp).SetRateLimit(httpResp.GetRateLimitInfo());
+                return apiResp;
+            }
+        }
+
+        private async Task<T> PostAsync<T>(Uri uri, HttpContent content) where T : IRateLimitable
+        {
+            using (var httpResp = await Http.PostAsync(uri, content).ConfigureAwait(false))
+            {
+                var apiResp = await httpResp.DeserializeAsync<T>().ConfigureAwait(false);
+                ((IRateLimitable)apiResp).SetRateLimit(httpResp.GetRateLimitInfo());
+                return apiResp;
+            }
+        }
     }
 }

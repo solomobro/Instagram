@@ -58,6 +58,7 @@
     <Compile Include="Endpoints\Tags.cs" />
     <Compile Include="Endpoints\Users.cs" />
     <Compile Include="Extensions\HttpResponseMessageExtensions.cs" />
+    <Compile Include="Interfaces\IRateLimitable.cs" />
     <Compile Include="Models\CollectionResponse.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Coordinates.cs" />

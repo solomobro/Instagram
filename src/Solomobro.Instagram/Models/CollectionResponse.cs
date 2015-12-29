@@ -10,7 +10,7 @@ using Solomobro.Instagram.Interfaces;
 namespace Solomobro.Instagram.Models
 {
     [DataContract]
-    public class CollectionResponse<T> : IResponse, IEnumerable
+    public class CollectionResponse<T> : IResponse, IRateLimitable, IEnumerable
     {
         internal CollectionResponse() { }
 
@@ -42,6 +42,11 @@ namespace Solomobro.Instagram.Models
 
             var apiClient = Ioc.Resolve<IApiClient>() ?? new ApiClient();
             return await apiClient.GetCollectionResponseAsync<T>(Pagination.NextUrl).ConfigureAwait(false);
+        }
+
+        void IRateLimitable.SetRateLimit(RateLimit limit)
+        {
+            RateLimit = limit;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
