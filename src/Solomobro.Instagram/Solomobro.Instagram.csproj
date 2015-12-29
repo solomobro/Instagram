@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="ApiResponse.cs" />
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\AuthUriBuilder.cs" />
     <Compile Include="Authentication\ExplicitAuth.cs" />
