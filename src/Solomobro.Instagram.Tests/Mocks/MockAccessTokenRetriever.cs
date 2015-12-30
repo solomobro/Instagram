@@ -9,7 +9,7 @@ namespace Solomobro.Instagram.Tests.Mocks
 {
     class MockAccessTokenRetriever : IAccessTokenRetriever
     {
-        public Task<ExplicitAuthResponse> Authenticate(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams)
+        public Task<ExplicitAuthResponse> AuthenticateAsync(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams)
         {
             var resp = new ExplicitAuthResponse
             {

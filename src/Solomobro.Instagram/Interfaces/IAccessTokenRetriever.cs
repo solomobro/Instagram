@@ -7,6 +7,6 @@ namespace Solomobro.Instagram.Interfaces
 {
     internal interface IAccessTokenRetriever
     {
-        Task<ExplicitAuthResponse> Authenticate(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams);
+        Task<ExplicitAuthResponse> AuthenticateAsync(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams);
     }
 }

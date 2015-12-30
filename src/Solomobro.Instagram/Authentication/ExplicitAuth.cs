@@ -63,12 +63,12 @@ namespace Solomobro.Instagram.Authentication
                 new KeyValuePair<string, string>("code", accessCode)
             };
 
-            return await authenticator.Authenticate(accessTokenUri, authParams).ConfigureAwait(false);
+            return await authenticator.AuthenticateAsync(accessTokenUri, authParams).ConfigureAwait(false);
         }
 
         private IAccessTokenRetriever GetExplicitAuthenticator(string accessCode)
         {
-            return Ioc.Resolve<IAccessTokenRetriever>() ?? new AccessTokenRetriever(ClientId, ClientSecret, RedirectUri, accessCode);
+            return Ioc.Resolve<IAccessTokenRetriever>() ?? new AccessTokenRetriever();
         }
     }
 }

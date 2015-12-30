@@ -12,29 +12,11 @@ namespace Solomobro.Instagram.Authentication
     /// </summary>
     internal class AccessTokenRetriever : IAccessTokenRetriever
     {
-        private readonly string _clientId;
-        private readonly string _clientSecret;
-        private readonly string _redirectUri;
-        private readonly string _accessCode;
 
-        public AccessTokenRetriever(string clientId, string clientSecret, string redirectUri, string accessCode)
-        {
-            _clientId = clientId;
-            _clientSecret = clientSecret;
-            _redirectUri = redirectUri;
-            _accessCode = accessCode;
-        }
 
-        public async Task<ExplicitAuthResponse> Authenticate(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams)
+        public async Task<ExplicitAuthResponse> AuthenticateAsync(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams)
         {
-            var data = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("client_id", _clientId),
-                    new KeyValuePair<string, string>("client_secret", _clientSecret),
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    new KeyValuePair<string, string>("redirect_uri", _redirectUri),
-                    new KeyValuePair<string, string>("code", _accessCode)
-                });
+            var data = new FormUrlEncodedContent(authParams);
 
             using (var http = new HttpClient(new HttpClientHandler {AllowAutoRedirect = false}))
             using (var resp = await http.PostAsync(authEndpoint, data).ConfigureAwait(false))
