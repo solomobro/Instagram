@@ -10,7 +10,7 @@ namespace Solomobro.Instagram.Authentication
     /// <summary>
     /// Internal-only class to help make OAuth testable by abstracting code that calls instagram over the network
     /// </summary>
-    internal class AccessTokenRetriever : IAccessTokenRetriever
+    internal class ExplicitAuthenticator : IExplicitAuthenticator
     {
 
 

@@ -101,7 +101,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public async Task CanAuthenticateExplictily()
         {
-            Ioc.Substitute<IAccessTokenRetriever>(new MockAccessTokenRetriever());
+            Ioc.Substitute<IExplicitAuthenticator>(new MockExplicitAuthenticator());
 
             var instagramredirect = $"{RedirectUri}?code={AccessCode}";
             var auth = GetOAuth();

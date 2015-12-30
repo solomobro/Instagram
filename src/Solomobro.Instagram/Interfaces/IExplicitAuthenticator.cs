@@ -5,7 +5,7 @@ using Solomobro.Instagram.Authentication;
 
 namespace Solomobro.Instagram.Interfaces
 {
-    internal interface IAccessTokenRetriever
+    internal interface IExplicitAuthenticator
     {
         Task<ExplicitAuthResponse> AuthenticateAsync(Uri authEndpoint, IEnumerable<KeyValuePair<string, string>> authParams);
     }

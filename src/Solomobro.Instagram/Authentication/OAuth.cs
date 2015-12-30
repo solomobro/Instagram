@@ -54,7 +54,7 @@ namespace Solomobro.Instagram.Authentication
         public async Task<AuthenticationResult> AuthenticateExplicitlyAsync(string accessCode)
         {
             var authUri = AuthUriBuilder.BuildAccessCodeUri();
-            var authenticator = Ioc.Resolve<IAccessTokenRetriever>() ?? new AccessTokenRetriever();
+            var authenticator = Ioc.Resolve<IExplicitAuthenticator>() ?? new ExplicitAuthenticator();
             var authParams = new Dictionary<string, string>
             {
                 ["client_id"] = ClientId,
