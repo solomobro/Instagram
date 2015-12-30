@@ -42,7 +42,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements GET /users/{user-id}/media/recent
         /// </summary>
-        public async Task<CollectionResponse<Post>> GetMediaRecentAsync(string userId = Self)
+        public async Task<CollectionResponse<Post>> GetRecentMediaAsync(string userId = Self)
         {
             var uri = new Uri($"{EndpointUri}/{userId}/media/recent?access_token={_accessToken}");
             return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
@@ -51,7 +51,7 @@ namespace Solomobro.Instagram.Endpoints
         /// <summary>
         /// Implements GET /users/self/media/liked
         /// </summary>
-        public async Task<CollectionResponse<Post>> GetMediaLikedAsync()
+        public async Task<CollectionResponse<Post>> GetLikedMediaAsync()
         {
             var uri = new Uri($"{EndpointUri}/{Self}/media/liked?access_token={_accessToken}");
             return await _apiClient.GetCollectionResponseAsync<Post>(uri).ConfigureAwait(false);
