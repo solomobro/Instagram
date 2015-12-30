@@ -27,7 +27,7 @@ namespace Solomobro.Instagram.Authentication
             ClientSecret = clientSecret;
             RedirectUri = redirectUri;
 
-            _uriBuilder = new AuthUriBuilder(clientId, clientSecret, scopes);
+            _uriBuilder = new AuthUriBuilder(clientId, redirectUri, scopes);
         }
 
         public void AuthenticateFromAccessToken(string accessToken)

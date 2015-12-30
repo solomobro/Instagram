@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Solomobro.Instagram.Authentication;
-using Solomobro.Instagram.Exceptions;
 using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Tests.Mocks;
 
@@ -21,7 +21,7 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void ConfigSettingsAreCorrect()
         {
-            var auth = GetExplicitAuth();
+            var auth = GetOAuth();
             Assert.That(auth.ClientId, Is.EqualTo(ClientId));
             Assert.That(auth.ClientSecret, Is.EqualTo(ClientSecret));
             Assert.That(auth.RedirectUri, Is.EqualTo(RedirectUri));
@@ -30,116 +30,101 @@ namespace Solomobro.Instagram.Tests
         [Test]
         public void DefaultExplicitUriIsValid()
         {
-            var auth = GetExplicitAuth();
-            var uri = auth.AuthenticationUri;
+            var auth = GetOAuth();
+            var uri = auth.ExplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
         }
 
         [Test]
         public void DefaultImplicitUriIsValid()
         {
-            var auth = GetImplicitAuth();
-            var uri = auth.AuthenticationUri;
+            var auth = GetOAuth();
+            var uri = auth.ImplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
         }
 
         [Test]
-        public void AddingScopesToExplicitAuthWorks()
+        public void AddingScopesWorksWithExplicitAuth()
         {
             // test that adding basic scope doesn't screw up the scope list
             var basicScope = new[] {Scopes.Basic};
-            var basicAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
-            var uri = basicAuth.AuthenticationUri;
+            var basicAuth = new OAuth(ClientId, ClientSecret, RedirectUri, basicScope);
+            var uri = basicAuth.ExplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic"));
 
             // test adding scopes other than basic, and they can be repeated
             var bunchOfScopes = new[]
             {Scopes.Basic, Scopes.Relationships, Scopes.Comments, Scopes.Likes, Scopes.Comments};
-            var complexAuth = new ExplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes) ;
-            uri = complexAuth.AuthenticationUri;
+            var complexAuth = new OAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes) ;
+            uri = complexAuth.ExplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseExplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=code&scope=basic+comments+likes+relationships"));
         }
 
         [Test]
-        public void AddingScopesToImplicitAuthWorks()
+        public void AddingScopesWorksWithImplicitAuth()
         {
             // test that adding basic scope doesn't screw up the scope list
             var basicScope = new[] { Scopes.Basic };
-            var basicAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, basicScope);
-            var uri = basicAuth.AuthenticationUri;
+            var basicAuth = new OAuth(ClientId, ClientSecret, RedirectUri, basicScope);
+            var uri = basicAuth.ImplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic"));
 
             // test adding scopes other than basic, and they can be repeated
             var bunchOfScopes = new[]
             {Scopes.Basic, Scopes.Relationships, Scopes.Comments, Scopes.Likes, Scopes.Comments};
-            var complexAuth = new ImplicitAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes);
-            uri = complexAuth.AuthenticationUri;
+            var complexAuth = new OAuth(ClientId, ClientSecret, RedirectUri, bunchOfScopes);
+            uri = complexAuth.ImplicitAuthUri;
             Assert.That(uri.OriginalString, Is.EqualTo($"{BaseImplicitUri}/authorize/?client_id={ClientId}&redirect_uri={RedirectUri}&response_type=token&scope=basic+comments+likes+relationships"));
         }
 
         [Test]
         public void CanAuthenticateWithAccessToken()
         {
-            var auth = GetExplicitAuth();
+            var auth = GetOAuth();
             Assert.That(auth.IsAuthenticated, Is.False);
 
-            auth.AuthenticateWithAccessToken(AccessToken);
+            auth.AuthenticateFromAccessToken(AccessToken);
             Assert.That(auth.IsAuthenticated);
         }
 
         [Test]
         public void VerifyAccessTokenCannotBeChanged()
         {
-            var auth = GetExplicitAuth();
-            auth.AuthenticateWithAccessToken(AccessToken);
+            var auth = GetOAuth();
+            auth.AuthenticateFromAccessToken(AccessToken);
 
             Assert.That(auth.IsAuthenticated);
-            Assert.That(() => auth.AuthenticateWithAccessToken("FAKE-ACCESS-TOKEN"), Throws.InstanceOf<AlreadyAuthenticatedException>());
+            Assert.That(() => auth.AuthenticateFromAccessToken("FAKE-ACCESS-TOKEN"), Throws.InvalidOperationException);
             Assert.That(auth.IsAuthenticated);
         }
 
         [Test]
-        public void CanAuthenticateExplictily()
+        public async Task CanAuthenticateExplictily()
         {
             Ioc.Substitute<IAccessTokenRetriever>(new MockAccessTokenRetriever());
 
             var instagramredirect = $"{RedirectUri}?code={AccessCode}";
-            var auth = GetExplicitAuth();
+            var auth = GetOAuth();
 
-            var result = auth.AuthenticateFromResponseAsync(new Uri(instagramredirect)).Result;
+            var result = await auth.AuthenticateExplicitlyAsync(new Uri(instagramredirect));
             Assert.That(result.Success);
             Assert.That(auth.IsAuthenticated);
         }
 
-        [Test]
-        public void CanAuthenticateImplicitly()
-        {
-            var instagramRedirect = $"{RedirectUri}#access_token={AccessToken}";
-            var auth = GetImplicitAuth();
-
-            var result = auth.AuthenticateFromResponse(new Uri(instagramRedirect));
-            Assert.That(result.Success);
-            Assert.That(auth.IsAuthenticated);
-        }
 
         [Test]
         public void BadUriFailsAuthentication()
         {
-            var auth = GetExplicitAuth();
+            var auth = GetOAuth();
             var badUri =
                 $"{RedirectUri}?error=access_denied&error_reason=user_denied&error_description=The+user+denied+your+request";
-            var result = auth.AuthenticateFromResponseAsync(new Uri(badUri)).Result;
-            Assert.That(!result.Success);
+            Assert.That( async () => await auth.AuthenticateExplicitlyAsync(new Uri(badUri)),
+                Throws.InstanceOf<OAuthException>());
         }
 
-        private ExplicitAuth GetExplicitAuth()
+        private OAuth GetOAuth()
         {
-            return new ExplicitAuth(ClientId, ClientSecret, RedirectUri);
-        }
-
-        private ImplicitAuth GetImplicitAuth()
-        {
-            return new ImplicitAuth(ClientId, ClientSecret, RedirectUri);
+            return new OAuth(ClientId, ClientSecret, RedirectUri);
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using Solomobro.Instagram.Exceptions;
+using Solomobro.Instagram.Authentication;
 
 namespace Solomobro.Instagram.Extensions
 {
@@ -43,12 +43,8 @@ namespace Solomobro.Instagram.Extensions
             if (error != null)
             {
                 var errorReason = queryParams.Get("error_reason");
-                if (errorReason.Equals("user_denied", StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new AccessDeniedException();
-                }
 
-                throw new OAuthException(errorReason);
+                throw new OAuthException(errorReason, error);
             }
         }
     }

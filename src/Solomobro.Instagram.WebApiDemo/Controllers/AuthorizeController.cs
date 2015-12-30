@@ -20,7 +20,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
         {
             var auth = GetInstagramAuthenticator();
         
-            return Ok(auth.AuthenticationUri);
+            return Ok(auth.ExplicitAuthUri);
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             {
                 var uri = req.RequestUri;
                 var auth = GetInstagramAuthenticator();
-                var result = await auth.AuthenticateFromResponseAsync(uri);
+                var result = await auth.AuthenticateExplicitlyAsync(uri);
 
                 if (result.Success)
                 {
@@ -49,9 +49,9 @@ namespace Solomobro.Instagram.WebApiDemo.Controllers
             }
         }
 
-        private ExplicitAuth GetInstagramAuthenticator()
+        private OAuth GetInstagramAuthenticator()
         {
-            return new ExplicitAuth(AuthSettings.InstaClientId, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
+            return new OAuth(AuthSettings.InstaClientId, AuthSettings.InstaClientSecret, AuthSettings.InstaRedirectUrl);
         }
     }
 }

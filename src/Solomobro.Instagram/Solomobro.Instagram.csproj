@@ -45,8 +45,6 @@
     <Compile Include="Api.cs" />
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\AuthUriBuilder.cs" />
-    <Compile Include="Authentication\ExplicitAuth.cs" />
-    <Compile Include="Authentication\ImplicitAuth.cs" />
     <Compile Include="Authentication\ExplicitAuthResponse.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="Authentication\OAuth.cs" />
@@ -79,15 +77,11 @@
     <Compile Include="Models\SearchMediaRequest.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Exceptions\AccessDeniedException.cs" />
-    <Compile Include="Exceptions\AlreadyAuthenticatedException.cs" />
-    <Compile Include="Exceptions\OAuthAccessTokenException.cs" />
-    <Compile Include="Exceptions\OAuthException.cs" />
+    <Compile Include="Authentication\OAuthException.cs" />
     <Compile Include="Authentication\AccessTokenRetriever.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Interfaces\IAccessTokenRetriever.cs" />
     <Compile Include="Ioc.cs" />
-    <Compile Include="Authentication\OAuthBase.cs" />
     <Compile Include="Authentication\Scopes.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\UserStats.cs" />
