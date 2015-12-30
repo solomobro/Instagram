@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solomobro.Instagram.Extensions;
+using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram.Authentication
 {
-    public class OAuth
+    public sealed class OAuth
     {
         private readonly AuthUriBuilder _uriBuilder;
 
@@ -42,6 +44,47 @@ namespace Solomobro.Instagram.Authentication
 
             AccessToken = accessToken;
         }
+
+        public async Task<AuthenticationResult> AuthenticateExplicitlyAsync(Uri responseUri)
+        {
+            var accessCode = responseUri.ExtractAuthAccessCode();
+            return await AuthenticateExplicitlyAsync(accessCode).ConfigureAwait(false);
+        }
+
+        public async Task<AuthenticationResult> AuthenticateExplicitlyAsync(string accessCode)
+        {
+            var authUri = AuthUriBuilder.BuildAccessCodeUri();
+            var authenticator = Ioc.Resolve<IAccessTokenRetriever>() ?? new AccessTokenRetriever();
+            var authParams = new Dictionary<string, string>
+            {
+                ["client_id"] = ClientId,
+                ["client_secret"] = ClientSecret,
+                ["grant_type"] = "authorization_code",
+                ["redirect_uri"] = RedirectUri,
+                ["code"] = accessCode
+            };
+
+            try
+            {
+                var authResult = await authenticator.AuthenticateAsync(authUri, authParams).ConfigureAwait(false);
+
+                AuthenticateFromAccessToken(authResult?.AccessToken);
+
+                return new AuthenticationResult
+                {
+                    Success = true,
+                    User = authResult?.User
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        } 
 
         public Api CreateApi()
         {
