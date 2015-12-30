@@ -17,7 +17,7 @@ namespace Solomobro.Instagram.WebApiDemo.Settings
         public static string InstaRedirectUrl { get; set; }
 
 
-        internal static void LoadSettings()
+        internal static void LoadSettings(Stream file)
         {
             //Load all fields to settings file
             Type settingsType = typeof(AuthSettings);
@@ -25,9 +25,8 @@ namespace Solomobro.Instagram.WebApiDemo.Settings
 
             //Load all fields into set
             var fieldSet = new HashSet<string>(fields.Select(m => m.Name));
-            var settingsFile = Properties.Settings.Default.InstagramSetingsFilePath;
 
-            using (var sr = new StreamReader(settingsFile))
+            using (var sr = new StreamReader(file))
             {
                 try
                 {

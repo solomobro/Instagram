@@ -63,11 +63,16 @@
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="Mocks\MockExplicitAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\AuthSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Solomobro.Instagram.WebApiDemo\Solomobro.Instagram.WebApiDemo.csproj">
+      <Project>{2c19f0e2-87cc-4516-82f4-4662a7a80260}</Project>
+      <Name>Solomobro.Instagram.WebApiDemo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Solomobro.Instagram\Solomobro.Instagram.csproj">
       <Project>{3a2d6b6b-bb96-4ca4-998c-330fcf1beece}</Project>
       <Name>Solomobro.Instagram</Name>

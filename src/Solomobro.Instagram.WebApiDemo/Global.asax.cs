@@ -1,6 +1,7 @@
 ﻿using Solomobro.Instagram.WebApiDemo.Settings;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -18,7 +19,10 @@ namespace Solomobro.Instagram.WebApiDemo
             EnvironmentManager.SetSettingsKey(Properties.Settings.Default);
 
             // load secret app authentication settings
-            AuthSettings.LoadSettings();
+            using (var file = File.OpenRead(Properties.Settings.Default.InstagramSetingsFilePath))
+            {
+                AuthSettings.LoadSettings(file);
+            }
         }
     }
 }
