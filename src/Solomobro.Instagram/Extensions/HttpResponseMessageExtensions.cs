@@ -11,14 +11,13 @@ namespace Solomobro.Instagram.Extensions
 {
     internal static class HttpResponseMessageExtensions
     {
-        private static readonly ConcurrentDictionary<Type, DataContractJsonSerializer> Serializers = new ConcurrentDictionary<Type, DataContractJsonSerializer>(); 
+        private static readonly JsonSerializer Serializer = new JsonSerializer();
 
         public static async Task<T> DeserializeAsync<T>(this HttpResponseMessage message)
         {
             using (var data = await message.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                var serializer = GetSerializerForType<T>();
-                return (T)serializer.ReadObject(data);
+                return Serializer.Deserialize<T>(data);
             }
         }
 
@@ -51,12 +50,6 @@ namespace Solomobro.Instagram.Extensions
                 Max = message.GetRateLimitMax(),
                 Remaining = message.GetRateLimitRemaining()
             };
-        }
-
-        private static DataContractJsonSerializer GetSerializerForType<T>()
-        {
-            var t = typeof (T);
-            return Serializers.GetOrAdd(t, type => new DataContractJsonSerializer(type));
         }
     }
 }
