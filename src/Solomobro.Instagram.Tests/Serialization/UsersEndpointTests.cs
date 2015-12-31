@@ -20,7 +20,7 @@ namespace Solomobro.Instagram.Tests.Serialization
             const string response =
                 "{\"meta\":{\"code\":200},\"data\":{\"username\":\"solomobro\",\"bio\":\"This is a developer test account for an Instagram .NET SDK\",\"website\":\"https://github.com/solomobro/Instagram\",\"profile_picture\":\"https://scontent.cdninstagram.com/hphotos-xpt1/t51.2885-19/s150x150/11917846_398932440308986_1930181477_a.jpg\",\"full_name\":\"So Lo Mo, Bro!\",\"counts\":{\"media\":2,\"followed_by\":3,\"follows\":1},\"id\":\"12345678\"}}";
 
-            using (var s = new MemoryStream(Encoding.ASCII.GetBytes(response)))
+            using (var s = new MemoryStream(Encoding.UTF8.GetBytes(response)))
             {
                 var resp = Serializer.Deserialize<Response<User>>(s);
 
