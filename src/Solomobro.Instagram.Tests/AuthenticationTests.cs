@@ -111,7 +111,6 @@ namespace Solomobro.Instagram.Tests
             Assert.That(auth.IsAuthenticated);
         }
 
-
         [Test]
         public void BadUriFailsAuthentication()
         {
@@ -120,6 +119,24 @@ namespace Solomobro.Instagram.Tests
                 $"{RedirectUri}?error=access_denied&error_reason=user_denied&error_description=The+user+denied+your+request";
             Assert.That( async () => await auth.AuthenticateExplicitlyAsync(new Uri(badUri)),
                 Throws.InstanceOf<OAuthException>());
+        }
+
+        [Test]
+        public void CannotCreateApiIfUnauthenticated()
+        {
+            var auth = GetOAuth();
+            Assert.That(!auth.IsAuthenticated);
+            Assert.Throws<InvalidOperationException>(() => auth.CreateApi());
+        }
+
+        [Test]
+        public void CanCreateApiWhenAuthenticated()
+        {
+            var auth = GetOAuth();
+            Assert.That(!auth.IsAuthenticated);
+            auth.AuthenticateFromAccessToken(AccessToken);
+            Assert.That(auth.IsAuthenticated);
+            Assert.DoesNotThrow(() => auth.CreateApi());
         }
 
         private OAuth GetOAuth()
