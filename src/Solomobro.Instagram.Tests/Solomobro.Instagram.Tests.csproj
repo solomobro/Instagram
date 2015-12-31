@@ -63,6 +63,7 @@
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="Mocks\MockExplicitAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\UsersEndpointTests.cs" />
     <Compile Include="WebApi\AuthSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
