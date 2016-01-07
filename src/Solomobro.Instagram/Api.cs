@@ -1,5 +1,4 @@
-﻿using System.Security.AccessControl;
-using Solomobro.Instagram.Endpoints;
+﻿using Solomobro.Instagram.Endpoints;
 using Solomobro.Instagram.Interfaces;
 
 namespace Solomobro.Instagram

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Interfaces;
 using Solomobro.Instagram.Models;
