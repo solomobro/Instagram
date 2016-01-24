@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Solomobro.Instagram.Extensions;
 using Solomobro.Instagram.Interfaces;
@@ -9,7 +11,17 @@ namespace Solomobro.Instagram
 {
     internal class ApiClient : IApiClient
     {
-        private static readonly Lazy<HttpClient> LazyHttpClient = new Lazy<HttpClient>(() => new HttpClient());
+        
+
+        private static readonly Lazy<HttpClient> LazyHttpClient = new Lazy<HttpClient>(() =>
+        {
+            var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
+            var http = new HttpClient(handler);
+            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            http.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+
+            return http;
+        });
 
         internal ApiClient()
         {
