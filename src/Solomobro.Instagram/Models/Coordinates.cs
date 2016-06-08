@@ -10,7 +10,7 @@ namespace Solomobro.Instagram.Models
         [DataMember(Name = "x")]
         public float X { get; internal set; }
 
-        [DataMember(Name = "Y")]
+        [DataMember(Name = "y")]
         public float Y { get; internal set; }
     }
 }
